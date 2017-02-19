@@ -1,3 +1,4 @@
+/server/config/db.js
 node_modules
 .idea/
 npm-debug.log

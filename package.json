@@ -11,18 +11,25 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.15.3",
+    "bcrypt-nodejs": "^0.0.3",
+    "bluebird": "^3.4.7",
     "body-parser": "^1.16.1",
     "cors": "^2.8.1",
     "express": "^4.14.1",
     "express-session": "^1.15.1",
+    "fs": "^0.0.1-security",
     "lodash": "^4.17.4",
     "mobx": "^3.1.0",
     "mobx-react": "^4.1.0",
     "morgan": "^1.8.1",
+    "pg": "^6.1.2",
+    "pg-hstore": "^2.3.2",
     "react": "^15.4.2",
     "react-autobind": "^1.0.6",
     "react-dom": "^15.4.2",
-    "react-router": "^3.0.2"
+    "react-router": "^3.0.2",
+    "sequelize": "^3.30.2",
+    "sequelize-cli": "^2.5.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
