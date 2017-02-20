@@ -7,11 +7,11 @@ module.exports = {
 
     models.User.create(req.body)
       .then(user => {
-        res.status(200).json({user: user, success: true});
+        return res.status(200).json({user: user, success: true});
       })
       .catch(err => {
         console.log('err', err);
-        res.status(400).json({error: err});
+        return res.status(400).json({error: err});
       });
   }
 };
