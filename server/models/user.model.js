@@ -18,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       init: function (_models) {
         models = _models;
         User.hasMany(models.Budget);
-        // User.belongsToMany(models.Budget, {through: {model: models.BudgetUser, unique: false}, foreignKey: 'UserId'});
+        User.belongsToMany(models.Budget, {
+          through: {model: models.Budget_User, unique: false},
+          foreignKey: 'UserId'
+        });
       },
       generateHash: function (password) {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);

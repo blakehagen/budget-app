@@ -1,11 +1,10 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  let Budget;
+  let Budget_User;
   let models;
 
-  Budget = sequelize.define('Budget', {
-    name: DataTypes.STRING,
+  Budget_User = sequelize.define('Budget_User', {
     UserId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -15,20 +14,25 @@ module.exports = (sequelize, DataTypes) => {
       },
       onUpdate: 'cascade',
       onDelete: 'cascade'
+    },
+    BudgetId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'budgets',
+        key: 'id'
+      },
+      onUpdate: 'cascade',
+      onDelete: 'cascade'
     }
   }, {
-    tableName: 'budgets',
-    timestamps: true,
+    tableName: 'budgets_users',
+    timestamps: false,
     classMethods: {
       init: function (_models) {
         models = _models;
-        Budget.hasMany(models.Category);
-        Budget.belongsToMany(models.User, {
-          through: {model: models.Budget_User, unique: false},
-          foreignKey: 'BudgetId'
-        });
       }
     },
   });
-  return Budget;
+  return Budget_User;
 };
