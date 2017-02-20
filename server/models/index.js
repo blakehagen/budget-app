@@ -4,9 +4,9 @@ const fs        = require('fs');
 const path      = require('path');
 const Sequelize = require('sequelize');
 const pg        = require('pg');
-const dbConfig  = require('../config/dbConfig');
+const db        = require('../config/db');
 
-let sequelize = new Sequelize(dbConfig.development.url, {
+let sequelize = new Sequelize(db.development.url, {
   logging: false
 });
 

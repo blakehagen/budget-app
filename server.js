@@ -6,6 +6,8 @@ const config               = require('./webpack.config');
 const express              = require('./server/config/express.js');
 let port                   = process.env.PORT || 8000;
 const app                  = express();
+// console.log('NODE_ENV:', process.env.NODE_ENV);
+// console.log('process.env:', process.env);
 
 if (process.env !== 'production') {
   const compiler          = webpack(config);
@@ -37,8 +39,9 @@ app.get('/api/v1/test', (req, res) => {
   res.status(200).send('Light \'em up! We good to go!');
 });
 
+// // ROUTES // //
+require('./server/api/users/user.routes')(app);
+
 app.listen(port, () => {
   console.log('Listening on port', port);
 });
-
-console.log('NODE_ENV:', process.env.NODE_ENV);

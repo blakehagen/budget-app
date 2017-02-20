@@ -21,6 +21,7 @@ module.exports = () => {
     resave: false,
     saveUninitialized: true
   }));
+  app.use(express.static('app'));
 
   return app;
 };
