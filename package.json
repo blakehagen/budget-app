@@ -18,6 +18,7 @@
     "express": "^4.14.1",
     "express-session": "^1.15.1",
     "fs": "^0.0.1-security",
+    "jwt-simple": "^0.5.1",
     "lodash": "^4.17.4",
     "mobx": "^3.1.0",
     "mobx-react": "^4.1.0",
