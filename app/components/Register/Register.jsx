@@ -1,9 +1,9 @@
 import React from 'react';
 import {hashHistory} from 'react-router';
 import autoBind from 'react-autobind';
-import styles from './login.scss';
+import styles from './register.scss';
 
-export default class Login extends React.Component {
+export default class Register extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
@@ -19,24 +19,26 @@ export default class Login extends React.Component {
             Budget App
           </div>
 
+          <input onChange={this.setfirstName} type="text" placeholder="First Name"/>
+          <input onChange={this.setlastName} type="text" placeholder="Last Name"/>
           <input onChange={this.setEmail} type="text" placeholder="Email"/>
           <input onChange={this.setPassword} type="password" placeholder="Password"/>
-          <div className={styles.loginButton}>
-            Login
-          </div>
+          <input onChange={this.setConfirmPassword} type="password" placeholder="Confirm Password"/>
 
-          <div className={styles.switchForm} onClick={this.goToRegister}>
+          <div className={styles.registerButton}>
             Sign Up
           </div>
 
+          <div className={styles.switchForm} onClick={this.goToLogin}>
+            Login
+          </div>
         </div>
       </div>
     )
   }
 
-  goToRegister() {
-    this.hashHistory.replace('/register');
+  goToLogin() {
+    this.hashHistory.replace('/login');
   }
-
 
 }
