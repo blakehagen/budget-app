@@ -17,11 +17,10 @@ module.exports = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(session({
-    secret: 'g535$#hbb%#H$TWH@g~gfdg#GYha_#$%#%oibo',
+    secret: 'g5~35$#hbb%#~`H$TWH@g~gfdg#GYha_#$%#%oibo',
     resave: false,
     saveUninitialized: true
   }));
-  app.use(express.static('app'));
 
   return app;
 };
