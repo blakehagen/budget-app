@@ -21,7 +21,7 @@
 .titleContainer {
   height: 38px;
   border-radius: 4px;
-  color: #02B875;
+  color: #45AB7F;
   width: 250px;
   font-weight: 100;
   font-size: 30px;
@@ -52,7 +52,7 @@ input {
   font-weight: 100;
   font-size: 16px;
   line-height: 38px;
-  border: 1px solid #02B875;
+  border: 1px solid #45AB7F;
   outline: 0;
   &:nth-child(2) {
     margin-bottom: 10px;
@@ -62,7 +62,7 @@ input {
 .loginButton {
   height: 38px;
   border-radius: 4px;
-  background: rgba(2, 184, 117, 1);
+  background: rgba(69, 171, 127, 1);
   color: #FFFFFF;
   width: 250px;
   font-weight: 100;
@@ -75,6 +75,6 @@ input {
   padding: 0 12px;
   cursor: pointer;
   &:hover {
-    background: rgba(2, 184, 117, 0.9);
+    background: rgba(69, 171, 127, 0.9);
   }
 }
