@@ -8,7 +8,7 @@ export default class Login extends React.Component {
     autoBind(this);
   }
 
-  render(){
+  render() {
     return (
       <div className={styles.main}>
         <div className={styles.box}>

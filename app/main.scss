@@ -52,3 +52,24 @@ table {
   width: 100%;
   font-family: 'Open Sans', sans-serif;
 }
+
+
+::-webkit-input-placeholder {
+  color: #CCC !important;
+  font-weight: 100;
+}
+
+:-moz-placeholder {
+  color: #CCC !important;
+  font-weight: 100;
+}
+
+::-moz-placeholder {
+  color: #CCC !important;
+  font-weight: 100;
+}
+
+:-ms-input-placeholder {
+  color: #CCC !important;
+  font-weight: 100;
+}

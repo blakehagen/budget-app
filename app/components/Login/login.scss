@@ -10,7 +10,6 @@
 }
 
 .box {
-  //background: rgba(0, 0, 0, .4);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,15 +29,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   padding: 0 12px;
+  cursor: default;
 }
 
 .piggybankIcon {
   height: 38px;
   width: 38px;
   background-size: cover;
-  background: url('./images/piggybank-icon.svg') no-repeat center center;
+  background: url('./images/piggybank-icon.svg') no-repeat center;
   margin-right: 12px;
 }
 
@@ -46,14 +46,15 @@ input {
   height: 38px;
   border-radius: 4px;
   background: #FFF;
+  color: #303C42;
   padding: 0 12px;
   width: 250px;
   font-weight: 100;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 38px;
   border: 1px solid #02B875;
   outline: 0;
-  &:nth-child(2){
+  &:nth-child(2) {
     margin-bottom: 10px;
   }
 }
