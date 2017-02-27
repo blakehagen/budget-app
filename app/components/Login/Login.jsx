@@ -8,6 +8,12 @@ export default class Login extends React.Component {
     super(props);
     autoBind(this);
     this.hashHistory = hashHistory;
+
+    this.state = {
+      email: '',
+      password: '',
+      loading: false
+    };
   }
 
   render() {
@@ -21,7 +27,7 @@ export default class Login extends React.Component {
 
           <input onChange={this.setEmail} type="text" placeholder="Email"/>
           <input onChange={this.setPassword} type="password" placeholder="Password"/>
-          <div className={styles.loginButton}>
+          <div className={styles.loginButton} onClick={this.loginGo}>
             Login
           </div>
 
@@ -36,6 +42,24 @@ export default class Login extends React.Component {
 
   goToRegister() {
     this.hashHistory.replace('/register');
+  }
+
+  setEmail(e) {
+    this.setState({email: e.target.value});
+  }
+
+  setPassword(e) {
+    this.setState({password: e.target.value});
+  }
+
+  loginGo(e){
+    console.log('e --> ', e);
+    let loginInfo = {
+      email: this.state.email,
+      password: this.state.password
+    };
+
+    console.log('loginInfo --> ', loginInfo);
   }
 
 
