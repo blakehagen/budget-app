@@ -41,6 +41,7 @@ app.get('/api/v1/test', (req, res) => {
 });
 
 // // ROUTES // //
+require('./server/api/auth/auth.routes')(app);
 require('./server/api/users/user.routes')(app);
 require('./server/api/budgets/budget.routes')(app);
 

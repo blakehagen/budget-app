@@ -53,7 +53,6 @@ export default class Login extends React.Component {
   }
 
   loginGo(e){
-    console.log('e --> ', e);
     let loginInfo = {
       email: this.state.email,
       password: this.state.password

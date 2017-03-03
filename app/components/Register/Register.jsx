@@ -26,7 +26,7 @@ export default class Register extends React.Component {
           <input onChange={this.setConfirmPassword} type="password" placeholder="Confirm Password"/>
 
           <div className={styles.registerButton}>
-            Sign Me Up
+            Create My Account
           </div>
 
           <div className={styles.switchForm} onClick={this.goToLogin}>
