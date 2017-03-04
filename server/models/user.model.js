@@ -1,6 +1,7 @@
 'use strict';
 
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt   = require('bcrypt-nodejs');
+const BPromise = require('bluebird');
 
 module.exports = (sequelize, DataTypes) => {
   let User;
@@ -25,7 +26,19 @@ module.exports = (sequelize, DataTypes) => {
       },
       generateHash: function (password) {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
-      }
+      },
+      isEmailUnique: function (email) {
+        return User.find({
+          where: {
+            email: {$ilike: email}
+          }
+        })
+          .then(user => {
+            if (user) {
+              return BPromise.reject('Email already in use!');
+            }
+          });
+      },
     },
     instanceMethods: {
       validPassword: function (password) {

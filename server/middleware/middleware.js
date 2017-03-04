@@ -12,7 +12,6 @@ module.exports = {
     }
 
     let token = _.last(req.headers.authorization.split(' '));
-    console.log('token --> ', token);
 
     try {
       let decoded = jwt.decode(token, process.env.JWT_SECRET || secret);
