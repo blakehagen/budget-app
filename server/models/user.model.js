@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
               return BPromise.reject('Email already in use!');
             }
           });
-      },
+      }
     },
     instanceMethods: {
       validPassword: function (password) {

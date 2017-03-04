@@ -23,9 +23,4 @@ module.exports = (app) => {
   app.route('/api/v1/verify')
     .get(middleware.isAuthenticated, authCtrl.verifyUser);
 
-  // ========== //
-  // TEST USER //
-  // ========== //
-  app.route('/api/v1/testUser')
-    .post(authCtrl.test);
 };

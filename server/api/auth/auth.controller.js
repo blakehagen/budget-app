@@ -7,7 +7,7 @@ const secret = _.get(require('../../../server/config/secret.js'), 'tokenSecret',
 module.exports = {
 
   // USER INITIAL SIGN UP //
-  register (req, res) {
+  register(req, res) {
     models.User.isEmailUnique(req.body.email)
       .then(() => {
 
@@ -41,30 +41,33 @@ module.exports = {
   },
 
   // LOG IN //
-  login (req, res) {
+  login(req, res) {
+    //TODO --> get user info you need...budgets, etc.
     models.User.findOne({where: {email: req.body.email}})
-      .then((user) => {
+      .then(user => {
         if (!user) {
           return res.status(404).json({error: 'User not found'});
         }
-        //TODO --> login logic --> verify pw, send token
-        return res.status(200).json(user);
+
+        if (!user.validPassword(req.body.password)) {
+          return res.status(400).json({error: 'Invalid password'});
+        }
+
+        let token = jwt.encode({
+          userId: user.id,
+          email: user.email
+        }, process.env.JWT_SECRET || secret);
+
+        return res.status(200).json({user: user, token: token, success: true});
+      })
+      .catch(err => {
+        return res.status(400).json({error: err});
       });
   },
 
-  // Will hit middleware first to verify token
+  // VERIFY AUTHED USER //
   verifyUser(req, res) {
     return res.status(200).json({success: true});
-  },
-
-  // testing
-  test(req, res) {
-    models.User.findOne({where: {email: req.body.email}})
-      .then((user) => {
-        if (!user) {
-          return res.status(404).json({error: 'Account not found'});
-        }
-        return res.status(200).json(user);
-      });
   }
+
 };
