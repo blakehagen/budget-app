@@ -21,8 +21,6 @@ export default class Login extends React.Component {
 
   render() {
 
-    // const isError = styles.isError;
-
     const inputSection = (
       <div className={styles.box}>
         <div className={styles.titleContainer}>
@@ -30,10 +28,8 @@ export default class Login extends React.Component {
           Budget App
         </div>
 
-        <input className={this.state.isEmailError ? styles.isError : ''} onChange={this.setEmail} type="text"
-               placeholder="Email"/>
-        <input className={this.state.isPasswordError ? styles.isError : ''} onChange={this.setPassword} type="password"
-               placeholder="Password"/>
+        <input className={this.state.isEmailError ? styles.isError : ''} onChange={this.setEmail} type="text" placeholder="Email"/>
+        <input className={this.state.isPasswordError ? styles.isError : ''} onChange={this.setPassword} type="password" placeholder="Password"/>
         <div className={styles.loginButton} onClick={this.loginGo}>
           Login
         </div>
@@ -96,8 +92,6 @@ export default class Login extends React.Component {
       return false;
     }
 
-    this.setState({isEmailError: false});
-    this.setState({isPasswordError: false});
     return true;
   }
 
