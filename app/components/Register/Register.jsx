@@ -126,7 +126,6 @@ export default class Register extends React.Component {
     // Validate email
     let emailRegex = /^.+@.+\..+$/;
     if (!emailRegex.test(this.state.email)) {
-      console.log('Invalid Email');
       this.setState({isEmailError: true});
       return false;
     }

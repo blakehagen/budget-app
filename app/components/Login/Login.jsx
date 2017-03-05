@@ -73,12 +73,10 @@ export default class Login extends React.Component {
   validateLogin() {
     if (this.state.email.length < 1 || this.state.password < 1) {
       if (this.state.email.length < 1) {
-        console.log('Email is required');
         this.setState({isEmailError: true});
 
       }
       if (this.state.password.length < 1) {
-        console.log('Password is required');
         this.setState({isPasswordError: true});
       }
       return false;
@@ -87,7 +85,6 @@ export default class Login extends React.Component {
     // Validate email
     let emailRegex = /^.+@.+\..+$/;
     if (!emailRegex.test(this.state.email)) {
-      console.log('Invalid Email');
       this.setState({isEmailError: true});
       return false;
     }
