@@ -12,10 +12,11 @@
 .box {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   border-radius: 10px;
   padding: 0 10px 10px;
+  height: 360px;
 }
 
 .titleContainer {
@@ -55,6 +56,10 @@ input {
   border: 1px solid #45AB7F;
   outline: 0;
   margin-bottom: 10px;
+}
+
+.isError {
+  border: 1px solid rgba(237, 100, 100, 0.6);
 }
 
 .registerButton {
