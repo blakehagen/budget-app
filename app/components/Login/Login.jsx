@@ -1,14 +1,18 @@
 import React from 'react';
+import {observer, inject} from 'mobx-react';
 import {hashHistory} from 'react-router';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
 import styles from './login.scss';
 
+@inject('userStore')
+@observer
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
     this.hashHistory = hashHistory;
+    this.userStore   = this.props.userStore;
 
     this.state = {
       email: '',
@@ -82,7 +86,6 @@ export default class Login extends React.Component {
       return false;
     }
 
-    // Validate email
     let emailRegex = /^.+@.+\..+$/;
     if (!emailRegex.test(this.state.email)) {
       this.setState({isEmailError: true});
@@ -105,6 +108,18 @@ export default class Login extends React.Component {
 
     console.log('loginInfo --> ', loginInfo);
     this.setState({loading: true});
+
+    this.userStore.login(loginInfo)
+      .then(response => {
+        console.log('response on LOGIN COMPONENT --> ', response);
+        if (_.isError(response)) {
+          console.log('LOGIN FAILED');
+          this.setState({loading: false});
+          return false;
+        }
+        console.log('SUCCESSFUL LOGIN!!');
+        // TODO => go to user home...
+      });
   }
 
 
