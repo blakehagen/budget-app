@@ -16,7 +16,7 @@
   align-items: center;
   border-radius: 10px;
   padding: 0 10px 10px;
-  height: 215px;
+  height: 255px;
 
 }
 
@@ -59,10 +59,6 @@ input {
   margin-bottom: 10px;
 }
 
-.isError {
-  border: 1px solid rgba(237, 100, 100, 0.6);
-}
-
 .loginButton {
   height: 38px;
   border-radius: 4px;
@@ -86,10 +82,30 @@ input {
 .switchForm {
   font-weight: 100;
   font-size: 12px;
-  margin-top: 10px;
+  margin-top: 12px;
   color: #45AB7F;
   width: 250px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.isError {
+  border: 1px solid #ED6464;
+}
+
+.errorMessageContainer {
+  height: 38px;
+  border-radius: 4px;
+  font-weight: 100;
+  font-size: 15px;
+  line-height: 38px;
+  background: #ED6464;
+  color: #FFFFFF;
+  padding: 0 12px;
+  width: 250px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center;

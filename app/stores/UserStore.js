@@ -16,15 +16,11 @@ export default class UserStore {
   login(loginInfo) {
     return userService.login(loginInfo)
       .then(response => {
-        console.log('login response on userStore ---> ', response);
-        return response.data;
+        return response;
       })
       .catch(err => {
-        console.error(err);
-        return err;
+        return err.response;
       });
-
   }
-
 
 }
