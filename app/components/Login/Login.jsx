@@ -1,19 +1,18 @@
 import _ from 'lodash';
 import React from 'react';
 import {observer, inject} from 'mobx-react';
-import {hashHistory} from 'react-router';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
 import styles from './login.scss';
 
-@inject('userStore')
+@inject('userStore', 'navigator')
 @observer
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.hashHistory = hashHistory;
     this.userStore   = this.props.userStore;
+    this.navigator = this.props.navigator;
 
     this.state = {
       email: '',
@@ -72,7 +71,7 @@ export default class Login extends React.Component {
   }
 
   goToRegister() {
-    this.hashHistory.replace('/register');
+    this.navigator.changeRoute('/register', 'replace');
   }
 
   setEmail(e) {

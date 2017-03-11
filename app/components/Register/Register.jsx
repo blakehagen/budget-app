@@ -1,14 +1,18 @@
+import _ from 'lodash';
 import React from 'react';
-import {hashHistory} from 'react-router';
+import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
 import styles from './register.scss';
 
+@inject('userStore', 'navigator')
+@observer
 export default class Register extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.hashHistory = hashHistory;
+    this.userStore   = this.props.userStore;
+    this.navigator = this.props.navigator;
 
     this.state = {
       firstName: '',
@@ -68,7 +72,7 @@ export default class Register extends React.Component {
   }
 
   goToLogin() {
-    this.hashHistory.replace('/login');
+    this.navigator.changeRoute('/login', 'replace');
   }
 
   setFirstName(e) {
