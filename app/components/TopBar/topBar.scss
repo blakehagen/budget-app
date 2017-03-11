@@ -1,0 +1,42 @@
+.topBarMain {
+  background: #45AB7F;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.piggybankIcon {
+  height: 34px;
+  width: 34px;
+  background-size: cover;
+  background: url('../../assets/common/piggybank-white-icon.svg') no-repeat center;
+  margin-left: 30px;
+}
+
+.welcome {
+  color: #FFFFFF;
+  margin-left: 14px;
+  font-size: 18px;
+  font-weight: 100;
+  cursor: default;
+}
+
+.logOut {
+  position: absolute;
+  height: 100%;
+  right: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoutAction {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 100;
+  cursor: pointer;
+}

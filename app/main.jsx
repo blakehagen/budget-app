@@ -21,7 +21,10 @@ ReactDOM.render(
         <Route path="/" component={App}/>
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>
-        <Route path="/user/:userId" component={UserHome}/>
+        <Route path="/user/:userId" component={UserHome}>
+        {/*TODO: paths go here for sub routes of user*/}
+
+        </Route>
         <Route path="*" component={App}>
           <IndexRedirect to="/"/>
         </Route>

@@ -4,6 +4,7 @@ import {reaction} from 'mobx';
 import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
+import TopBar from 'components/TopBar';
 import styles from './userHome.scss';
 
 @inject('userStore', 'navigator')
@@ -27,15 +28,15 @@ export default class UserHome extends React.Component {
   render() {
     if (!this.userStore.user) {
       return (
-        <div className={styles.mainContainer}>
+        <div className={styles.loadingContainer}>
           <Spinner/>
         </div>
       );
     }
 
     return (
-      <div className={styles.mainContainer}>
-        <div>Welcome {this.userStore.user.firstName} {this.userStore.user.lastName}</div>
+      <div>
+        <TopBar/>
       </div>
     );
   }

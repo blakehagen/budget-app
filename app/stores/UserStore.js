@@ -74,4 +74,13 @@ export default class UserStore {
       });
   }
 
+  @action
+  logout() {
+    sessionStorage.clear();
+    this.user   = null;
+    this.userId = null;
+    this.navigator.changeRoute('/login', 'replace');
+    console.log('cleared store/sessionStorage & logged out');
+  }
+
 }

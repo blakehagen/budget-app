@@ -48,7 +48,6 @@ module.exports = {
       attributes: ['id', 'firstName', 'lastName', 'email', 'password']
     })
       .then(user => {
-        console.log('user --> ', user);
         if (!user) {
           return res.status(404).json({error: 'User email not found'});
         }
