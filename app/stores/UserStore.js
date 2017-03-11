@@ -25,11 +25,24 @@ export default class UserStore {
   @observable loadingUser;
 
   @action
-  getUser(userId) {
-    if (!userId) {
+  verifyRouteParam(userId, paramId) {
+    if (String(paramId) !== String(userId)) {
+      console.log('params check INVALID');
       this.navigator.changeRoute('/login', 'replace');
       return false;
     }
+    console.log('params check VALID');
+    return true;
+  }
+
+  @action
+  getUser(userId) {
+    if (!userId) {
+      console.log('cant get user, no userId');
+      this.navigator.changeRoute('/login', 'replace');
+      return false;
+    }
+
     this.loadingUser = true;
 
     userService.getUser(userId)

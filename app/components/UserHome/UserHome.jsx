@@ -2,23 +2,24 @@ import _ from 'lodash';
 import React from 'react';
 import {reaction} from 'mobx';
 import {observer, inject} from 'mobx-react';
-import {hashHistory} from 'react-router';
 import autoBind from 'react-autobind';
 import styles from './userHome.scss';
 
-@inject('userStore')
+@inject('userStore', 'navigator')
 @observer
 export default class UserHome extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.hashHistory = hashHistory;
-    this.userStore   = this.props.userStore;
+    this.userStore = this.props.userStore;
+    this.navigator = this.props.navigator;
   }
 
   componentWillMount() {
-    if (!this.userStore.user && !this.userStore.loadingUser) {
-      this.userStore.getUser(sessionStorage.getItem('userId'));
+    if (this.userStore.verifyRouteParam(this.userStore.userId, this.props.params.userId)) {
+      if (!this.userStore.user && !this.userStore.loadingUser) {
+        this.userStore.getUser(sessionStorage.getItem('userId'));
+      }
     }
   }
 
