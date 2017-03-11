@@ -11,8 +11,8 @@ import Register from 'components/Register';
 import UserHome from 'components/UserHome';
 import styles from './main.scss';
 
-const userStore = new UserStore();
-const navigator = new Navigator(userStore);
+const navigator = new Navigator();
+const userStore = new UserStore(navigator);
 
 ReactDOM.render(
   <div className={styles.appBody}>

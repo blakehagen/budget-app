@@ -2,9 +2,8 @@ import autoBind from 'react-autobind';
 import {hashHistory} from 'react-router';
 
 export default class Navigator {
-  constructor(userStore) {
-    this.userStore = userStore;
-    this.history   = hashHistory;
+  constructor() {
+    this.history = hashHistory;
     autoBind(this);
   }
 

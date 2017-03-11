@@ -43,8 +43,12 @@ module.exports = {
   // LOG IN //
   login(req, res) {
     //TODO --> get user info you need...budgets, etc.
-    models.User.findOne({where: {email: req.body.email}})
+    models.User.findOne({
+      where: {email: req.body.email},
+      attributes: ['id', 'firstName', 'lastName', 'email', 'password']
+    })
       .then(user => {
+        console.log('user --> ', user);
         if (!user) {
           return res.status(404).json({error: 'User email not found'});
         }
@@ -53,12 +57,19 @@ module.exports = {
           return res.status(400).json({error: 'Invalid password'});
         }
 
+        const basicUser = {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email
+        };
+
         let token = jwt.encode({
           userId: user.id,
           email: user.email
         }, process.env.JWT_SECRET || secret);
 
-        return res.status(200).json({user: user, token: token, success: true});
+        return res.status(200).json({user: basicUser, token: token, success: true});
       })
       .catch(err => {
         return res.status(400).json({error: err});

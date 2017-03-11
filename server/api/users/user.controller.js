@@ -15,6 +15,18 @@ module.exports = {
       });
   },
 
+  getUser(req, res) {
+    models.User.findById(req.params.userId, {
+      attributes: ['id', 'firstName', 'lastName', 'email']
+    })
+      .then(user => {
+        res.status(200).json(user);
+      })
+      .catch(err => {
+        res.status(400).json({error: err});
+      });
+  },
+
   getAllUsers (req, res) {
     models.User.findAll({
       include: {

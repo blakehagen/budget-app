@@ -11,7 +11,7 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore   = this.props.userStore;
+    this.userStore = this.props.userStore;
     this.navigator = this.props.navigator;
 
     this.state = {
@@ -34,8 +34,14 @@ export default class Login extends React.Component {
           Budget App
         </div>
 
-        <input className={this.state.isEmailError ? styles.isError : ''} onChange={this.setEmail} type="text" placeholder="Email"/>
-        <input className={this.state.isPasswordError ? styles.isError : ''} onChange={this.setPassword} type="password" placeholder="Password"/>
+        <input className={this.state.isEmailError ? styles.isError : ''}
+               onChange={this.setEmail}
+               type="text"
+               placeholder="Email"/>
+        <input className={this.state.isPasswordError ? styles.isError : ''}
+               onChange={this.setPassword}
+               type="password"
+               placeholder="Password"/>
 
         {this.state.isLoginError ? (
             <div className={styles.errorMessageContainer}>
@@ -120,13 +126,21 @@ export default class Login extends React.Component {
 
     this.userStore.login(loginInfo)
       .then(response => {
-        console.log('response on LOGIN COMPONENT --> ', response);
         if (response.status !== 200) {
-          this.setState({loading: false, isLoginError: true, loginErrorMessage: _.get(response.data, 'error', 'Login Failed')});
+          this.setState({
+            loading: false,
+            isLoginError: true,
+            loginErrorMessage: _.get(response.data, 'error', 'Login Failed')
+          });
           return false;
         }
         console.log('SUCCESSFUL LOGIN!!');
-        // TODO => go to user home...
+        sessionStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('userId', response.data.user.id);
+
+        this.userStore.user   = response.data.user;
+        this.userStore.userId = response.data.user.id;
+        this.navigator.changeRoute(`/user/${this.userStore.userId}`, 'push');
       });
   }
 
