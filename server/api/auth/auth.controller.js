@@ -46,7 +46,7 @@ module.exports = {
     models.User.findOne({where: {email: req.body.email}})
       .then(user => {
         if (!user) {
-          return res.status(404).json({error: 'Email not found'});
+          return res.status(404).json({error: 'User email not found'});
         }
 
         if (!user.validPassword(req.body.password)) {
