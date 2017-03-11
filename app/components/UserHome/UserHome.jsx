@@ -3,6 +3,7 @@ import React from 'react';
 import {reaction} from 'mobx';
 import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
+import Spinner from 'components/Common/Spinner';
 import styles from './userHome.scss';
 
 @inject('userStore', 'navigator')
@@ -25,12 +26,15 @@ export default class UserHome extends React.Component {
 
   render() {
     if (!this.userStore.user) {
-      return <div>Loading...</div>;
+      return (
+        <div className={styles.mainContainer}>
+          <Spinner/>
+        </div>
+      );
     }
 
     return (
-      <div>
-        THIS THE USER HOME COMPONENT
+      <div className={styles.mainContainer}>
         <div>Welcome {this.userStore.user.firstName} {this.userStore.user.lastName}</div>
       </div>
     );
