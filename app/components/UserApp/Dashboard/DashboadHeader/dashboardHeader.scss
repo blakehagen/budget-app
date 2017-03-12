@@ -1,0 +1,37 @@
+.actionContainer {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.bigButton {
+  border-radius: 5px;
+  margin: 0 9px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:last-child {
+    margin-right: 18px
+  }
+  &:hover {
+    background: #F9F9F9;
+  }
+}
+
+.plusIcon {
+  background: url("./images/plus-icon-green.svg") no-repeat center;
+  background-size: cover;
+  height: 15px;
+  width: 15px;
+}
+
+.buttonLabel {
+  color: #45AB7F;
+  font-weight: 100;
+  font-size: 20px;
+  margin-left: 8px;
+}

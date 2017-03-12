@@ -8,7 +8,8 @@ import Navigator from 'utils/Navigator';
 import App from 'components/App';
 import Login from 'components/Login';
 import Register from 'components/Register';
-import UserHome from 'components/UserHome';
+import UserApp from 'components/UserApp';
+import Dashboard from 'components/UserApp/Dashboard';
 import styles from './main.scss';
 
 const navigator = new Navigator();
@@ -21,9 +22,8 @@ ReactDOM.render(
         <Route path="/" component={App}/>
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>
-        <Route path="/user/:userId" component={UserHome}>
-        {/*TODO: paths go here for sub routes of user*/}
-
+        <Route path="/user/:userId" component={UserApp}>
+          <Route path="dashboard" component={Dashboard}/>
         </Route>
         <Route path="*" component={App}>
           <IndexRedirect to="/"/>

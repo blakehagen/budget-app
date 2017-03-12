@@ -5,11 +5,11 @@ import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
 import TopBar from 'components/TopBar';
-import styles from './userHome.scss';
+import styles from './userApp.scss';
 
 @inject('userStore', 'navigator')
 @observer
-export default class UserHome extends React.Component {
+export default class UserApp extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
@@ -38,7 +38,7 @@ export default class UserHome extends React.Component {
       <div>
         <TopBar/>
         <div className={styles.viewContainer}>
-          {/*{this.props.children}*/}
+          {this.props.children}
         </div>
       </div>
     );

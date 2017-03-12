@@ -146,7 +146,7 @@ export default class Login extends React.Component {
 
         this.userStore.user   = response.data.user;
         this.userStore.userId = response.data.user.id;
-        this.navigator.changeRoute(`/user/${this.userStore.userId}`, 'push');
+        this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
       });
   }
 
