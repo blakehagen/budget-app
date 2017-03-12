@@ -3,8 +3,6 @@ const models = require('../../models/index');
 module.exports = {
 
   createUser (req, res) {
-    console.log('req.body ---> ', req.body);
-
     models.User.create(req.body)
       .then(user => {
         return res.status(200).json({user: user, success: true});
@@ -17,13 +15,16 @@ module.exports = {
 
   getUser(req, res) {
     models.User.findById(req.params.userId, {
+
       include: {
         model: models.Budget,
-        attributes: ['name'],
+        attributes: ['id', 'name'],
         include: {
           model: models.Category,
+          attributes: ['id', 'name', 'total'],
           include: {
-            model: models.Transaction
+            model: models.Transaction,
+            attributes: ['id', 'vendor', 'amount', 'date', 'description']
           }
         }
       },

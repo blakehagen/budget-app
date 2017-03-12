@@ -42,16 +42,18 @@ module.exports = {
 
   // LOG IN //
   login(req, res) {
-    //TODO --> get user info you need...budgets, etc.
     models.User.findOne({
       where: {email: req.body.email},
+
       include: {
         model: models.Budget,
-        attributes: ['name'],
+        attributes: ['id', 'name'],
         include: {
           model: models.Category,
+          attributes: ['id', 'name', 'total'],
           include: {
-            model: models.Transaction
+            model: models.Transaction,
+            attributes: ['id', 'vendor', 'amount', 'date', 'description']
           }
         }
       },
@@ -66,8 +68,7 @@ module.exports = {
           return res.status(400).json({error: 'Invalid password'});
         }
 
-        console.log('user---> ', user);
-
+        // Remove password field after validation
         const basicUser = {
           id: user.id,
           firstName: user.firstName,

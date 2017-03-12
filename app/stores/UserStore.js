@@ -48,12 +48,12 @@ export default class UserStore {
     userService.getUser(userId)
       .then(response => {
         this.loadingUser = false;
-        console.log('got user --> ', response);
         if (_.isError(response) || response.status !== 200) {
           this.navigator.changeRoute('/login', 'replace');
         } else {
           this.user   = response.data;
           this.userId = response.data.id;
+          console.log('this.user --> ', this.user);
         }
       })
       .catch(err => {
@@ -67,7 +67,6 @@ export default class UserStore {
   login(loginInfo) {
     return userService.login(loginInfo)
       .then(response => {
-        console.log('response on login -->', response);
         return response;
       })
       .catch(err => {

@@ -145,6 +145,7 @@ export default class Login extends React.Component {
         sessionStorage.setItem('userId', response.data.user.id);
 
         this.userStore.user   = response.data.user;
+        console.log('this.userStore.user after login ---> ', this.userStore.user);
         this.userStore.userId = response.data.user.id;
         this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
       });
