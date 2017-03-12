@@ -64,17 +64,19 @@ input {
   border-radius: 4px;
   background: rgba(69, 171, 127, 1);
   color: #FFFFFF;
-  width: 250px;
+  width: 100%;
   font-weight: 100;
   font-size: 15px;
   line-height: 38px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0;
-  padding: 0 12px;
+  margin: 0;
   cursor: pointer;
   &:hover {
+    background: rgba(69, 171, 127, 0.9);
+  }
+  &:focus {
     background: rgba(69, 171, 127, 0.9);
   }
 }
@@ -82,7 +84,7 @@ input {
 .switchForm {
   font-weight: 100;
   font-size: 12px;
-  margin-top: 12px;
+  margin-top: 10px;
   color: #45AB7F;
   width: 250px;
   cursor: pointer;

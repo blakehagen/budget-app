@@ -37,6 +37,9 @@ export default class UserHome extends React.Component {
     return (
       <div>
         <TopBar/>
+        <div className={styles.viewContainer}>
+          {/*{this.props.children}*/}
+        </div>
       </div>
     );
   }

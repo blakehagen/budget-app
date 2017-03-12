@@ -39,7 +39,7 @@ export default class Login extends React.Component {
                type="text"
                placeholder="Email"/>
         <input className={this.state.isPasswordError ? styles.isError : ''}
-               onChange={this.setPassword}
+               onKeyUp={this.setPassword}
                type="password"
                placeholder="Password"/>
 
@@ -49,9 +49,12 @@ export default class Login extends React.Component {
             </div>
           ) : null }
 
-        <div className={styles.loginButton} onClick={this.loginGo}>
-          Login
-        </div>
+        {/*<div className={styles.loginButton} onClick={this.loginGo}>*/}
+        {/*Login*/}
+        {/*</div>*/}
+
+        <input className={styles.loginButton} onClick={this.loginGo} onKeyUp={this.handleKeyPress} type="submit"
+               name="submit" value="Login"/>
 
         <div className={styles.switchForm} onClick={this.goToRegister}>
           Sign Up
@@ -86,6 +89,9 @@ export default class Login extends React.Component {
 
   setPassword(e) {
     this.setState({password: e.target.value, isPasswordError: false, isLoginError: false});
+    if (e.keyCode === 13) {
+      this.loginGo(e);
+    }
   }
 
   validateLogin() {
