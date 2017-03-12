@@ -67,6 +67,7 @@ export default class UserStore {
   login(loginInfo) {
     return userService.login(loginInfo)
       .then(response => {
+        console.log('response on login -->', response);
         return response;
       })
       .catch(err => {

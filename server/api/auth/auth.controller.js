@@ -45,6 +45,16 @@ module.exports = {
     //TODO --> get user info you need...budgets, etc.
     models.User.findOne({
       where: {email: req.body.email},
+      include: {
+        model: models.Budget,
+        attributes: ['name'],
+        include: {
+          model: models.Category,
+          include: {
+            model: models.Transaction
+          }
+        }
+      },
       attributes: ['id', 'firstName', 'lastName', 'email', 'password']
     })
       .then(user => {
@@ -56,11 +66,14 @@ module.exports = {
           return res.status(400).json({error: 'Invalid password'});
         }
 
+        console.log('user---> ', user);
+
         const basicUser = {
           id: user.id,
           firstName: user.firstName,
           lastName: user.lastName,
-          email: user.email
+          email: user.email,
+          Budgets: user.Budgets
         };
 
         let token = jwt.encode({

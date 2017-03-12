@@ -17,6 +17,16 @@ module.exports = {
 
   getUser(req, res) {
     models.User.findById(req.params.userId, {
+      include: {
+        model: models.Budget,
+        attributes: ['name'],
+        include: {
+          model: models.Category,
+          include: {
+            model: models.Transaction
+          }
+        }
+      },
       attributes: ['id', 'firstName', 'lastName', 'email']
     })
       .then(user => {
