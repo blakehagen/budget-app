@@ -49,7 +49,7 @@ module.exports = {
     })
       .then(user => {
         if (!user) {
-          return res.status(404).json({error: 'UserApp email not found'});
+          return res.status(404).json({error: 'User email not found'});
         }
 
         if (!user.validPassword(req.body.password)) {
