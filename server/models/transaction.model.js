@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     classMethods: {
       init: function (_models) {
         models = _models;
-        Transaction.belongsTo(models.Category)
+        Transaction.belongsTo(models.Budget);
       }
     },
   });

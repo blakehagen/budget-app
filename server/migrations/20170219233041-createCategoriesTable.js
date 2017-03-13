@@ -33,10 +33,10 @@ module.exports = {
           onDelete: 'cascade'
         }
       }
-    )
+    );
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('categories')
+    return queryInterface.dropTable('categories');
   }
 };

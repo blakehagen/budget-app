@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     classMethods: {
       init: function (_models) {
         models = _models;
-        Budget.hasMany(models.Category);
+        Budget.hasMany(models.Transaction);
         Budget.belongsToMany(models.User, {
           through: {model: models.Budget_User, unique: false},
           foreignKey: 'BudgetId'

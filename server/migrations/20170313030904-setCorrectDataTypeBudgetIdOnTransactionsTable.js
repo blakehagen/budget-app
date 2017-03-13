@@ -2,14 +2,14 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.addColumn(
-      'budgets',
-      'UserId',
+    return queryInterface.changeColumn(
+      'transactions',
+      'BudgetId',
       {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'users',
+          model: 'budgets',
           key: 'id'
         },
         onUpdate: 'cascade',
@@ -19,6 +19,6 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.removeColumn('budgets', 'UserId');
+    return queryInterface.removeColumn('transactions', 'BudgetId');
   }
 };
