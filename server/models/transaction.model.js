@@ -8,7 +8,17 @@ module.exports = (sequelize, DataTypes) => {
     vendor: DataTypes.TEXT,
     amount: DataTypes.DECIMAL,
     date: DataTypes.DATE,
-    description: DataTypes.TEXT
+    description: DataTypes.TEXT,
+    PostedByUserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      },
+      onUpdate: 'cascade',
+      onDelete: 'cascade'
+    }
   }, {
     tableName: 'transactions',
     timestamps: true,

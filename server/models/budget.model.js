@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Budget = sequelize.define('Budget', {
     name: DataTypes.STRING,
-    UserId: {
+    CreatedByUserId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
