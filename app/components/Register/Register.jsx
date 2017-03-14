@@ -11,7 +11,7 @@ export default class Register extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore   = this.props.userStore;
+    this.userStore = this.props.userStore;
     this.navigator = this.props.navigator;
 
     this.state = {
@@ -25,7 +25,9 @@ export default class Register extends React.Component {
       isEmailError: false,
       isPasswordError: false,
       isConfirmPasswordError: false,
-      loading: false
+      loading: false,
+      isSignUpError: false,
+      signUpErrorMessage: ''
     };
   }
 
@@ -38,15 +40,38 @@ export default class Register extends React.Component {
           Budget App
         </div>
 
-        <input className={this.state.isFirstNameError ? styles.isError : ''} onChange={this.setFirstName} type="text" placeholder="First Name"/>
-        <input className={this.state.isLastNameError ? styles.isError : ''} onChange={this.setLastName} type="text" placeholder="Last Name"/>
-        <input className={this.state.isEmailError ? styles.isError : ''} onChange={this.setEmail} type="text" placeholder="Email"/>
-        <input className={this.state.isPasswordError ? styles.isError : ''} onChange={this.setPassword} type="password" placeholder="Password"/>
-        <input className={this.state.isConfirmPasswordError ? styles.isError : ''} onChange={this.setConfirmPassword} type="password" placeholder="Confirm Password"/>
+        <input className={this.state.isFirstNameError ? styles.isError : ''}
+               onChange={this.setFirstName}
+               type="text"
+               placeholder="First Name"/>
+        <input className={this.state.isLastNameError ? styles.isError : ''}
+               onChange={this.setLastName}
+               type="text"
+               placeholder="Last Name"/>
+        <input className={this.state.isEmailError ? styles.isError : ''}
+               onChange={this.setEmail}
+               type="text"
+               placeholder="Email"/>
+        <input className={this.state.isPasswordError ? styles.isError : ''}
+               onChange={this.setPassword}
+               type="password"
+               placeholder="Password"/>
+        <input className={this.state.isConfirmPasswordError ? styles.isError : ''}
+               onChange={this.setConfirmPassword}
+               type="password"
+               placeholder="Confirm Password"/>
 
-        <div className={styles.registerButton} onClick={this.registerGo}>
-          Create My Account
-        </div>
+        {this.state.isSignUpError ? (
+            <div className={styles.errorMessageContainer}>
+              {this.state.signUpErrorMessage}
+            </div>
+          ) : null }
+
+        <input className={styles.registerButton}
+               onClick={this.registerGo}
+               type="submit"
+               name="submit"
+               value="Create My Account"/>
 
         <div className={styles.switchForm} onClick={this.goToLogin}>
           Login
@@ -76,23 +101,23 @@ export default class Register extends React.Component {
   }
 
   setFirstName(e) {
-    this.setState({firstName: e.target.value, isFirstNameError: false});
+    this.setState({firstName: e.target.value, isFirstNameError: false, isSignUpError: false});
   }
 
   setLastName(e) {
-    this.setState({lastName: e.target.value, isLastNameError: false});
+    this.setState({lastName: e.target.value, isLastNameError: false, isSignUpError: false});
   }
 
   setEmail(e) {
-    this.setState({email: e.target.value, isEmailError: false});
+    this.setState({email: e.target.value, isEmailError: false, isSignUpError: false});
   }
 
   setPassword(e) {
-    this.setState({password: e.target.value, isPasswordError: false});
+    this.setState({password: e.target.value, isPasswordError: false, isSignUpError: false});
   }
 
   setConfirmPassword(e) {
-    this.setState({confirmPassword: e.target.value, isConfirmPasswordError: false});
+    this.setState({confirmPassword: e.target.value, isConfirmPasswordError: false, isSignUpError: false});
   }
 
   validateRegister() {
@@ -150,8 +175,26 @@ export default class Register extends React.Component {
       confirmPassword: this.state.confirmPassword
     };
 
-    console.log('registerInfo --> ', registerInfo);
-    this.setState({loading: true});
+    this.setState({loading: true, password: '', confirmPassword: ''});
+
+    this.userStore.register(registerInfo)
+      .then(response => {
+        if (response.status !== 200) {
+          this.setState({
+            loading: false,
+            isSignUpError: true,
+            signUpErrorMessage: _.get(response.data, 'error', 'Sign Up Failed')
+          });
+          return false;
+        }
+        console.log('SUCCESSFUL REGISTRATION!!');
+        sessionStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('userId', response.data.user.id);
+
+        this.userStore.user   = response.data.user;
+        this.userStore.userId = response.data.user.id;
+        this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
+      });
   }
 
 }

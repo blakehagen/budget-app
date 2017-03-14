@@ -14,6 +14,16 @@ export default {
     });
   },
 
+  register(registerInfo) {
+    console.log('registering user...');
+    return axios.post(`${BASE_URL}signup`, {
+      firstName: registerInfo.firstName,
+      lastName: registerInfo.lastName,
+      email: registerInfo.email,
+      password: registerInfo.password
+    });
+  },
+
   login(loginInfo) {
     console.log('logging in...');
     return axios.post(`${BASE_URL}login`, {

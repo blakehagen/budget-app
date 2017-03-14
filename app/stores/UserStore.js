@@ -47,7 +47,7 @@ export default class UserStore {
 
     userService.getUser(userId)
       .then(response => {
-        console.log('response.data --> ', response.data);
+        console.log('getUser response.data --> ', response.data);
 
         this.loadingUser = false;
         if (_.isError(response) || response.status !== 200) {
@@ -65,10 +65,22 @@ export default class UserStore {
   }
 
   @action
+  register(registerInfo) {
+    return userService.register(registerInfo)
+      .then(response => {
+        console.log('response on register --> ', response);
+        return response;
+      })
+      .catch(err => {
+        return err.response;
+      });
+  }
+
+  @action
   login(loginInfo) {
     return userService.login(loginInfo)
       .then(response => {
-        console.log('response.data --> ', response.data);
+        console.log('response.data on login --> ', response.data);
         return response;
       })
       .catch(err => {
