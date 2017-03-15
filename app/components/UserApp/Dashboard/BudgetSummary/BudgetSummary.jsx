@@ -17,10 +17,8 @@ export default class BudgetSummary extends React.Component {
   render() {
 
     const budgets = _.map(this.userStore.user.Budgets, budget => {
-
       let currentTotal = 0;
       _.each(budget.Transactions, transaction => {
-        console.log('transaction.amount --> ', transaction.amount);
         currentTotal += Number(transaction.amount);
       });
 
@@ -28,11 +26,18 @@ export default class BudgetSummary extends React.Component {
 
       return (
         <div className={styles.budgetContainer} key={budget.id}>
-          <div className={styles.budgetTitle}>
-            {budget.name}
+          <div className={styles.budgetHeader}>
+            <span>{budget.name}</span>
+            <span className={styles.total}>${budget.totalAmount}</span>
+
           </div>
           <div className={styles.budgetMain}>
-            <ProgressBar min={0} now={currentTotal} max={Number(budget.totalAmount)} label={`$${currentTotal}`} className={styles.progressBar} bsStyle="success"/>
+            <ProgressBar min={0}
+                         now={currentTotal}
+                         max={Number(budget.totalAmount)}
+                         label={`$${currentTotal}`}
+                         className={styles.progressBar}
+                         bsStyle="success"/>
           </div>
         </div>
       );
