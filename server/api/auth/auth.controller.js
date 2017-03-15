@@ -46,11 +46,9 @@ module.exports = {
       where: {email: req.body.email},
       include: {
         model: models.Budget,
-        //TODO --> populate CreatedByUserId?
-        attributes: ['id', 'name'],
+        attributes: ['id', 'name', 'totalAmount'],
         include: {
           model: models.Transaction,
-          //TODO --> populate PostedByUserId?
           attributes: ['id', 'vendor', 'amount', 'date', 'description']
         }
       },

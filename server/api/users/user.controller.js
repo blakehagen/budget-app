@@ -17,11 +17,9 @@ module.exports = {
     models.User.findById(req.params.userId, {
       include: {
         model: models.Budget,
-        //TODO --> populate CreatedByUserId
-        attributes: ['id', 'name'],
+        attributes: ['id', 'name', 'totalAmount'],
         include: {
           model: models.Transaction,
-          //TODO --> populate PostedByUserId
           attributes: ['id', 'vendor', 'amount', 'date', 'description']
         }
       },
