@@ -40,7 +40,10 @@
 }
 
 :global(.progress-bar-success) {
-  background: #4FC3F7;
+  background: #D1D1FF;
   line-height: 35px;
   box-shadow: none;
+  color: #37424B;
+  cursor: default;
+
 }
