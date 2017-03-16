@@ -46,18 +46,15 @@
 }
 
 :global(.progress) {
-  //background-color: #f1f1f1;
   box-shadow: none;
-  border:1px solid #DDD;
+  border: 1px solid #DDD;
 }
 
 :global(.progress-bar-success) {
-  //background: #4FC3F7;
   background: #45AB7F;
-  line-height: 28px;
+  line-height: 26px;
   box-shadow: none;
   font-weight: 300;
   font-size: 15px;
-  //color: #37424B;
   cursor: default;
 }
