@@ -1,5 +1,5 @@
 .budgetSummaryMain {
-  padding: 0 30px 30px 30px;
+  padding: 10px 30px 30px 30px;
 }
 
 .budgets {
@@ -8,17 +8,15 @@
 }
 
 .budgetContainer {
-  //border: 1px solid red;
   display: flex;
   flex-direction: column;
   margin: 20px 0;
 }
 
 .budgetHeader {
-  //border:1px solid red;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 100;
-  color: #37424B;
+  color: #455A64;
   cursor: default;
   padding: 0 0 6px 0;
   display: flex;
@@ -30,8 +28,16 @@
 .budgetMain {
   display: flex;
   flex-direction: row;
-  height: 35px;
+  height: 28px;
   position: relative;
+}
+
+.headerName {
+  padding-left: 6px;
+}
+
+.total {
+  padding-right: 6px;
 }
 
 .progressBar {
@@ -39,11 +45,19 @@
   height: 100%;
 }
 
-:global(.progress-bar-success) {
-  background: #D1D1FF;
-  line-height: 35px;
+:global(.progress) {
+  //background-color: #f1f1f1;
   box-shadow: none;
-  color: #37424B;
-  cursor: default;
+  border:1px solid #DDD;
+}
 
+:global(.progress-bar-success) {
+  //background: #4FC3F7;
+  background: #45AB7F;
+  line-height: 28px;
+  box-shadow: none;
+  font-weight: 300;
+  font-size: 15px;
+  //color: #37424B;
+  cursor: default;
 }

@@ -1,8 +1,8 @@
 .actionContainer {
-  margin-top: 18px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  margin-top: 4px;
 }
 
 .bigButton {
@@ -15,7 +15,7 @@
   align-items: center;
   cursor: pointer;
   &:last-child {
-    margin-right: 18px
+    margin-right: 22px
   }
   &:hover {
     background: #F9F9F9;

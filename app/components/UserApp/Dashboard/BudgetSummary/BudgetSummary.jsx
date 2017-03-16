@@ -1,3 +1,5 @@
+import _ from 'lodash';
+import numeral from 'numeral';
 import React from 'react';
 import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
@@ -22,20 +24,23 @@ export default class BudgetSummary extends React.Component {
         currentTotal += Number(transaction.amount);
       });
 
+      let percentageUsed = currentTotal / budget.totalAmount * 100;
+
       console.log('currentTotal --> ', currentTotal);
+      console.log('percentageUsed --> ', percentageUsed);
 
       return (
         <div className={styles.budgetContainer} key={budget.id}>
           <div className={styles.budgetHeader}>
-            <span>{budget.name}</span>
-            <span className={styles.total}>${budget.totalAmount}</span>
+            <span className={styles.headerName}>{budget.name}</span>
+            <span className={styles.total}>{numeral(budget.totalAmount).format('$ 0,0[.]00')}</span>
 
           </div>
           <div className={styles.budgetMain}>
             <ProgressBar min={0}
                          now={currentTotal}
                          max={Number(budget.totalAmount)}
-                         label={`$${currentTotal}`}
+                         label={percentageUsed > 15 ? numeral(currentTotal).format('$0,0.00') : ''}
                          className={styles.progressBar}
                          bsStyle="success"/>
           </div>

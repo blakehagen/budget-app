@@ -17,9 +17,9 @@ export default class TopBar extends React.Component {
     return (
       <div className={styles.topBarMain}>
         <div className={styles.piggybankIcon}></div>
-        <div className={styles.welcome}>{this.userStore.user.firstName} {this.userStore.user.lastName}</div>
-        <div className={styles.logOut}>
-          <span className={styles.logoutAction} onClick={this.logout}>Log Out</span>
+        <div className={styles.welcome}>{this.userStore.user.firstName} {this.userStore.user.lastName} &nbsp;|&nbsp;&nbsp;</div>
+        <div className={styles.logoutAction}>
+          <span onClick={this.logout}>Log Out</span>
         </div>
       </div>
     );
