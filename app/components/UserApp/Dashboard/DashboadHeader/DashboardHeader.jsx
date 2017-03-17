@@ -23,7 +23,7 @@ export default class DashboardHeader extends React.Component {
             <span className={styles.buttonLabel}>Transaction</span>
           </div>
 
-          <div className={styles.bigButton}>
+          <div className={styles.bigButton} onClick={this.createNewBudget}>
             <div className={styles.plusIcon}/>
             <span className={styles.buttonLabel}>Budget</span>
           </div>
@@ -31,6 +31,10 @@ export default class DashboardHeader extends React.Component {
         </div>
       </div>
     );
+  }
+
+  createNewBudget() {
+    this.navigator.changeRoute(`/user/${this.userStore.userId}/new-budget`, 'push');
   }
 
 }
