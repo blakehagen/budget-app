@@ -97,4 +97,9 @@ export default class UserStore {
     console.log('cleared store/sessionStorage & logged out');
   }
 
+  @action
+  saveNewBudget(newBudgetInfo) {
+    console.log('newBudgetInfo on store ---> ', newBudgetInfo);
+    //TODO --> save new budget to db
+  }
 }
