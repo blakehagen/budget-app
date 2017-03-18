@@ -24,7 +24,7 @@ export default class CreateBudget extends React.Component {
     return (
       <div className={styles.formContainer}>
         <span className={styles.title}>Create New Budget</span>
-        <form className={styles.createBudgetForm}>
+        <div className={styles.createBudgetForm}>
 
           <input className={styles.budgetInput}
                  onChange={this.setBudgetName}
@@ -48,7 +48,7 @@ export default class CreateBudget extends React.Component {
                  type="submit"
                  name="submit"
                  value="Create New Budget"/>
-        </form>
+        </div>
       </div>
     );
   }
@@ -74,9 +74,16 @@ export default class CreateBudget extends React.Component {
       return false;
     }
 
-    let numberRegex = /^-?\d+\.?\d*$/;
-    if (!numberRegex.test(this.state.budgetLimit)) {
+    const limit = Number(this.state.budgetLimit);
+    console.log('limit ---> ', limit);
+
+    if (_.isNaN(limit)) {
       this.setState({errorBudgetLimit: 'Enter a number'});
+      return false;
+    }
+
+    if (limit < 1) {
+      this.setState({errorBudgetLimit: 'Cannot be less than 1'});
       return false;
     }
 
@@ -92,7 +99,7 @@ export default class CreateBudget extends React.Component {
 
     let budgetInfo = {
       name: this.state.budgetName,
-      totalAmount: this.state.budgetLimit
+      totalAmount: Number(this.state.budgetLimit)
     };
 
     console.log('clicked save!', budgetInfo);
