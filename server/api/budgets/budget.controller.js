@@ -1,3 +1,4 @@
+const _        = require('lodash');
 const BPromise = require('bluebird');
 const models   = require('../../models/index');
 
@@ -28,16 +29,10 @@ module.exports = {
   getUserBudgets (req, res) {
     models.Budget.getUserBudgets(req.params.userId)
       .then(budgets => {
-        return BPromise.map(budgets, budget => {
-          return models.Transaction.findAll({
-            where: {
-              BudgetId: budget.id
-            },
-            attributes: ['id', 'vendor', 'amount', 'date', 'description']
-          })
+        return BPromise.each(budgets, budget => {
+          return models.Transaction.getTransactions(budget.id)
             .then(transactions => {
               budget.transactions = transactions;
-              return budget;
             });
         })
           .then(() => {

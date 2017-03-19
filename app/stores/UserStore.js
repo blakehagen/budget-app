@@ -59,8 +59,8 @@ export default class UserStore {
         if (_.isError(response) || response.status !== 200) {
           this.navigator.changeRoute('/login', 'replace');
         } else {
-          this.user             = response.data;
-          this.userId           = response.data.id;
+          this.user   = response.data;
+          this.userId = response.data.id;
         }
       })
       .catch(err => {
@@ -132,17 +132,15 @@ export default class UserStore {
 
   @action
   createNewBudget(newBudgetInfo) {
-    return budgetService.createNewBudget(newBudgetInfo)
+    budgetService.createNewBudget(newBudgetInfo)
       .then(response => {
         console.log('response --> ', response);
         if (response.data.success) {
-          // i hate this...
-          this.getUser(this.userId);
-          return response.data.budget;
+          this.getUserBudgets(this.userId);
         }
       })
       .catch(err => {
-        console.log('err --> ', err);
+        console.log('err --> ', err.data.error);
       });
   }
 }
