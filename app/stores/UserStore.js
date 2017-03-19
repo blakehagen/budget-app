@@ -9,21 +9,26 @@ export default class UserStore {
     autoBind(this);
     this.navigator = navigator;
 
-    this.loadingUser = false;
-    this.user        = null;
-    this.userId      = sessionStorage.getItem('userId');
+    this.loadingUser    = false;
+    this.loadingBudgets = false;
+    this.user           = null;
+    this.userBudgets    = null;
+    this.userId         = sessionStorage.getItem('userId');
 
     if (_.isNull(this.userId)) {
       console.log('no user id');
     }
     else {
       this.getUser(this.userId);
+      this.getUserBudgets(this.userId);
     }
   }
 
   @observable user;
   @observable userId;
   @observable loadingUser;
+  @observable userBudgets;
+  @observable loadingBudgets;
 
   @action
   verifyRouteParam(userId, paramId) {
@@ -54,13 +59,39 @@ export default class UserStore {
         if (_.isError(response) || response.status !== 200) {
           this.navigator.changeRoute('/login', 'replace');
         } else {
-          response.data.Budgets = _.reverse(_.sortBy(response.data.Budgets, ['id']));
           this.user             = response.data;
           this.userId           = response.data.id;
         }
       })
       .catch(err => {
         this.loadingUser = false;
+        console.error(err);
+        this.navigator.changeRoute('/login', 'replace');
+      });
+  }
+
+  @action
+  getUserBudgets(userId) {
+    if (!userId) {
+      console.log('cant get budgets, no userId');
+      this.navigator.changeRoute('/login', 'replace');
+      return false;
+    }
+
+    this.loadingBudgets = true;
+
+    budgetService.getBudgets(userId)
+      .then(response => {
+        console.log('got user budgets --> response on user Store --> ', response);
+        this.loadingBudgets = false;
+        if (_.isError(response) || response.status !== 200) {
+          this.navigator.changeRoute('/login', 'replace');
+        } else {
+          this.userBudgets = response.data;
+        }
+      })
+      .catch(err => {
+        this.loadingBudgets = false;
         console.error(err);
         this.navigator.changeRoute('/login', 'replace');
       });

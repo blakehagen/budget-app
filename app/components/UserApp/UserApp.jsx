@@ -22,11 +22,22 @@ export default class UserApp extends React.Component {
       if (!this.userStore.user && !this.userStore.loadingUser) {
         this.userStore.getUser(sessionStorage.getItem('userId'));
       }
+      if (!this.userStore.userBudgets && !this.userStore.loadingBudgets) {
+        this.userStore.getUserBudgets(sessionStorage.getItem('userId'));
+      }
     }
   }
 
   render() {
     if (!this.userStore.user) {
+      return (
+        <div className={styles.loadingContainer}>
+          <Spinner/>
+        </div>
+      );
+    }
+
+    if (!this.userStore.userBudgets) {
       return (
         <div className={styles.loadingContainer}>
           <Spinner/>

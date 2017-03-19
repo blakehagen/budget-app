@@ -18,16 +18,24 @@ export default class BudgetSummary extends React.Component {
   }
 
   render() {
-    const budgets = _.map(this.userStore.user.Budgets, budget => {
+    // if (!_.get(this.userStore, 'userBudgets', []).length) {
+    //   return (
+    //     <div className={styles.budgetContainer}>
+    //       It's quiet in here. Create a budget!
+    //     </div>
+    //   );
+    // }
+
+    const budgets = _.map(this.userStore.userBudgets, budget => {
       let currentTotal = 0;
-      _.each(budget.Transactions, transaction => {
+      _.each(budget.transactions, transaction => {
         currentTotal += Number(transaction.amount);
       });
 
       let percentageUsed = currentTotal / budget.totalAmount * 100;
 
-      console.log('currentTotal --> ', currentTotal);
-      console.log('percentageUsed --> ', percentageUsed);
+      // console.log('currentTotal --> ', currentTotal);
+      // console.log('percentageUsed --> ', percentageUsed);
 
       return (
         <div className={styles.budgetContainer} key={budget.id}>

@@ -44,14 +44,6 @@ module.exports = {
   login(req, res) {
     models.User.findOne({
       where: {email: req.body.email},
-      include: {
-        model: models.Budget,
-        attributes: ['id', 'name', 'totalAmount'],
-        include: {
-          model: models.Transaction,
-          attributes: ['id', 'vendor', 'amount', 'date', 'description']
-        }
-      },
       attributes: ['id', 'firstName', 'lastName', 'email', 'password']
     })
       .then(user => {
