@@ -20,27 +20,7 @@ export default class BudgetSummary extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   reaction(() => this.userStore.user, user => {
-  //     console.log('REACTION!!!!');
-  //     if (!_.isUndefined(user)) {
-  //       this.setState({
-  //         budgets: _.sortBy(user.Budgets, budget => {
-  //           return budget.name.toLowerCase();
-  //         }),
-  //       });
-  //     }
-  //     console.log('user budgets in rxn--> ', user.Budgets);
-  //   }, true);
-  // }
-
   render() {
-    if (this.userStore.loadingUser) {
-      return (
-        <div>Loading...</div>
-      );
-    }
-
     const budgets = _.map(this.userStore.user.Budgets, budget => {
       let currentTotal = 0;
       _.each(budget.Transactions, transaction => {

@@ -54,8 +54,9 @@ export default class UserStore {
         if (_.isError(response) || response.status !== 200) {
           this.navigator.changeRoute('/login', 'replace');
         } else {
-          this.user   = response.data;
-          this.userId = response.data.id;
+          response.data.Budgets = _.reverse(_.sortBy(response.data.Budgets, ['id']));
+          this.user             = response.data;
+          this.userId           = response.data.id;
         }
       })
       .catch(err => {
