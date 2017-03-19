@@ -105,13 +105,11 @@ export default class CreateBudget extends React.Component {
       createdDateHumanized: moment().format('L')
     };
 
-    console.log('clicked save!', budgetInfo);
     this.userStore.createNewBudget(budgetInfo)
       .then(budget => {
         console.log('budget ---> ', budget);
+        this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'replace');
       });
-    this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
-
   }
 
 }

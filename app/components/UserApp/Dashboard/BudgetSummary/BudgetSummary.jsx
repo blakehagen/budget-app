@@ -15,9 +15,6 @@ export default class BudgetSummary extends React.Component {
     autoBind(this);
     this.userStore = this.props.userStore;
     this.navigator = this.props.navigator;
-    this.state     = {
-      budgets: null
-    };
   }
 
   render() {

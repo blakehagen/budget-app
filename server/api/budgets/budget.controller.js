@@ -10,7 +10,14 @@ module.exports = {
           BudgetId: budget.id
         })
           .then(response => {
-            return res.status(200).json({budget: budget, success: true});
+
+            let newBudget = {
+              id: budget.id,
+              name: budget.name,
+              totalAmount: budget.totalAmount
+            };
+
+            return res.status(200).json({budget: newBudget, success: true});
           });
       })
       .catch(err => {
