@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {observable, action} from 'mobx';
 import autoBind from 'react-autobind';
 import userService from 'services/user';
+import budgetService from 'services/budget';
 
 export default class UserStore {
   constructor(navigator) {
@@ -98,8 +99,18 @@ export default class UserStore {
   }
 
   @action
-  saveNewBudget(newBudgetInfo) {
-    console.log('newBudgetInfo on store ---> ', newBudgetInfo);
-    //TODO --> save new budget to db
+  createNewBudget(newBudgetInfo) {
+    return budgetService.createNewBudget(newBudgetInfo)
+      .then(response => {
+        console.log('response --> ', response);
+        if (response.data.success) {
+          // i hate this...
+          this.getUser(this.userId);
+          return response.data.budget;
+        }
+      })
+      .catch(err => {
+        console.log('err --> ', err);
+      });
   }
 }

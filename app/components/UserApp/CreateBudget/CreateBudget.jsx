@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import React from 'react';
 import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
@@ -98,16 +99,19 @@ export default class CreateBudget extends React.Component {
     }
 
     let budgetInfo = {
+      CreatedByUserId: this.userStore.user.id,
       name: this.state.budgetName,
-      totalAmount: Number(this.state.budgetLimit)
+      totalAmount: Number(this.state.budgetLimit),
+      createdDateHumanized: moment().format('L')
     };
 
     console.log('clicked save!', budgetInfo);
-    this.userStore.saveNewBudget(budgetInfo);
-
-    //TODO --> save new budget
-    // back to dash after new budget saved
+    this.userStore.createNewBudget(budgetInfo)
+      .then(budget => {
+        console.log('budget ---> ', budget);
+      });
     this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
+
   }
 
 }

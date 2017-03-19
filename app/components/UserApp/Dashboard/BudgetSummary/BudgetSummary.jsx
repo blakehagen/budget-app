@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import numeral from 'numeral';
 import React from 'react';
+import {reaction} from 'mobx';
 import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
 import {ProgressBar} from 'react-bootstrap';
@@ -14,9 +15,31 @@ export default class BudgetSummary extends React.Component {
     autoBind(this);
     this.userStore = this.props.userStore;
     this.navigator = this.props.navigator;
+    this.state     = {
+      budgets: null
+    };
   }
 
+  // componentDidMount() {
+  //   reaction(() => this.userStore.user, user => {
+  //     console.log('REACTION!!!!');
+  //     if (!_.isUndefined(user)) {
+  //       this.setState({
+  //         budgets: _.sortBy(user.Budgets, budget => {
+  //           return budget.name.toLowerCase();
+  //         }),
+  //       });
+  //     }
+  //     console.log('user budgets in rxn--> ', user.Budgets);
+  //   }, true);
+  // }
+
   render() {
+    if (this.userStore.loadingUser) {
+      return (
+        <div>Loading...</div>
+      );
+    }
 
     const budgets = _.map(this.userStore.user.Budgets, budget => {
       let currentTotal = 0;
