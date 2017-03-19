@@ -191,7 +191,7 @@ export default class Register extends React.Component {
         sessionStorage.setItem('token', response.data.token);
         sessionStorage.setItem('userId', response.data.user.id);
 
-        response.data.user.Budgets = _.reverse(_.sortBy(response.data.Budgets, ['id']));
+        response.data.user.Budgets = _.reverse(_.sortBy(response.data.user.Budgets, ['id']));
         this.userStore.user        = response.data.user;
         this.userStore.userId      = response.data.user.id;
         this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
