@@ -29,6 +29,17 @@ module.exports = (sequelize, DataTypes) => {
           through: {model: models.Budget_User, unique: false},
           foreignKey: 'BudgetId'
         });
+      },
+      getUserBudgets: function (userId) {
+        let sql = `SELECT b.id, b.name, b."totalAmount", b."createdDateHumanized" FROM budgets b
+        INNER JOIN "budgets_users" bu ON bu."BudgetId" = b.id
+        WHERE bu."UserId" = ${userId}
+        ORDER BY -b.id`;
+
+        return sequelize.query(sql, {
+          raw: true,
+          type: models.Sequelize.QueryTypes.SELECT
+        });
       }
     },
   });
