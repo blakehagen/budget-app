@@ -78,8 +78,6 @@ export default class UserStore {
       return false;
     }
 
-    this.loadingBudgets = true;
-
     budgetService.getBudgets(userId)
       .then(response => {
         console.log('got user budgets --> response on user Store --> ', response);

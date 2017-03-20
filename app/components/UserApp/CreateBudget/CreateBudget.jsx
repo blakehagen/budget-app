@@ -105,6 +105,7 @@ export default class CreateBudget extends React.Component {
       createdDateHumanized: moment().format('L')
     };
 
+    this.userStore.loadingBudgets = true;
     this.userStore.createNewBudget(budgetInfo);
     this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'replace');
   }

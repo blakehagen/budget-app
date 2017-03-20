@@ -4,6 +4,7 @@ import React from 'react';
 import {reaction} from 'mobx';
 import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
+import Spinner from 'components/Common/Spinner';
 import {ProgressBar} from 'react-bootstrap';
 import styles from './budgetSummary.scss';
 
@@ -18,13 +19,11 @@ export default class BudgetSummary extends React.Component {
   }
 
   render() {
-    // if (!_.get(this.userStore, 'userBudgets', []).length) {
-    //   return (
-    //     <div className={styles.budgetContainer}>
-    //       It's quiet in here. Create a budget!
-    //     </div>
-    //   );
-    // }
+    const loadingBudget = (
+      <div className={styles.budgetLoading}>
+        <Spinner/>
+      </div>
+    );
 
     const budgets = _.map(this.userStore.userBudgets, budget => {
       let currentTotal = 0;
@@ -59,6 +58,7 @@ export default class BudgetSummary extends React.Component {
     return (
       <div className={styles.budgetSummaryMain}>
         <div className={styles.budgets}>
+          {this.userStore.loadingBudgets ? loadingBudget : null}
           {budgets}
         </div>
       </div>
