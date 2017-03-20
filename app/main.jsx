@@ -11,6 +11,7 @@ import Register from 'components/Register';
 import UserApp from 'components/UserApp';
 import Dashboard from 'components/UserApp/Dashboard';
 import CreateBudget from 'components/UserApp/CreateBudget';
+import CreateTransaction from 'components/UserApp/CreateTransaction';
 import styles from './main.scss';
 
 const navigator = new Navigator();
@@ -26,6 +27,7 @@ ReactDOM.render(
         <Route path="/user/:userId" component={UserApp}>
           <Route path="dashboard" component={Dashboard}/>
           <Route path="new-budget" component={CreateBudget}/>
+          <Route path="new-transaction" component={CreateTransaction}/>
         </Route>
         <Route path="*" component={App}>
           <IndexRedirect to="/"/>
