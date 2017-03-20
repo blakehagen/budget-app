@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import numeral from 'numeral';
 import React from 'react';
-import {reaction} from 'mobx';
 import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';

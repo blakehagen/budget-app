@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import {observer, inject} from 'mobx-react';
+import {DropdownButton} from 'react-bootstrap';
 import autoBind from 'react-autobind';
 import styles from './createTransaction.scss';
 
@@ -28,6 +29,9 @@ export default class CreateTransaction extends React.Component {
       <div className={styles.formContainer}>
         <span className={styles.title}>New Transaction</span>
         <div className={styles.newTransactionForm}>
+
+          <DropdownButton title="Select Budget"
+                          id="selectBudget"/>
 
           <input className={styles.transactionInput}
                  onChange={this.setAmount}
