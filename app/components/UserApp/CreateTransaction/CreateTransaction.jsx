@@ -150,7 +150,7 @@ export default class CreateTransaction extends React.Component {
 
     let transactionInfo = {
       PostedByUserId: this.userStore.user.id,
-      budgetId: this.state.selectedBudget.id,
+      BudgetId: this.state.selectedBudget.id,
       vendor: this.state.vendor,
       amount: Number(this.state.amount),
       description: this.state.description,

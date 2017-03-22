@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   Transaction = sequelize.define('Transaction', {
     vendor: DataTypes.TEXT,
     amount: DataTypes.DECIMAL,
-    date: DataTypes.DATE,
+    postedDateHumanized: DataTypes.TEXT,
     description: DataTypes.TEXT,
     PostedByUserId: {
       type: DataTypes.INTEGER,

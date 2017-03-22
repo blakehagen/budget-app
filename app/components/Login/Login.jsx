@@ -30,7 +30,7 @@ export default class Login extends React.Component {
     const inputSection = (
       <div className={styles.box}>
         <div className={styles.titleContainer}>
-          <div className={styles.piggybankIcon}></div>
+          <div className={styles.piggybankIcon}/>
           Budget App
         </div>
 
@@ -64,7 +64,7 @@ export default class Login extends React.Component {
     const spinner = (
       <div className={styles.box}>
         <div className={styles.titleContainer}>
-          <div className={styles.piggybankIcon}></div>
+          <div className={styles.piggybankIcon}/>
           Budget App
         </div>
         <Spinner/>
