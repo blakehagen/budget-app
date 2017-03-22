@@ -41,15 +41,14 @@ export default class CreateTransaction extends React.Component {
         <span className={styles.title}>New Transaction</span>
         <div className={styles.newTransactionForm}>
 
-          <Select
-            placeholder="Select Budget"
-            className={styles.selectDropdown}
-            name="Select Budget"
-            value={this.state.selectedBudget}
-            clearable={false}
-            searchable={false}
-            options={budgetMenuItems}
-            onChange={this.setBudget}/>
+          <Select placeholder="Select Budget"
+                  className={styles.selectDropdown}
+                  name="Select Budget"
+                  value={this.state.selectedBudget}
+                  clearable={false}
+                  searchable={false}
+                  options={budgetMenuItems}
+                  onChange={this.setBudget}/>
           <div className={styles.errorContainer}>
             {this.state.errorBudget ? this.state.errorBudget : ''}
           </div>

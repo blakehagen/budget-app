@@ -65,3 +65,20 @@
   font-size: 15px;
   cursor: default;
 }
+
+:global(.progress-bar-danger) {
+  background: #ED6464;
+  line-height: 26px;
+  box-shadow: none;
+  font-weight: 300;
+  font-size: 15px;
+  cursor: default;
+}
+
+:global(.progress-bar-info) {
+  line-height: 26px;
+  box-shadow: none;
+  font-weight: 300;
+  font-size: 15px;
+  cursor: default;
+}

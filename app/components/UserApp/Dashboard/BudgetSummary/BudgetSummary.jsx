@@ -31,9 +31,7 @@ export default class BudgetSummary extends React.Component {
       });
 
       let percentageUsed = currentTotal / budget.totalAmount * 100;
-
-      // console.log('currentTotal --> ', currentTotal);
-      // console.log('percentageUsed --> ', percentageUsed);
+      console.log('percentageUsed --> ', percentageUsed);
 
       return (
         <div className={styles.budgetContainer} key={budget.id}>
@@ -48,7 +46,7 @@ export default class BudgetSummary extends React.Component {
                          max={Number(budget.totalAmount)}
                          label={percentageUsed > 15 ? numeral(currentTotal).format('$0,0.00') : ''}
                          className={styles.progressBar}
-                         bsStyle="success"/>
+                         bsStyle={this.getProgressBarStyle(percentageUsed)}/>
           </div>
         </div>
       );
@@ -62,6 +60,23 @@ export default class BudgetSummary extends React.Component {
         </div>
       </div>
     );
+  }
+
+  getProgressBarStyle(percentage) {
+    console.log('percentage in fn -->', percentage);
+    let style;
+    if (percentage >= 90) {
+      style = 'danger';
+      return style;
+    }
+    if (percentage >= 75 && percentage < 90) {
+      style = 'info';
+      return style;
+    }
+    if (percentage < 75) {
+      style = 'success';
+      return style;
+    }
   }
 
 }
