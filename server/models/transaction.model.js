@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         Transaction.belongsTo(models.Budget);
       },
       getTransactions: function (budgetId) {
-        let sql = `SELECT t.id, t.vendor, t.amount, t.description, t.date from transactions t WHERE t."BudgetId" = ${budgetId}`;
+        let sql = `SELECT t.id, t.vendor, t.amount, t.description, t."postedDateHumanized" from transactions t WHERE t."BudgetId" = ${budgetId}`;
 
         return sequelize.query(sql, {
           raw: true,
