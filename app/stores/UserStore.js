@@ -77,6 +77,7 @@ export default class UserStore {
       this.navigator.changeRoute('/login', 'replace');
       return false;
     }
+    this.loadingBudgets = true;
 
     budgetService.getBudgets(userId)
       .then(response => {
