@@ -18,7 +18,7 @@ export default class DashboardHeader extends React.Component {
       <div>
         <div className={styles.actionContainer}>
 
-          <div className={styles.bigButton}>
+          <div className={styles.bigButton} onClick={this.createNewTransaction}>
             <div className={styles.plusIcon}/>
             <span className={styles.buttonLabel}>Transaction</span>
           </div>
@@ -35,6 +35,10 @@ export default class DashboardHeader extends React.Component {
 
   createNewBudget() {
     this.navigator.changeRoute(`/user/${this.userStore.userId}/new-budget`, 'push');
+  }
+
+  createNewTransaction() {
+    this.navigator.changeRoute(`/user/${this.userStore.userId}/new-transaction`, 'push');
   }
 
 }
