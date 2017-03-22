@@ -1,4 +1,4 @@
-const _   = require('lodash');
+const _                    = require('lodash');
 const webpack              = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -44,6 +44,7 @@ app.get('/api/v1/test', (req, res) => {
 require('./server/api/auth/auth.routes')(app);
 require('./server/api/users/user.routes')(app);
 require('./server/api/budgets/budget.routes')(app);
+require('./server/api/transactions/transaction.routes')(app);
 
 app.listen(port, () => {
   console.log('Listening on port', port);
