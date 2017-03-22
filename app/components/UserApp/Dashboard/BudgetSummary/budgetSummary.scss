@@ -52,6 +52,10 @@
   height: 100%;
 }
 
+// ****************************************** //
+// **** BOOTSTRAP PROGRESS BAR OVERRIDES **** //
+// ****************************************** //
+
 :global(.progress) {
   box-shadow: none;
   border: 1px solid #DDD;
@@ -68,14 +72,6 @@
 
 :global(.progress-bar-danger) {
   background: #ED6464;
-  line-height: 26px;
-  box-shadow: none;
-  font-weight: 300;
-  font-size: 15px;
-  cursor: default;
-}
-
-:global(.progress-bar-info) {
   line-height: 26px;
   box-shadow: none;
   font-weight: 300;
