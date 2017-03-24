@@ -2,11 +2,11 @@
   height: 100vh;
   min-height: 410px;
   width: 100%;
-  background: url('../../assets/common/piggybank.jpg') no-repeat center;
+  background: url('../../assets/common/coins-bg.jpg') no-repeat top;
   background-size: cover;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .box {
@@ -17,6 +17,7 @@
   border-radius: 10px;
   padding: 0 10px 10px;
   height: 255px;
+  margin-top: 50px;
 }
 
 .titleContainer {
@@ -24,8 +25,9 @@
   border-radius: 4px;
   color: #45AB7F;
   width: 250px;
-  font-weight: 100;
-  font-size: 30px;
+  font-weight: 400;
+  font-family: 'Lato', sans-serif;
+  font-size: 32px;
   line-height: 38px;
   display: flex;
   justify-content: center;
@@ -40,6 +42,7 @@
   width: 38px;
   background-size: cover;
   background: url('../../assets/common/piggybank-icon.svg') no-repeat center;
+  //background: url('../../assets/common/piggybank-white-icon.svg') no-repeat center;
   margin-right: 12px;
 }
 
@@ -66,7 +69,7 @@ input {
   width: 100%;
   font-weight: 100;
   font-size: 15px;
-  line-height: 38px;
+  line-height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,7 +87,7 @@ input {
   font-weight: 100;
   font-size: 12px;
   margin-top: 10px;
-  color: #45AB7F;
+  color: #FFFFFF;
   width: 250px;
   cursor: pointer;
   display: flex;
