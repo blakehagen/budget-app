@@ -18,7 +18,7 @@ export default class BudgetSummary extends React.Component {
   }
 
   render() {
-    const loadingBudget = (
+    const loadingNewBudget = (
       <div className={styles.budgetLoading}>
         <Spinner/>
       </div>
@@ -55,7 +55,7 @@ export default class BudgetSummary extends React.Component {
     return (
       <div className={styles.budgetSummaryMain}>
         <div className={styles.budgets}>
-          {this.userStore.loadingBudgets ? loadingBudget : null}
+          {this.userStore.loadingNewBudget ? loadingNewBudget : null}
           {budgets}
         </div>
       </div>

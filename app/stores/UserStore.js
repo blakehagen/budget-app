@@ -9,11 +9,12 @@ export default class UserStore {
     autoBind(this);
     this.navigator = navigator;
 
-    this.loadingUser    = false;
-    this.loadingBudgets = false;
-    this.user           = null;
-    this.userBudgets    = null;
-    this.userId         = sessionStorage.getItem('userId');
+    this.loadingUser      = false;
+    this.loadingBudgets   = false;
+    this.loadingNewBudget = false;
+    this.user             = null;
+    this.userBudgets      = null;
+    this.userId           = sessionStorage.getItem('userId');
 
     if (_.isNull(this.userId)) {
       console.log('no user id');
@@ -82,7 +83,8 @@ export default class UserStore {
     budgetService.getBudgets(userId)
       .then(response => {
         console.log('got user budgets --> response on user Store --> ', response);
-        this.loadingBudgets = false;
+        this.loadingBudgets   = false;
+        this.loadingNewBudget = false;
         if (_.isError(response) || response.status !== 200) {
           this.navigator.changeRoute('/login', 'replace');
         } else {
