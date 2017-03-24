@@ -12,6 +12,7 @@
   flex-direction: column;
   margin: 20px 0;
   height: 52px;
+  cursor: pointer;
 }
 
 .budgetLoading {
@@ -24,7 +25,6 @@
   font-size: 15px;
   font-weight: 100;
   color: #455A64;
-  cursor: default;
   padding: 0 0 6px 0;
   display: flex;
   flex-direction: row;
@@ -67,7 +67,6 @@
   box-shadow: none;
   font-weight: 300;
   font-size: 15px;
-  cursor: default;
 }
 
 :global(.progress-bar-danger) {
@@ -76,5 +75,4 @@
   box-shadow: none;
   font-weight: 300;
   font-size: 15px;
-  cursor: default;
 }
