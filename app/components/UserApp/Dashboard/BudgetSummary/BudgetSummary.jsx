@@ -34,7 +34,7 @@ export default class BudgetSummary extends React.Component {
       console.log('percentageUsed --> ', percentageUsed);
 
       return (
-        <div className={styles.budgetContainer} key={budget.id} onClick={this.goToBudgetDetails}>
+        <div className={styles.budgetContainer} key={budget.id} onClick={() => this.goToBudgetDetails(budget)}>
           <div className={styles.budgetHeader}>
             <span className={styles.headerName}>{budget.name}</span>
             <span className={styles.total}>{numeral(budget.totalAmount).format('$ 0,0[.]00')}</span>
@@ -62,8 +62,10 @@ export default class BudgetSummary extends React.Component {
     );
   }
 
-  goToBudgetDetails() {
-    console.log('budget clicked!');
+  goToBudgetDetails(selectedBudget) {
+    console.log('budget clicked --> ', selectedBudget);
+    this.userStore.selectedBudget = selectedBudget;
+    this.navigator.changeRoute(`/user/${this.userStore.userId}/budget/${selectedBudget.id}`, 'push');
   }
 
 }

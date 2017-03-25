@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import {reaction} from 'mobx';
 import {observer, inject} from 'mobx-react';
