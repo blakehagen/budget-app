@@ -17,6 +17,10 @@ export default class BudgetSummary extends React.Component {
     this.navigator = this.props.navigator;
   }
 
+  componentDidMount() {
+    this.userStore.selectedBudget = null;
+  }
+
   render() {
     const loadingNewBudget = (
       <div className={styles.budgetLoading}>
@@ -63,7 +67,6 @@ export default class BudgetSummary extends React.Component {
   }
 
   goToBudgetDetails(selectedBudget) {
-    console.log('budget clicked --> ', selectedBudget);
     this.userStore.selectedBudget = selectedBudget;
     this.navigator.changeRoute(`/user/${this.userStore.userId}/budget/${selectedBudget.id}`, 'push');
   }

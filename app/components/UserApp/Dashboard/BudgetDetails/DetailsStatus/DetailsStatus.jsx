@@ -5,14 +5,13 @@ import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
 import styles from './detailsStatus.scss';
 
-@inject('userStore', 'navigator')
+@inject('userStore')
 @observer
 export default class DetailsStatus extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
     this.userStore = this.props.userStore;
-    this.navigator = this.props.navigator;
   }
 
   render() {
@@ -33,7 +32,7 @@ export default class DetailsStatus extends React.Component {
     let remainingFormatted    = numeral(remaining).format('$0,0.00');
 
     return (
-      <div>
+      <div className={styles.statusContainer}>
         <div className={styles.title}>
           {this.userStore.selectedBudget.name}
         </div>

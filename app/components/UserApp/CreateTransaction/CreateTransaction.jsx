@@ -153,7 +153,7 @@ export default class CreateTransaction extends React.Component {
       vendor: this.state.vendor,
       amount: Number(this.state.amount),
       description: this.state.description,
-      postedDateHumanized: moment().format('LLLL')
+      postedDateHumanized: moment().format('l h:mma')
     };
 
     console.log('transactionInfo --> ', transactionInfo);

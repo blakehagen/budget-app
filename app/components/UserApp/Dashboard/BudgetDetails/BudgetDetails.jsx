@@ -1,3 +1,5 @@
+import _ from 'lodash';
+import numeral from 'numeral';
 import React from 'react';
 import {observer, inject} from 'mobx-react';
 import DetailsStatus from './DetailsStatus';
@@ -15,10 +17,35 @@ export default class BudgetDetails extends React.Component {
   }
 
   render() {
+    if (!this.userStore.selectedBudget) {
+      return null;
+    }
+    const transactions = _.map(this.userStore.selectedBudget.transactions, transaction => {
+      const transactionAmount = numeral(transaction.amount).format('$0,0.00');
+      return (
+        <div className={styles.transactionContainer} key={transaction.id}>
+          <div className={styles.amountContainer}>
+            {transactionAmount}
+          </div>
+          <div className={styles.transactionDetailsContainer}>
+            <div className={styles.row}>
+              {transaction.postedDateHumanized}
+            </div>
+            <div className={styles.row}>
+              {transaction.vendor}
+            </div>
+            <div className={styles.row}>
+              <span className={styles.description}>{transaction.description}</span>
+            </div>
+          </div>
+        </div>
+      );
+    });
+
     return (
       <div className={styles.budgetDetailsMain}>
         <DetailsStatus/>
-
+        {transactions}
       </div>
     );
   }
