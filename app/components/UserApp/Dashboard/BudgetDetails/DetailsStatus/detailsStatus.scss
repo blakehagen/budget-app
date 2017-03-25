@@ -1,0 +1,32 @@
+.title {
+  font-size: 18px;
+  font-weight: 100;
+  margin-bottom: 7px;
+  color: #455A64;
+  cursor: default;
+}
+
+.summary {
+  font-size: 13px;
+  font-weight: 100;
+  padding: 5px 0;
+  color: #455A64;
+  cursor: default;
+}
+
+.summaryNumber {
+  font-weight: 400;
+  font-size: 16px;
+  color: #455A64;
+  cursor: default;
+}
+
+.underBudget {
+  @extend .summaryNumber;
+  color: #45AB7F;
+}
+
+.overBudgetWarn {
+  @extend .summaryNumber;
+  color: #ED6464;
+}
