@@ -14,14 +14,12 @@ module.exports = {
   },
 
   deleteTransaction (req, res) {
-    console.log('req.params.transactionId --> ', req.params.transactionId);
     models.Transaction.destroy({
       where: {
         id: req.params.transactionId
       }
     })
       .then(rowDeleted => {
-        console.log('rowDeleted', rowDeleted);
         if (rowDeleted === 1) {
           return res.status(200).json({success: true});
         } else {

@@ -160,7 +160,7 @@ export default class CreateTransaction extends React.Component {
 
     this.userStore.selectedBudget = _.find(this.userStore.userBudgets, {'id': this.state.selectedBudget.id});
 
-    this.userStore.loadingNewTransaction = true;
+    this.userStore.updatingTransactions = true;
     this.userStore.saveTransaction(transactionInfo);
     this.navigator.changeRoute(`/user/${this.userStore.userId}/budget/${this.state.selectedBudget.id}`, 'push');
   }

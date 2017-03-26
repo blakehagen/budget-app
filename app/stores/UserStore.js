@@ -12,7 +12,7 @@ export default class UserStore {
     this.loadingUser           = false;
     this.loadingBudgets        = false;
     this.loadingNewBudget      = false;
-    this.loadingNewTransaction = false;
+    this.updatingTransactions = false;
     this.user                  = null;
     this.userBudgets           = null;
     this.userId                = sessionStorage.getItem('userId');
@@ -34,7 +34,7 @@ export default class UserStore {
   @observable userBudgets;
   @observable loadingBudgets;
   @observable selectedBudget;
-  @observable loadingNewTransaction;
+  @observable updatingTransactions;
   @observable showBackArrow;
 
   @action
@@ -97,7 +97,7 @@ export default class UserStore {
           this.userBudgets = response.data;
           if (this.selectedBudget) {
             this.selectedBudget        = _.find(this.userBudgets, {'id': this.selectedBudget.id});
-            this.loadingNewTransaction = false;
+            this.updatingTransactions = false;
           }
         }
       })

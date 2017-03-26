@@ -27,7 +27,7 @@ export default class BudgetDetails extends React.Component {
       return null;
     }
 
-    if (this.userStore.loadingNewTransaction) {
+    if (this.userStore.updatingTransactions) {
       return (
         <div className={styles.loadingContainer}>
           <Spinner/>
@@ -79,5 +79,6 @@ export default class BudgetDetails extends React.Component {
 
   deleteTransaction(transaction) {
     this.userStore.deleteTransaction(transaction.id);
+    this.userStore.updatingTransactions = true;
   }
 }
