@@ -26,6 +26,10 @@ export default class CreateTransaction extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.userStore.showBackArrow = true;
+  }
+
   render() {
     const budgetMenuItems = _.map(this.userStore.userBudgets, budget => {
       return {

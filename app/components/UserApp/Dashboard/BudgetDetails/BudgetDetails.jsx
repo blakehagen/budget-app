@@ -17,6 +17,10 @@ export default class BudgetDetails extends React.Component {
     this.navigator = this.props.navigator;
   }
 
+  componentWillMount() {
+    this.userStore.showBackArrow = true;
+  }
+
   render() {
     if (!this.userStore.selectedBudget) {
       this.goToBudgetSummary();

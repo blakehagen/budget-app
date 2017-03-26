@@ -16,13 +16,24 @@ export default class TopBar extends React.Component {
   render() {
     return (
       <div className={styles.topBarMain}>
-        <div className={styles.piggybankIcon}></div>
-        <div className={styles.welcome}>{this.userStore.user.firstName} {this.userStore.user.lastName} &nbsp;|&nbsp;&nbsp;</div>
+
+        {this.userStore.showBackArrow ?
+          <div className={styles.navIcons}>
+            <div className={styles.backIcon} onClick={this.goToDashboard}/>
+          </div> : null}
+
+        <div className={styles.piggybankIcon}/>
+        <div className={styles.welcome}>{this.userStore.user.firstName} {this.userStore.user.lastName} &nbsp;
+          |&nbsp;&nbsp;</div>
         <div className={styles.logoutAction}>
           <span onClick={this.logout}>Log Out</span>
         </div>
       </div>
     );
+  }
+
+  goToDashboard() {
+    this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
   }
 
   logout() {

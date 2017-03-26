@@ -6,6 +6,24 @@
   justify-content: flex-end;
   align-items: center;
   padding-right: 30px;
+  position: relative;
+}
+
+.navIcons {
+  position: absolute;
+  left: 30px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backIcon {
+  height: 25px;
+  width: 25px;
+  background: url('./images/back-icon.svg') no-repeat center;
+  background-size: cover;
+  cursor: pointer;
 }
 
 .piggybankIcon {

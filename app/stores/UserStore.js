@@ -17,6 +17,7 @@ export default class UserStore {
     this.userBudgets           = null;
     this.userId                = sessionStorage.getItem('userId');
     this.selectedBudget        = null;
+    this.showBackArrow         = false;
 
     if (_.isNull(this.userId)) {
       console.log('no user id');
@@ -34,6 +35,7 @@ export default class UserStore {
   @observable loadingBudgets;
   @observable selectedBudget;
   @observable loadingNewTransaction;
+  @observable showBackArrow;
 
   @action
   verifyRouteParam(userId, paramId) {

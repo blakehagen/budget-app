@@ -15,6 +15,10 @@ export default class Dashboard extends React.Component {
     this.navigator = this.props.navigator;
   }
 
+  componentWillMount() {
+    this.userStore.showBackArrow = false;
+  }
+
   render() {
     return (
       <div>

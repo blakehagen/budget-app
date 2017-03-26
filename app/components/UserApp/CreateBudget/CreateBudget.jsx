@@ -21,6 +21,10 @@ export default class CreateBudget extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.userStore.showBackArrow = true;
+  }
+
   render() {
     return (
       <div className={styles.formContainer}>
