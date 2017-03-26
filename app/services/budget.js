@@ -6,7 +6,7 @@ const BASE_URL = '/api/v1/';
 export default {
 
   getBudgets(userId) {
-    console.log('getting user budgets...');
+    console.log('GET user budgets...');
     return axios.get(`${BASE_URL}budgets/${userId}`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('token')}`
@@ -15,7 +15,7 @@ export default {
   },
 
   createNewBudget(budgetInfo) {
-    console.log('saving new budget...');
+    console.log('CREATE new budget...');
     return axios.post(`${BASE_URL}budgets/create`, {
       CreatedByUserId: budgetInfo.CreatedByUserId,
       name: budgetInfo.name,
@@ -25,7 +25,7 @@ export default {
   },
 
   saveTransaction(transactionInfo) {
-    console.log('posting new transaction...');
+    console.log('CREATE new transaction...');
     return axios.post(`${BASE_URL}transactions/create`, {
       PostedByUserId: transactionInfo.PostedByUserId,
       BudgetId: transactionInfo.BudgetId,
@@ -34,5 +34,10 @@ export default {
       description: transactionInfo.description,
       postedDateHumanized: transactionInfo.postedDateHumanized
     });
+  },
+
+  deleteTransaction(transactionId) {
+    console.log('DELETE transaction...');
+    return axios.delete(`${BASE_URL}transactions/delete/${transactionId}`);
   }
 };

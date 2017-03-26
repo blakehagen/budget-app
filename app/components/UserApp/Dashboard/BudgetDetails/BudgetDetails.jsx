@@ -38,11 +38,13 @@ export default class BudgetDetails extends React.Component {
     const transactions = _.map(this.userStore.selectedBudget.transactions, transaction => {
       const transactionAmount = numeral(transaction.amount).format('$0,0.00');
       return (
-        <div className={styles.transactionContainer} key={transaction.id}>
+        <div className={styles.transactionContainer}
+             key={transaction.id}>
           <div className={styles.amountContainer}>
             {transactionAmount}
             <div className={styles.actionContainer}>
-              <div className={styles.deleteTransactionIcon}/>
+              <div className={styles.deleteTransactionIcon}
+                   onClick={() => this.deleteTransaction(transaction)}/>
               <div className={styles.editTransactionIcon}/>
             </div>
           </div>
@@ -73,5 +75,9 @@ export default class BudgetDetails extends React.Component {
 
   goToBudgetSummary() {
     this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'replace');
+  }
+
+  deleteTransaction(transaction) {
+    this.userStore.deleteTransaction(transaction.id);
   }
 }

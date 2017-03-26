@@ -168,4 +168,18 @@ export default class UserStore {
         console.log('err --> ', err.data.error);
       });
   }
+
+  @action
+  deleteTransaction(transactionId) {
+    budgetService.deleteTransaction(transactionId)
+      .then(response => {
+        console.log('transaction DELETE response --> ', response.data);
+        if (response.data.success) {
+          this.getUserBudgets(this.userId);
+        }
+      })
+      .catch(err => {
+        console.log('err --> ', err);
+      });
+  }
 }

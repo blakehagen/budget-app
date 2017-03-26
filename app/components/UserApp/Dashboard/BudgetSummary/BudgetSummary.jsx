@@ -34,19 +34,20 @@ export default class BudgetSummary extends React.Component {
         currentTotal += Number(transaction.amount);
       });
 
-      let percentageUsed = currentTotal / budget.totalAmount * 100;
+      let totalBudgetAmount = Number(budget.totalAmount);
+      let percentageUsed    = currentTotal / totalBudgetAmount * 100;
 
       return (
         <div className={styles.budgetContainer} key={budget.id} onClick={() => this.goToBudgetDetails(budget)}>
           <div className={styles.budgetHeader}>
             <span className={styles.headerName}>{budget.name}</span>
-            <span className={styles.total}>{numeral(budget.totalAmount).format('$ 0,0[.]00')}</span>
+            <span className={styles.total}>{numeral(totalBudgetAmount).format('$ 0,0[.]00')}</span>
 
           </div>
           <div className={styles.budgetMain}>
             <ProgressBar min={0}
-                         now={currentTotal}
-                         max={Number(budget.totalAmount)}
+                         now={percentageUsed > 100 ? totalBudgetAmount : currentTotal}
+                         max={totalBudgetAmount}
                          label={percentageUsed > 15 ? numeral(currentTotal).format('$0,0.00') : ''}
                          className={styles.progressBar}
                          bsStyle={percentageUsed > 85 ? 'danger' : 'success'}/>
