@@ -43,9 +43,9 @@ export default class BudgetDetails extends React.Component {
     });
 
     return (
-      <div className={styles.budgetDetailsMain}>
+      <div>
         <DetailsStatus/>
-        <div className={styles.list}>
+        <div>
           {transactions}
         </div>
       </div>
