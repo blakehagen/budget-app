@@ -125,7 +125,6 @@ export default class CreateTransaction extends React.Component {
     }
 
     const spent = Number(this.state.amount);
-    console.log('spent ---> ', spent);
 
     if (_.isNaN(spent)) {
       this.setState({errorAmount: 'Enter a number'});
@@ -143,7 +142,6 @@ export default class CreateTransaction extends React.Component {
   saveTransaction(e) {
     if (!this.validateInputs()) {
       e.preventDefault();
-      console.log('invalid form');
       return false;
     }
 

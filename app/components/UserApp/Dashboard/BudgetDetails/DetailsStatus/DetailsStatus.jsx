@@ -21,12 +21,8 @@ export default class DetailsStatus extends React.Component {
     _.each(this.userStore.selectedBudget.transactions, transaction => {
       currentTotal += Number(transaction.amount);
     });
-    let percentageUsed = currentTotal / totalBudgetAmount * 100;
-    let remaining      = totalBudgetAmount - currentTotal;
-    console.log('remaining --> ', remaining);
-    console.log('percentageUsed on details --> ', percentageUsed);
-    console.log('totalBudgetAmount --> ', totalBudgetAmount);
-
+    let percentageUsed        = currentTotal / totalBudgetAmount * 100;
+    let remaining             = totalBudgetAmount - currentTotal;
     let currentTotalFormatted = numeral(currentTotal).format('$0,0.00');
     let totalAmountFormatted  = numeral(totalBudgetAmount).format('$0,0.00');
     let remainingFormatted    = numeral(remaining).format('$0,0.00');

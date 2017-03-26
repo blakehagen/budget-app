@@ -35,7 +35,6 @@ export default class BudgetSummary extends React.Component {
       });
 
       let percentageUsed = currentTotal / budget.totalAmount * 100;
-      console.log('percentageUsed --> ', percentageUsed);
 
       return (
         <div className={styles.budgetContainer} key={budget.id} onClick={() => this.goToBudgetDetails(budget)}>

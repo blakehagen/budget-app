@@ -76,7 +76,6 @@ export default class CreateBudget extends React.Component {
     }
 
     const limit = Number(this.state.budgetLimit);
-    console.log('limit ---> ', limit);
 
     if (_.isNaN(limit)) {
       this.setState({errorBudgetLimit: 'Enter a number'});
@@ -94,7 +93,6 @@ export default class CreateBudget extends React.Component {
   saveNewBudget(e) {
     if (!this.validateInputs()) {
       e.preventDefault();
-      console.log('invalid form');
       return false;
     }
 
