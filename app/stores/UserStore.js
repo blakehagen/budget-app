@@ -9,13 +9,14 @@ export default class UserStore {
     autoBind(this);
     this.navigator = navigator;
 
-    this.loadingUser      = false;
-    this.loadingBudgets   = false;
-    this.loadingNewBudget = false;
-    this.user             = null;
-    this.userBudgets      = null;
-    this.userId           = sessionStorage.getItem('userId');
-    this.selectedBudget   = null;
+    this.loadingUser           = false;
+    this.loadingBudgets        = false;
+    this.loadingNewBudget      = false;
+    this.loadingNewTransaction = false;
+    this.user                  = null;
+    this.userBudgets           = null;
+    this.userId                = sessionStorage.getItem('userId');
+    this.selectedBudget        = null;
 
     if (_.isNull(this.userId)) {
       console.log('no user id');
@@ -32,6 +33,7 @@ export default class UserStore {
   @observable userBudgets;
   @observable loadingBudgets;
   @observable selectedBudget;
+  @observable loadingNewTransaction;
 
   @action
   verifyRouteParam(userId, paramId) {
@@ -91,6 +93,10 @@ export default class UserStore {
           this.navigator.changeRoute('/login', 'replace');
         } else {
           this.userBudgets = response.data;
+          if (this.selectedBudget) {
+            this.selectedBudget        = _.find(this.userBudgets, {'id': this.selectedBudget.id});
+            this.loadingNewTransaction = false;
+          }
         }
       })
       .catch(err => {
@@ -138,6 +144,20 @@ export default class UserStore {
     budgetService.createNewBudget(newBudgetInfo)
       .then(response => {
         console.log('response --> ', response);
+        if (response.data.success) {
+          this.getUserBudgets(this.userId);
+        }
+      })
+      .catch(err => {
+        console.log('err --> ', err.data.error);
+      });
+  }
+
+  @action
+  saveTransaction(transactionInfo) {
+    budgetService.saveTransaction(transactionInfo)
+      .then(response => {
+        console.log('transaction post response --> ', response.data);
         if (response.data.success) {
           this.getUserBudgets(this.userId);
         }

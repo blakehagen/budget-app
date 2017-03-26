@@ -22,5 +22,17 @@ export default {
       totalAmount: budgetInfo.totalAmount,
       createdDateHumanized: budgetInfo.createdDateHumanized
     });
+  },
+
+  saveTransaction(transactionInfo) {
+    console.log('posting new transaction...');
+    return axios.post(`${BASE_URL}transactions/create`, {
+      PostedByUserId: transactionInfo.PostedByUserId,
+      BudgetId: transactionInfo.BudgetId,
+      vendor: transactionInfo.vendor,
+      amount: transactionInfo.amount,
+      description: transactionInfo.description,
+      postedDateHumanized: transactionInfo.postedDateHumanized
+    });
   }
 };

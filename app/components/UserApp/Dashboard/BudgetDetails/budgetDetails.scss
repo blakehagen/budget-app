@@ -1,3 +1,9 @@
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .transactionContainer {
   border-bottom: 1px solid #D9D9D9;
   padding-right: 10px;
@@ -8,8 +14,8 @@
   &:first-child {
     border-top: 1px solid #D9D9D9;
   }
-  &:nth-child(2n){
-    background: #f4f4f4;
+  &:nth-child(2n) {
+    background: #F4F4F4;
   }
 }
 
