@@ -8,6 +8,5 @@
 }
 
 .viewContainer {
-  height: calc(100vh - 55px);
-  border:1px solid #FFF;
+  max-height: calc(100vh - 55px);
 }
