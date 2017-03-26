@@ -48,7 +48,7 @@ export default class BudgetSummary extends React.Component {
             <ProgressBar min={0}
                          now={percentageUsed > 100 ? totalBudgetAmount : currentTotal}
                          max={totalBudgetAmount}
-                         label={percentageUsed > 15 ? numeral(currentTotal).format('$0,0.00') : ''}
+                         label={percentageUsed > 18 ? numeral(currentTotal).format('$0,0.00') : ''}
                          className={styles.progressBar}
                          bsStyle={percentageUsed > 85 ? 'danger' : 'success'}/>
           </div>

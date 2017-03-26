@@ -4,9 +4,9 @@
 }
 
 .title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 100;
-  margin-bottom: 7px;
+  margin-bottom:12px;
   color: #455A64;
   cursor: default;
 }
@@ -34,4 +34,12 @@
 .overBudgetWarn {
   @extend .summaryNumber;
   color: #ED6464;
+}
+
+@media screen and (max-width: 400px) {
+
+  .statusContainer {
+    padding-left: 14px;
+  }
+
 }

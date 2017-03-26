@@ -50,3 +50,15 @@
     color: #45AB7F;
   }
 }
+
+@media screen and (max-width: 400px) {
+
+  .topBarMain {
+    padding-right: 14px;
+  }
+
+  .navIcons {
+    left: 14px;
+  }
+
+}

@@ -2,7 +2,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 4px;
 }
 
 .bigButton {
@@ -35,3 +34,20 @@
   font-size: 20px;
   margin-left: 8px;
 }
+
+@media screen and (max-width: 400px) {
+
+  .bigButton {
+    &:last-child {
+      margin-right: 10px
+    }
+  }
+
+  .buttonLabel {
+    font-size: 16px;
+  }
+
+}
+
+
+
