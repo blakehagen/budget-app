@@ -15,7 +15,7 @@
     border-top: 1px solid #D9D9D9;
   }
   &:nth-child(2n) {
-    background: #F4F4F4;
+    background: #FAFAFA;
   }
 }
 
@@ -24,6 +24,7 @@
   height: 100%;
   padding-top: 12px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 20px;
@@ -58,4 +59,30 @@
       margin-bottom: 0px !important;
     }
   }
+}
+
+.actionContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.icon {
+  cursor: pointer;
+  margin: 0 6px;
+  width: 18px;
+  height: 18px;
+  background-size: cover;
+}
+
+.deleteTransactionIcon {
+  @extend .icon;
+  background: url('./images/delete-icon-gray.svg') no-repeat center;
+}
+
+.editTransactionIcon {
+  @extend .icon;
+  background: url('./images/edit-icon.svg') no-repeat center;
 }

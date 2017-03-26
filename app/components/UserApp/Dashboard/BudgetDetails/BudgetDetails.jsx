@@ -38,6 +38,10 @@ export default class BudgetDetails extends React.Component {
         <div className={styles.transactionContainer} key={transaction.id}>
           <div className={styles.amountContainer}>
             {transactionAmount}
+            <div className={styles.actionContainer}>
+              <div className={styles.deleteTransactionIcon}/>
+              <div className={styles.editTransactionIcon}/>
+            </div>
           </div>
           <div className={styles.transactionDetailsContainer}>
             <div className={styles.row}>
