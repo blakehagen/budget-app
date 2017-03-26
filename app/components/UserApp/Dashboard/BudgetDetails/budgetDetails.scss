@@ -8,6 +8,9 @@
   &:first-child {
     border-top: 1px solid #D9D9D9;
   }
+  &:nth-child(2n){
+    background: #f4f4f4;
+  }
 }
 
 .amountContainer {
@@ -19,7 +22,7 @@
   align-items: center;
   font-size: 20px;
   font-weight: 400;
-  color: #31B0D5;
+  color: #455A64;
   cursor: default;
 }
 
