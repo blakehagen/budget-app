@@ -29,7 +29,7 @@ export default class BudgetDetails extends React.Component {
           </div>
           <div className={styles.transactionDetailsContainer}>
             <div className={styles.row}>
-              {transaction.postedDateHumanized}
+              <span className={styles.date}>{transaction.postedDateHumanized}</span>
             </div>
             <div className={styles.row}>
               {transaction.vendor}
@@ -45,7 +45,9 @@ export default class BudgetDetails extends React.Component {
     return (
       <div className={styles.budgetDetailsMain}>
         <DetailsStatus/>
-        {transactions}
+        <div className={styles.list}>
+          {transactions}
+        </div>
       </div>
     );
   }
