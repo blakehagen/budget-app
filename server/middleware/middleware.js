@@ -2,7 +2,7 @@
 
 const _      = require('lodash');
 const jwt    = require('jwt-simple');
-const secret = _.get(require('../../server/config/secret.js'), 'tokenSecret', false);
+const secret = process.env.JWT_SECRET || _.get(require('../../server/config/secret.js'), 'tokenSecret', false);
 
 module.exports = {
 
