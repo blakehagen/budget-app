@@ -22,7 +22,7 @@ ReactDOM.render(
   <div className={styles.appBody}>
     <Provider userStore={userStore} navigator={navigator}>
       <Router history={hashHistory}>
-        <Route path="/" component={App}/>
+        {/*<Route path="/" component={App}/>*/}
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>
         <Route path="/user/:userId" component={UserApp}>
@@ -31,8 +31,8 @@ ReactDOM.render(
           <Route path="new-budget" component={CreateBudget}/>
           <Route path="new-transaction" component={CreateTransaction}/>
         </Route>
-        <Route path="*" component={App}>
-          <IndexRedirect to="/"/>
+        <Route path="*" component={Login}>
+          <IndexRedirect to="/login"/>
         </Route>
       </Router>
     </Provider>
