@@ -1,12 +1,12 @@
 'use strict';
-
+const _         = require('lodash');
 const fs        = require('fs');
 const path      = require('path');
 const Sequelize = require('sequelize');
 const pg        = require('pg');
-const db        = require('../config/db');
+const dbUrl     = _.get(require('../config/db'), 'development.url', process.env.DB_URL);
 
-let sequelize = new Sequelize(db.development.url, {
+let sequelize = new Sequelize(dbUrl, {
   logging: false
 });
 
