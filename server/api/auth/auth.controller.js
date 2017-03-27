@@ -2,8 +2,12 @@
 const _      = require('lodash');
 const jwt    = require('jwt-simple');
 const models = require('../../models/index');
-const secret = _.get(require('../../../server/config/secret.js'), 'tokenSecret', false);
+let secret = process.env.JWT_SECRET;
 
+if (!secret) {
+  secret = _.get(require('../../server/config/secret.js'), 'tokenSecret');
+}
+console.log('secret --> ', secret);
 module.exports = {
 
   // USER INITIAL SIGN UP //

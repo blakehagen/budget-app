@@ -1,5 +1,4 @@
 'use strict';
-console.log('process.env.JWT_SECRET ---> ', process.env.JWT_SECRET);
 
 const _    = require('lodash');
 const jwt  = require('jwt-simple');
