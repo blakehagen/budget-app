@@ -1,9 +1,14 @@
 'use strict';
 console.log('process.env.JWT_SECRET ---> ', process.env.JWT_SECRET);
 
-const _      = require('lodash');
-const jwt    = require('jwt-simple');
-const secret = process.env.JWT_SECRET || _.get(require('../../server/config/secret.js'), 'tokenSecret', false);
+const _    = require('lodash');
+const jwt  = require('jwt-simple');
+let secret = process.env.JWT_SECRET;
+
+if (!secret) {
+  secret = _.get(require('../../server/config/secret.js'), 'tokenSecret');
+}
+console.log('secret --> ', secret);
 
 module.exports = {
 
