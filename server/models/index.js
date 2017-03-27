@@ -4,9 +4,11 @@ const fs        = require('fs');
 const path      = require('path');
 const Sequelize = require('sequelize');
 const pg        = require('pg');
-const dbUrl     = _.get(require('../config/db'), 'development.url', process.env.DB_URL);
+const dbUrl     = _.get(require('../config/db'), 'development.url', false);
 
-let sequelize = new Sequelize(dbUrl, {
+console.log('dbUrl --> ', dbUrl);
+
+let sequelize = new Sequelize(process.env.DB_URL || dbUrl, {
   logging: false
 });
 
