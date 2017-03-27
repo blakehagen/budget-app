@@ -45,7 +45,11 @@
   margin-right: 12px;
 }
 
-input {
+input[type=text] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
   height: 38px;
   border-radius: 4px;
   background: #FFF;
@@ -61,6 +65,7 @@ input {
 }
 
 .loginButton {
+  outline: 0;
   height: 38px;
   border-radius: 4px;
   background: rgba(69, 171, 127, 1);
