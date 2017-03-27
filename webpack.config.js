@@ -54,7 +54,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js'],
     root: path.resolve('./app'),
-    modulesDirectories: [path.resolve(__dirname, 'node_modules')]
+    modulesDirectories: [path.resolve('./node_modules')]
   },
   postcss: [autoprefixer],
   plugins: [HTMLWebpackPluginConfig, ExtractTextPluginConfig, webpackConfig, new webpack.HotModuleReplacementPlugin()]
