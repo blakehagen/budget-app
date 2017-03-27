@@ -7,7 +7,6 @@ let secret = process.env.JWT_SECRET;
 if (!secret) {
   secret = _.get(require('../../server/config/secret.js'), 'tokenSecret');
 }
-console.log('secret --> ', secret);
 
 module.exports = {
 
