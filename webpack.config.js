@@ -35,12 +35,12 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: ExtractTextPluginConfig.extract("style-loader", "css-loader")
+        loader: ExtractTextPluginConfig.extract('style-loader', 'css-loader')
       },
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        loader: ExtractTextPluginConfig.extract("style-loader", "css?modules&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]!postcss-loader!sass"),
+        loader: ExtractTextPluginConfig.extract('style-loader', 'css?modules&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]!postcss-loader!sass'),
       },
       {
         test: /\.(jpg|jpeg|png|gif|svg)$/i,
@@ -53,7 +53,8 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js'],
-    root: path.resolve('./app')
+    root: path.resolve('./app'),
+    modulesDirectories: [path.resolve(__dirname, 'node_modules')]
   },
   postcss: [autoprefixer],
   plugins: [HTMLWebpackPluginConfig, ExtractTextPluginConfig, webpackConfig, new webpack.HotModuleReplacementPlugin()]

@@ -1,4 +1,5 @@
 /server/config/secret.js
+/dist
 node_modules
 .idea/
 npm-debug.log
