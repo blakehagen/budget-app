@@ -54,29 +54,25 @@ table {
 }
 
 ::-webkit-input-placeholder {
-  color: #7e7e7e !important;
-  font-family: 'Lato', sans-serif;
+  color: #BBBBBB !important;
   font-weight: 100;
   letter-spacing: 0.5px;
 }
 
 :-moz-placeholder {
-  color: #7e7e7e !important;
-  font-family: 'Lato', sans-serif;
+  color: #BBBBBB !important;
   font-weight: 100;
   letter-spacing: 0.5px;
 }
 
 ::-moz-placeholder {
-  color: #7e7e7e !important;
-  font-family: 'Lato', sans-serif;
+  color: #BBBBBB !important;
   font-weight: 100;
   letter-spacing: 0.5px;
 }
 
 :-ms-input-placeholder {
-  color: #7e7e7e !important;
-  font-family: 'Lato', sans-serif;
+  color: #BBBBBB !important;
   font-weight: 100;
   letter-spacing: 0.5px;
 }
@@ -93,8 +89,8 @@ input[type=password] {
   appearance: none;
 }
 
-input[type=submit] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
+//input[type=submit] {
+//  -webkit-appearance: none;
+//  -moz-appearance: none;
+//  appearance: none;
+//}
