@@ -34,8 +34,7 @@ export default class CreateBudget extends React.Component {
           <input className={styles.budgetInput}
                  onChange={this.setBudgetName}
                  type="text"
-                 placeholder="New Budget Name"
-                 autoFocus/>
+                 placeholder="New Budget Name"/>
           <div className={styles.errorContainer}>
             {this.state.errorBudgetName ? this.state.errorBudgetName : ''}
           </div>
