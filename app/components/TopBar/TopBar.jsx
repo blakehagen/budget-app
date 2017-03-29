@@ -19,7 +19,9 @@ export default class TopBar extends React.Component {
 
         {this.userStore.showBackArrow ?
           <div className={styles.navIcons}>
-            <div className={styles.backIcon} onClick={this.goToDashboard}/>
+            <div className={styles.backArrowContainer} onClick={this.goToDashboard}>
+              <div className={styles.backIcon}/>
+            </div>
           </div> : null}
 
         <div className={styles.piggybankIcon}/>
