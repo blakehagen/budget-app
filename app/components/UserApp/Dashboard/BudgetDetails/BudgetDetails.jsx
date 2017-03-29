@@ -45,7 +45,7 @@ export default class BudgetDetails extends React.Component {
             <div className={styles.actionContainer}>
               <div className={styles.deleteTransactionIcon}
                    onClick={() => this.deleteTransaction(transaction)}/>
-              <div className={styles.editTransactionIcon}/>
+              {/*<div className={styles.editTransactionIcon}/>*/}
             </div>
           </div>
           <div className={styles.transactionDetailsContainer}>
