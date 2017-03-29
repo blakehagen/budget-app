@@ -6,10 +6,10 @@ const BASE_URL = '/api/v1/';
 export default {
 
   getUser(userId) {
-    console.log('getting user...here is my token: ', sessionStorage.getItem('token'));
+    console.log('getting user...here is my token: ', localStorage.getItem('token'));
     return axios.get(`${BASE_URL}user/${userId}`, {
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
   },

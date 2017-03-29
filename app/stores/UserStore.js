@@ -15,7 +15,7 @@ export default class UserStore {
     this.updatingTransactions = false;
     this.user                  = null;
     this.userBudgets           = null;
-    this.userId                = sessionStorage.getItem('userId');
+    this.userId                = localStorage.getItem('userId');
     this.selectedBudget        = null;
     this.showBackArrow         = false;
 
@@ -25,6 +25,7 @@ export default class UserStore {
     else {
       this.getUser(this.userId);
       this.getUserBudgets(this.userId);
+      this.navigator.changeRoute(`/user/${this.userId}/dashboard`, 'replace');
     }
   }
 
@@ -134,11 +135,11 @@ export default class UserStore {
 
   @action
   logout() {
-    sessionStorage.clear();
+    localStorage.clear();
     this.user   = null;
     this.userId = null;
     this.navigator.changeRoute('/login', 'replace');
-    console.log('cleared store/sessionStorage & logged out');
+    console.log('cleared store/localStorage & logged out');
   }
 
   @action

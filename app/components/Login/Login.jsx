@@ -137,8 +137,8 @@ export default class Login extends React.Component {
           return false;
         }
         console.log('SUCCESSFUL LOGIN!!');
-        sessionStorage.setItem('token', response.data.token);
-        sessionStorage.setItem('userId', response.data.user.id);
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userId', response.data.user.id);
         this.userStore.getUserBudgets(response.data.user.id);
 
         this.userStore.user   = response.data.user;

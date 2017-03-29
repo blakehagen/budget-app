@@ -9,7 +9,7 @@ export default {
     console.log('GET user budgets...');
     return axios.get(`${BASE_URL}budgets/${userId}`, {
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
   },
