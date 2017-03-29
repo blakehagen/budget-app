@@ -53,7 +53,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js'],
-    // modulesDirectories: [path.resolve('./node_modules')],
+    modulesDirectories: [path.resolve('./node_modules')],
     root: path.resolve('./app')
   },
   postcss: [autoprefixer],
