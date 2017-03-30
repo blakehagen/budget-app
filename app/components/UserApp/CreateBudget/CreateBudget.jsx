@@ -41,7 +41,7 @@ export default class CreateBudget extends React.Component {
 
           <input className={styles.budgetInput}
                  onChange={this.setBudgetLimit}
-                 type="text"
+                 type="tel"
                  placeholder="Budget Limit"/>
           <div className={styles.errorContainer}>
             {this.state.errorBudgetLimit ? this.state.errorBudgetLimit : ''}
