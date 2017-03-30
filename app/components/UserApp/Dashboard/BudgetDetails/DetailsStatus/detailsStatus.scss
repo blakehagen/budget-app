@@ -7,9 +7,14 @@
   font-size: 20px;
   font-weight: 100;
   margin-top: 14px;
-  margin-bottom:12px;
+  margin-bottom: 12px;
+  padding: 2px 0;
   color: #455A64;
   cursor: default;
+  width: 290px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .summary {
@@ -35,6 +40,30 @@
 .overBudgetWarn {
   @extend .summaryNumber;
   color: #ED6464;
+}
+
+.addTransaction {
+  background: #45AB7F;
+  border-radius: 4px;
+  width: 108px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF;
+  font-weight: 100;
+  font-size: 14px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.plusIcon {
+  background: url("./images/plus-icon-white.svg") no-repeat center;
+  background-size: cover;
+  height: 12px;
+  width: 12px;
+  margin-right: 5px;
 }
 
 @media screen and (max-width: 400px) {

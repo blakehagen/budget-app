@@ -5,13 +5,14 @@ import {observer, inject} from 'mobx-react';
 import autoBind from 'react-autobind';
 import styles from './detailsStatus.scss';
 
-@inject('userStore')
+@inject('userStore', 'navigator')
 @observer
 export default class DetailsStatus extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
     this.userStore = this.props.userStore;
+    this.navigator = this.props.navigator;
   }
 
   render() {
@@ -48,7 +49,15 @@ export default class DetailsStatus extends React.Component {
             className={percentageUsed < 85 ? styles.underBudget : styles.overBudgetWarn}>{remainingFormatted}</span> &nbsp;
           Remaining
         </div>
+        <div className={styles.addTransaction} onClick={this.newTransaction}>
+          <div className={styles.plusIcon}/>
+          Transaction
+        </div>
       </div>
     );
+  }
+
+  newTransaction() {
+    this.navigator.changeRoute(`/user/${this.userStore.userId}/new-transaction`, 'push');
   }
 }
