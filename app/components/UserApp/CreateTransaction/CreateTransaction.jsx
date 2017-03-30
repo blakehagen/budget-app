@@ -59,7 +59,7 @@ export default class CreateTransaction extends React.Component {
 
           <input className={styles.transactionInput}
                  onChange={this.setAmount}
-                 type="tel"
+                 type="text"
                  placeholder="Amount Spent"/>
           <div className={styles.errorContainer}>
             {this.state.errorAmount ? this.state.errorAmount : ''}
