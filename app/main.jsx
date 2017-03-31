@@ -58,7 +58,6 @@ function handleChange() {
 
 function paramsCheck() {
   return (nextState, replace) => {
-    console.log('paramsCheck');
     if (nextState.params.userId !== String(userStore.userId)) {
       replace(`/login`);
     }

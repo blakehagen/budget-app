@@ -8,7 +8,6 @@ export default class Navigator {
   }
 
   changeRoute(url, method) {
-    console.log('route change!!');
     this.history[method](url);
   }
 
