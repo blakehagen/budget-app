@@ -13,7 +13,6 @@ export default class Login extends React.Component {
     autoBind(this);
     this.userStore = this.props.userStore;
     this.navigator = this.props.navigator;
-    console.log('login screen here');
 
     this.state = {
       email: '',

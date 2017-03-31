@@ -21,15 +21,28 @@ const userStore = new UserStore(navigator);
 ReactDOM.render(
   <div className={styles.appBody}>
     <Provider userStore={userStore} navigator={navigator}>
-      <Router history={hashHistory}>
+      <Router history={hashHistory} onUpdate={function () {
+        handleChange();
+      }}>
         {/*<Route path="/" component={App}/>*/}
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>
-        <Route path="/user/:userId" component={UserApp}>
-          <Route path="dashboard" component={Dashboard}/>
-          <Route path="budget/:budgetId" component={BudgetDetails}/>
-          <Route path="new-budget" component={CreateBudget}/>
-          <Route path="new-transaction" component={CreateTransaction}/>
+        <Route path="/user/:userId"
+               onEnter={paramsCheck()}
+               component={UserApp}>
+          <Route path="dashboard"
+                 onEnter={paramsCheck()}
+                 component={Dashboard}/>
+          <Route path="budget/:budgetId"
+                 onEnter={paramsCheck()}
+                 component={BudgetDetails}/>
+          <Route path="new-budget"
+                 onEnter={paramsCheck()}
+                 component={CreateBudget}/>
+          <Route path="new-transaction"
+                 onEnter={paramsCheck()}
+                 component={CreateTransaction}/>
+          <IndexRedirect to="/user/:userId/dashboard"/>
         </Route>
         <Route path="*" component={Login}>
           <IndexRedirect to="/login"/>
@@ -38,3 +51,16 @@ ReactDOM.render(
     </Provider>
   </div>, document.getElementById('app')
 );
+
+function handleChange() {
+  window.scrollTo(0, 0);
+}
+
+function paramsCheck() {
+  return (nextState, replace) => {
+    console.log('paramsCheck');
+    if (nextState.params.userId !== String(userStore.userId)) {
+      replace(`/login`);
+    }
+  };
+}

@@ -17,13 +17,11 @@ export default class UserApp extends React.Component {
   }
 
   componentWillMount() {
-    if (this.userStore.verifyRouteParam(this.userStore.userId, this.props.params.userId)) {
-      if (!this.userStore.user && !this.userStore.loadingUser) {
-        this.userStore.getUser(localStorage.getItem('userId'));
-      }
-      if (!this.userStore.userBudgets && !this.userStore.loadingBudgets) {
-        this.userStore.getUserBudgets(localStorage.getItem('userId'));
-      }
+    if (!this.userStore.user && !this.userStore.loadingUser) {
+      this.userStore.getUser(localStorage.getItem('userId'));
+    }
+    if (!this.userStore.userBudgets && !this.userStore.loadingBudgets) {
+      this.userStore.getUserBudgets(localStorage.getItem('userId'));
     }
   }
 
