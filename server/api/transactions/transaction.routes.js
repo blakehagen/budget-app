@@ -1,11 +1,12 @@
 'use strict';
 const transactionCtrl = require('./transaction.controller');
+const middleware      = require('../../middleware/middleware');
 
 module.exports = (app) => {
 
   app.route('/api/v1/transactions/create')
-    .post(transactionCtrl.createTransaction);
+    .post(middleware.isAuthenticated, transactionCtrl.createTransaction);
 
   app.route('/api/v1/transactions/delete/:transactionId')
-    .delete(transactionCtrl.deleteTransaction);
+    .delete(middleware.isAuthenticated, transactionCtrl.deleteTransaction);
 };

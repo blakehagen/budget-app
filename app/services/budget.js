@@ -19,6 +19,10 @@ export default {
       name: budgetInfo.name,
       totalAmount: budgetInfo.totalAmount,
       createdDateHumanized: budgetInfo.createdDateHumanized
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
     });
   },
 
@@ -30,10 +34,18 @@ export default {
       amount: transactionInfo.amount,
       description: transactionInfo.description,
       postedDateHumanized: transactionInfo.postedDateHumanized
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
     });
   },
 
   deleteTransaction(transactionId) {
-    return axios.delete(`${BASE_URL}transactions/delete/${transactionId}`);
+    return axios.delete(`${BASE_URL}transactions/delete/${transactionId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
   }
 };
