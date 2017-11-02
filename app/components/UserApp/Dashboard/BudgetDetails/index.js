@@ -1,1 +1,1 @@
-export {default} from './BudgetDetails.jsx';
+export { default } from './BudgetDetails.jsx';

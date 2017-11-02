@@ -1,14 +1,14 @@
-'use strict';
+
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up(queryInterface, Sequelize) {
     return queryInterface.createTable(
       'transactions',
       {
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
-          autoIncrement: true
+          autoIncrement: true,
         },
         vendor: {
           type: Sequelize.TEXT,
@@ -23,26 +23,26 @@ module.exports = {
           type: Sequelize.TEXT,
         },
         createdAt: {
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
         },
         updatedAt: {
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
         },
         CategoryId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
             model: 'categories',
-            key: 'id'
+            key: 'id',
           },
           onUpdate: 'cascade',
-          onDelete: 'cascade'
-        }
-      }
-    )
+          onDelete: 'cascade',
+        },
+      },
+    );
   },
 
-  down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('transactions')
-  }
+  down(queryInterface, Sequelize) {
+    return queryInterface.dropTable('transactions');
+  },
 };

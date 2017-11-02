@@ -1,18 +1,18 @@
-'use strict';
+
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up(queryInterface, Sequelize) {
     return queryInterface.addColumn(
       'budgets',
       'createdDateHumanized',
       {
         type: Sequelize.STRING,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     );
   },
 
-  down: function (queryInterface, Sequelize) {
+  down(queryInterface, Sequelize) {
     return queryInterface.removeColumn('budgets', 'createdDateHumanized');
-  }
+  },
 };

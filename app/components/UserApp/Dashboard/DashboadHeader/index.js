@@ -1,1 +1,1 @@
-export {default} from './DashboardHeader.jsx';
+export { default } from './DashboardHeader.jsx';

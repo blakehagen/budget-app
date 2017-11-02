@@ -1,10 +1,10 @@
-'use strict';
+
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up(queryInterface, Sequelize) {
     queryInterface.dropTable('categories');
   },
 
-  down: function (queryInterface, Sequelize) {
-  }
+  down(queryInterface, Sequelize) {
+  },
 };

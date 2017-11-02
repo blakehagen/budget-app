@@ -2,34 +2,31 @@ const models = require('../../models/index');
 
 module.exports = {
 
-  createTransaction (req, res) {
+  createTransaction(req, res) {
     models.Transaction.create(req.body)
-      .then(transaction => {
-        return res.status(200).json({transaction: transaction, success: true});
-      })
-      .catch(err => {
+      .then(transaction => res.status(200).json({ transaction, success: true }))
+      .catch((err) => {
         console.log('err', err);
-        return res.status(400).json({error: err});
+        return res.status(400).json({ error: err });
       });
   },
 
-  deleteTransaction (req, res) {
+  deleteTransaction(req, res) {
     models.Transaction.destroy({
       where: {
-        id: req.params.transactionId
-      }
+        id: req.params.transactionId,
+      },
     })
-      .then(rowDeleted => {
+      .then((rowDeleted) => {
         if (rowDeleted === 1) {
-          return res.status(200).json({success: true});
-        } else {
-          throw new Error('Error deleting transaction');
+          return res.status(200).json({ success: true });
         }
+        throw new Error('Error deleting transaction');
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('err', err);
-        return res.status(400).json({error: err});
+        return res.status(400).json({ error: err });
       });
-  }
+  },
 
 };

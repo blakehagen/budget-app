@@ -1,1 +1,1 @@
-export {default} from './CreateTransaction.jsx';
+export { default } from './CreateTransaction.jsx';

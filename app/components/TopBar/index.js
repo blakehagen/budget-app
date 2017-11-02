@@ -1,1 +1,1 @@
-export {default} from './TopBar.jsx';
+export { default } from './TopBar.jsx';

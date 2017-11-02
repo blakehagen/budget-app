@@ -1,4 +1,4 @@
-'use strict';
+
 
 module.exports = (sequelize, DataTypes) => {
   let Budget_User;
@@ -10,28 +10,28 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       references: {
         model: 'users',
-        key: 'id'
+        key: 'id',
       },
       onUpdate: 'cascade',
-      onDelete: 'cascade'
+      onDelete: 'cascade',
     },
     BudgetId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: 'budgets',
-        key: 'id'
+        key: 'id',
       },
       onUpdate: 'cascade',
-      onDelete: 'cascade'
-    }
+      onDelete: 'cascade',
+    },
   }, {
     tableName: 'budgets_users',
     timestamps: false,
     classMethods: {
-      init: function (_models) {
+      init(_models) {
         models = _models;
-      }
+      },
     },
   });
   return Budget_User;

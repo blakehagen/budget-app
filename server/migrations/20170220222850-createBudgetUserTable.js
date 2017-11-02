@@ -1,7 +1,7 @@
-'use strict';
+
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up(queryInterface, Sequelize) {
     return queryInterface.createTable(
       'budgets_users',
       {
@@ -10,27 +10,26 @@ module.exports = {
           allowNull: false,
           references: {
             model: 'budgets',
-            key: 'id'
+            key: 'id',
           },
           onUpdate: 'cascade',
-          onDelete: 'cascade'
+          onDelete: 'cascade',
         },
         UserId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
             model: 'users',
-            key: 'id'
+            key: 'id',
           },
           onUpdate: 'cascade',
-          onDelete: 'cascade'
-        }
-      }
-    )
+          onDelete: 'cascade',
+        },
+      },
+    );
   },
 
-  down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('budgets_users')
-
-  }
+  down(queryInterface, Sequelize) {
+    return queryInterface.dropTable('budgets_users');
+  },
 };

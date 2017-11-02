@@ -1,14 +1,14 @@
-'use strict';
+
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up(queryInterface, Sequelize) {
     return queryInterface.createTable(
       'categories',
       {
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
-          autoIncrement: true
+          autoIncrement: true,
         },
         name: {
           type: Sequelize.TEXT,
@@ -17,26 +17,26 @@ module.exports = {
           type: Sequelize.TEXT,
         },
         createdAt: {
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
         },
         updatedAt: {
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
         },
         BudgetId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
             model: 'budgets',
-            key: 'id'
+            key: 'id',
           },
           onUpdate: 'cascade',
-          onDelete: 'cascade'
-        }
-      }
+          onDelete: 'cascade',
+        },
+      },
     );
   },
 
-  down: function (queryInterface, Sequelize) {
+  down(queryInterface, Sequelize) {
     return queryInterface.dropTable('categories');
-  }
+  },
 };

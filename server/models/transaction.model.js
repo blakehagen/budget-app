@@ -1,4 +1,4 @@
-'use strict';
+
 
 module.exports = (sequelize, DataTypes) => {
   let Transaction;
@@ -14,27 +14,27 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       references: {
         model: 'users',
-        key: 'id'
+        key: 'id',
       },
       onUpdate: 'cascade',
-      onDelete: 'cascade'
-    }
+      onDelete: 'cascade',
+    },
   }, {
     tableName: 'transactions',
     timestamps: true,
     classMethods: {
-      init: function (_models) {
+      init(_models) {
         models = _models;
         Transaction.belongsTo(models.Budget);
       },
-      getTransactions: function (budgetId) {
-        let sql = `SELECT t.id, t.vendor, t.amount, t.description, t."postedDateHumanized" from transactions t WHERE t."BudgetId" = ${budgetId} ORDER BY -t.id`;
+      getTransactions(budgetId) {
+        const sql = `SELECT t.id, t.vendor, t.amount, t.description, t."postedDateHumanized" from transactions t WHERE t."BudgetId" = ${budgetId} ORDER BY -t.id`;
 
         return sequelize.query(sql, {
           raw: true,
-          type: models.Sequelize.QueryTypes.SELECT
+          type: models.Sequelize.QueryTypes.SELECT,
         });
-      }
+      },
     },
   });
   return Transaction;

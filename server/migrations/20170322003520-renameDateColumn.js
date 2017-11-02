@@ -1,11 +1,11 @@
-'use strict';
+
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up(queryInterface, Sequelize) {
     return queryInterface.renameColumn('transactions', 'date', 'postedDateHumanized');
   },
 
-  down: function (queryInterface, Sequelize) {
+  down(queryInterface, Sequelize) {
     return queryInterface.renameColumn('transactions', 'postedDateHumanized', 'date');
-  }
+  },
 };

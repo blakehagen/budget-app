@@ -1,17 +1,17 @@
-const _                    = require('lodash');
-const path                 = require('path');
-const config               = require('./webpack.config');
-const express              = require('./server/config/express.js');
-const port                 = process.env.PORT || 8000;
-const app                  = express();
+const path = require('path');
+const config = require('./webpack.config');
+const express = require('./server/config/express.js');
+
+const port = process.env.PORT || 8000;
+const app = express();
 
 console.log('process.env.NODE_ENV --> --> ', process.env.NODE_ENV);
 if (process.env.NODE_ENV !== 'production') {
-  const webpack              = require('webpack');
+  const webpack = require('webpack');
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
 
-  const compiler          = webpack(config);
+  const compiler = webpack(config);
   const webpackMiddleware = webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath,
     contentBase: 'src',
@@ -21,8 +21,8 @@ if (process.env.NODE_ENV !== 'production') {
       timings: true,
       chunks: false,
       chunkModules: false,
-      modules: false
-    }
+      modules: false,
+    },
   });
 
   app.use(webpackMiddleware);
@@ -47,7 +47,7 @@ require('./server/api/budgets/budget.routes')(app);
 require('./server/api/transactions/transaction.routes')(app);
 
 app.get('*', (req, res) => {
- res.sendFile(path.resolve(__dirname, 'server/public/index.html'));
+  res.sendFile(path.resolve(__dirname, 'server/public/index.html'));
 });
 
 app.listen(port, () => {
