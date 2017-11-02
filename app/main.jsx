@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRedirect, hashHistory} from 'react-router';
-import {Provider} from 'mobx-react';
+import { Router, Route, IndexRedirect, hashHistory } from 'react-router';
+import { Provider } from 'mobx-react';
 import UserStore from 'stores/UserStore';
 import Navigator from 'utils/Navigator';
 
@@ -25,27 +25,27 @@ ReactDOM.render(
         handleChange();
       }}>
         {/*<Route path="/" component={App}/>*/}
-        <Route path="/login" component={Login}/>
-        <Route path="/register" component={Register}/>
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
         <Route path="/user/:userId"
                onEnter={paramsCheck()}
                component={UserApp}>
           <Route path="dashboard"
                  onEnter={paramsCheck()}
-                 component={Dashboard}/>
+                 component={Dashboard} />
           <Route path="budget/:budgetId"
                  onEnter={paramsCheck()}
-                 component={BudgetDetails}/>
+                 component={BudgetDetails} />
           <Route path="new-budget"
                  onEnter={paramsCheck()}
-                 component={CreateBudget}/>
+                 component={CreateBudget} />
           <Route path="new-transaction"
                  onEnter={paramsCheck()}
-                 component={CreateTransaction}/>
-          <IndexRedirect to="/user/:userId/dashboard"/>
+                 component={CreateTransaction} />
+          <IndexRedirect to="/user/:userId/dashboard" />
         </Route>
         <Route path="*" component={Login}>
-          <IndexRedirect to="/login"/>
+          <IndexRedirect to="/login" />
         </Route>
       </Router>
     </Provider>

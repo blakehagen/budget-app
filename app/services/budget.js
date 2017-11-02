@@ -1,6 +1,7 @@
 // BUDGET SERVICE //
 
 import axios from 'axios';
+
 const BASE_URL = '/api/v1/';
 
 export default {
@@ -8,8 +9,8 @@ export default {
   getBudgets(userId) {
     return axios.get(`${BASE_URL}budgets/${userId}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     });
   },
 
@@ -18,11 +19,11 @@ export default {
       CreatedByUserId: budgetInfo.CreatedByUserId,
       name: budgetInfo.name,
       totalAmount: budgetInfo.totalAmount,
-      createdDateHumanized: budgetInfo.createdDateHumanized
+      createdDateHumanized: budgetInfo.createdDateHumanized,
     }, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     });
   },
 
@@ -33,19 +34,19 @@ export default {
       vendor: transactionInfo.vendor,
       amount: transactionInfo.amount,
       description: transactionInfo.description,
-      postedDateHumanized: transactionInfo.postedDateHumanized
+      postedDateHumanized: transactionInfo.postedDateHumanized,
     }, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     });
   },
 
   deleteTransaction(transactionId) {
     return axios.delete(`${BASE_URL}transactions/delete/${transactionId}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     });
-  }
+  },
 };

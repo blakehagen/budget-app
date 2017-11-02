@@ -1,1 +1,1 @@
-export {default} from './DetailsStatus.jsx';
+export { default } from './DetailsStatus.jsx';

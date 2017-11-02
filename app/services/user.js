@@ -1,6 +1,7 @@
 // USER SERVICE //
 
 import axios from 'axios';
+
 const BASE_URL = '/api/v1/';
 
 export default {
@@ -8,8 +9,8 @@ export default {
   getUser(userId) {
     return axios.get(`${BASE_URL}user/${userId}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     });
   },
 
@@ -18,14 +19,14 @@ export default {
       firstName: registerInfo.firstName,
       lastName: registerInfo.lastName,
       email: registerInfo.email,
-      password: registerInfo.password
+      password: registerInfo.password,
     });
   },
 
   login(loginInfo) {
     return axios.post(`${BASE_URL}login`, {
       email: loginInfo.email,
-      password: loginInfo.password
+      password: loginInfo.password,
     });
-  }
+  },
 };

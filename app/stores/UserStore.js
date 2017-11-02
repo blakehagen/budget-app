@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {observable, action} from 'mobx';
+import { observable, action } from 'mobx';
 import autoBind from 'react-autobind';
 import userService from 'services/user';
 import budgetService from 'services/budget';
@@ -9,15 +9,15 @@ export default class UserStore {
     autoBind(this);
     this.navigator = navigator;
 
-    this.loadingUser          = false;
-    this.loadingBudgets       = false;
-    this.loadingNewBudget     = false;
+    this.loadingUser = false;
+    this.loadingBudgets = false;
+    this.loadingNewBudget = false;
     this.updatingTransactions = false;
-    this.user                 = null;
-    this.userBudgets          = null;
-    this.userId               = localStorage.getItem('userId');
-    this.selectedBudget       = null;
-    this.showBackArrow        = false;
+    this.user = null;
+    this.userBudgets = null;
+    this.userId = localStorage.getItem('userId');
+    this.selectedBudget = null;
+    this.showBackArrow = false;
 
     if (!_.isNull(this.userId)) {
       this.getUser(this.userId);
@@ -45,17 +45,16 @@ export default class UserStore {
     this.loadingUser = true;
 
     userService.getUser(userId)
-      .then(response => {
-
+      .then((response) => {
         this.loadingUser = false;
         if (_.isError(response) || response.status !== 200) {
           this.navigator.changeRoute('/login', 'replace');
         } else {
-          this.user   = response.data;
+          this.user = response.data;
           this.userId = response.data.id;
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.loadingUser = false;
         console.error(err);
         this.navigator.changeRoute('/login', 'replace');
@@ -71,20 +70,20 @@ export default class UserStore {
     this.loadingBudgets = true;
 
     budgetService.getBudgets(userId)
-      .then(response => {
-        this.loadingBudgets   = false;
+      .then((response) => {
+        this.loadingBudgets = false;
         this.loadingNewBudget = false;
         if (_.isError(response) || response.status !== 200) {
           this.navigator.changeRoute('/login', 'replace');
         } else {
           this.userBudgets = response.data;
           if (this.selectedBudget) {
-            this.selectedBudget       = _.find(this.userBudgets, {'id': this.selectedBudget.id});
+            this.selectedBudget = _.find(this.userBudgets, { id: this.selectedBudget.id });
             this.updatingTransactions = false;
           }
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.loadingBudgets = false;
         console.error(err);
         this.navigator.changeRoute('/login', 'replace');
@@ -94,29 +93,21 @@ export default class UserStore {
   @action
   register(registerInfo) {
     return userService.register(registerInfo)
-      .then(response => {
-        return response;
-      })
-      .catch(err => {
-        return err.response;
-      });
+      .then(response => response)
+      .catch(err => err.response);
   }
 
   @action
   login(loginInfo) {
     return userService.login(loginInfo)
-      .then(response => {
-        return response;
-      })
-      .catch(err => {
-        return err.response;
-      });
+      .then(response => response)
+      .catch(err => err.response);
   }
 
   @action
   logout() {
     localStorage.clear();
-    this.user   = null;
+    this.user = null;
     this.userId = null;
     this.navigator.changeRoute('/login', 'replace');
   }
@@ -124,12 +115,12 @@ export default class UserStore {
   @action
   createNewBudget(newBudgetInfo) {
     budgetService.createNewBudget(newBudgetInfo)
-      .then(response => {
+      .then((response) => {
         if (response.data.success) {
           this.getUserBudgets(this.userId);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('err --> ', err.data.error);
       });
   }
@@ -137,12 +128,12 @@ export default class UserStore {
   @action
   saveTransaction(transactionInfo) {
     budgetService.saveTransaction(transactionInfo)
-      .then(response => {
+      .then((response) => {
         if (response.data.success) {
           this.getUserBudgets(this.userId);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('err --> ', err.data.error);
       });
   }
@@ -150,12 +141,12 @@ export default class UserStore {
   @action
   deleteTransaction(transactionId) {
     budgetService.deleteTransaction(transactionId)
-      .then(response => {
+      .then((response) => {
         if (response.data.success) {
           this.getUserBudgets(this.userId);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('err --> ', err);
       });
   }

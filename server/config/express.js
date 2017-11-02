@@ -1,12 +1,11 @@
-'use strict';
 
 // EXPRESS //
-const express     = require('express');
+const express = require('express');
 const compression = require('compression');
-const session     = require('express-session');
-const bodyParser  = require('body-parser');
-const cors        = require('cors');
-const logger      = require('morgan');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const logger = require('morgan');
 
 module.exports = () => {
   const app = express();
@@ -20,11 +19,11 @@ module.exports = () => {
 
   app.use(cors());
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.use(session({
     secret: 'g5~35$#hbb%#~`H$TWH@g~gfdg#GYha_#$%#%oibo',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
   }));
 
   return app;

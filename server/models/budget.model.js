@@ -1,4 +1,4 @@
-'use strict';
+
 
 module.exports = (sequelize, DataTypes) => {
   let Budget;
@@ -13,34 +13,34 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       references: {
         model: 'users',
-        key: 'id'
+        key: 'id',
       },
       onUpdate: 'cascade',
-      onDelete: 'cascade'
-    }
+      onDelete: 'cascade',
+    },
   }, {
     tableName: 'budgets',
     timestamps: true,
     classMethods: {
-      init: function (_models) {
+      init(_models) {
         models = _models;
         Budget.hasMany(models.Transaction);
         Budget.belongsToMany(models.User, {
-          through: {model: models.Budget_User, unique: false},
-          foreignKey: 'BudgetId'
+          through: { model: models.Budget_User, unique: false },
+          foreignKey: 'BudgetId',
         });
       },
-      getUserBudgets: function (userId) {
-        let sql = `SELECT b.id, b.name, b."totalAmount", b."createdDateHumanized" FROM budgets b
+      getUserBudgets(userId) {
+        const sql = `SELECT b.id, b.name, b."totalAmount", b."createdDateHumanized" FROM budgets b
         INNER JOIN "budgets_users" bu ON bu."BudgetId" = b.id
         WHERE bu."UserId" = ${userId}
         ORDER BY -b.id`;
 
         return sequelize.query(sql, {
           raw: true,
-          type: models.Sequelize.QueryTypes.SELECT
+          type: models.Sequelize.QueryTypes.SELECT,
         });
-      }
+      },
     },
   });
   return Budget;

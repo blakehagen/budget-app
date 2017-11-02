@@ -1,7 +1,7 @@
-'use strict';
 
-const _    = require('lodash');
-const jwt  = require('jwt-simple');
+const _ = require('lodash');
+const jwt = require('jwt-simple');
+
 let secret = process.env.JWT_SECRET;
 
 if (!secret) {
@@ -15,17 +15,16 @@ module.exports = {
       return res.status(401).send('Unauthorized');
     }
 
-    let token = _.last(req.headers.authorization.split(' '));
+    const token = _.last(req.headers.authorization.split(' '));
 
     try {
-      let decoded = jwt.decode(token, process.env.JWT_SECRET || secret);
+      const decoded = jwt.decode(token, process.env.JWT_SECRET || secret);
       if (decoded) {
         return next();
       }
-    }
-    catch (err) {
+    } catch (err) {
       return res.status(401).send('Token Error');
     }
-  }
+  },
 
 };

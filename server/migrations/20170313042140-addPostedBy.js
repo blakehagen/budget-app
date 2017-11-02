@@ -1,7 +1,7 @@
-'use strict';
+
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up(queryInterface, Sequelize) {
     return queryInterface.addColumn(
       'transactions',
       'PostedByUserId',
@@ -10,15 +10,15 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'users',
-          key: 'id'
+          key: 'id',
         },
         onUpdate: 'cascade',
-        onDelete: 'cascade'
-      }
+        onDelete: 'cascade',
+      },
     );
   },
 
-  down: function (queryInterface, Sequelize) {
+  down(queryInterface, Sequelize) {
     return queryInterface.removeColumn('transactions', 'PostedByUserId');
-  }
+  },
 };

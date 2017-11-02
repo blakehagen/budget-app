@@ -1,5 +1,5 @@
 import autoBind from 'react-autobind';
-import {hashHistory} from 'react-router';
+import { hashHistory } from 'react-router';
 
 export default class Navigator {
   constructor() {
@@ -10,5 +10,4 @@ export default class Navigator {
   changeRoute(url, method) {
     this.history[method](url);
   }
-
 }
