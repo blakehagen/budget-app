@@ -1,16 +1,16 @@
 const _                    = require('lodash');
-const webpack              = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
 const path                 = require('path');
 const config               = require('./webpack.config');
 const express              = require('./server/config/express.js');
-let port                   = process.env.PORT || 8000;
+const port                 = process.env.PORT || 8000;
 const app                  = express();
-// console.log('NODE_ENV:', process.env.NODE_ENV);
-// console.log('process.env:', process.env);
 
-if (process.env !== 'production') {
+console.log('process.env.NODE_ENV --> --> ', process.env.NODE_ENV);
+if (process.env.NODE_ENV !== 'production') {
+  const webpack              = require('webpack');
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
+
   const compiler          = webpack(config);
   const webpackMiddleware = webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath,
@@ -45,6 +45,10 @@ require('./server/api/auth/auth.routes')(app);
 require('./server/api/users/user.routes')(app);
 require('./server/api/budgets/budget.routes')(app);
 require('./server/api/transactions/transaction.routes')(app);
+
+app.get('*', (req, res) => {
+ res.sendFile(path.resolve(__dirname, 'server/public/index.html'));
+});
 
 app.listen(port, () => {
   console.log('Listening on port', port);
