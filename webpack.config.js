@@ -1,30 +1,30 @@
-const autoprefixer = require('autoprefixer');
-const path         = require('path');
+const _                 = require('lodash');
+const autoprefixer      = require('autoprefixer');
+const path              = require('path');
+const webpack           = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const webpack       = require('webpack');
-const webpackConfig = new webpack.HotModuleReplacementPlugin();
-
-const HtmlWebpackPlugin       = require('html-webpack-plugin');
 const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
   template: __dirname + '/app/index.html',
   filename: 'index.html',
   inject: 'body'
 });
 
-const ExtractTextPlugin       = require('extract-text-webpack-plugin');
 const ExtractTextPluginConfig = new ExtractTextPlugin('styles.css');
 
-module.exports = {
+const useProductionBuild = _.includes(['production', 'development'], process.env.NODE_ENV);
+
+const webpackConfig = {
   entry: [
-    './app/main.jsx', 'webpack-hot-middleware/client?reload=true'
+    './app/main.jsx'
   ],
   output: {
     path: __dirname + '/dist',
     publicPath: '/',
     filename: 'index_bundle.js'
   },
-  devtool: 'source-map',
-  module: {
+  devtool: 'source-map',  module: {
     loaders: [
       {
         test: /\.jsx?$/,
@@ -45,17 +45,45 @@ module.exports = {
       {
         test: /\.(jpg|jpeg|png|gif|svg)$/i,
         loaders: [
-          'file?hash=sha512&digest=hex&name=[hash].[ext]',
-          // 'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+          'file?hash=sha512&digest=hex&name=[hash].[ext]'
         ]
       }
     ]
   },
   resolve: {
     extensions: ['', '.js'],
-    // modulesDirectories: [path.resolve('./node_modules')],
     root: path.resolve('./app')
   },
-  postcss: [autoprefixer],
-  plugins: [HTMLWebpackPluginConfig, ExtractTextPluginConfig, webpackConfig, new webpack.HotModuleReplacementPlugin()]
+  postcss: [autoprefixer({browsers: ['> 1%', 'last 5 versions', 'Firefox ESR', 'safari >= 4']})],
+  plugins: [HTMLWebpackPluginConfig, ExtractTextPluginConfig, new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/])]
 };
+
+if (useProductionBuild) {
+  console.log('useProductionBuild --> ', useProductionBuild);
+  webpackConfig.plugins.push(new webpack.optimize.DedupePlugin());
+  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    comments: false,
+    compress: {
+      warnings: false,
+      drop_console: false
+    }
+  }));
+  webpackConfig.plugins.push(new webpack.DefinePlugin({ // This will make it so that webpack will use minified production files from some libraries (like React)
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
+  }));
+
+  webpackConfig.devtool = 'cheap-source-map';
+
+  webpackConfig.output = {
+    path: __dirname + '/server/public',
+    publicPath: '/',
+    filename: 'index_bundle.js'
+  };
+} else {
+  webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+  webpackConfig.entry.unshift('webpack-hot-middleware/client?reload=true');
+}
+
+module.exports = webpackConfig;
