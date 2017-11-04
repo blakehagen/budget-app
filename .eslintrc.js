@@ -35,6 +35,7 @@ module.exports = {
     "import/no-unresolved": 'off', // TODO -> Figure out later
     "import/no-extraneous-dependencies": 'off', // TODO -> Figure out later
   },
+  // I thought this below would fix the above 'to-dos', but it does not...
   'settings': {
     'import/resolver': {
       webpack: { config: path.resolve(__dirname, 'webpack.config.js') },
