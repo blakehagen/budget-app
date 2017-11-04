@@ -62,7 +62,7 @@ export default class Login extends React.Component {
     }
 
     const loginInfo = {
-      email: this.state.email,
+      email: _.trim(this.state.email),
       password: this.state.password,
     };
 

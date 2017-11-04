@@ -45,21 +45,21 @@ export default class Register extends React.Component {
 
   validateRegister() {
     if (
-      this.state.firstName.length < 1
-      || this.state.lastName.length < 1
-      || this.state.email.length < 1
-      || this.state.password < 1
-      || this.state.confirmPassword.length < 1
+      _.trim(this.state.firstName).length < 1
+      || _.trim(this.state.lastName).length < 1
+      || _.trim(this.state.email).length < 1
+      || _.trim(this.state.password).length < 1
+      || _.trim(this.state.confirmPassword).length < 1
     ) {
-      if (this.state.firstName.length < 1) {
+      if (_.trim(this.state.firstName).length < 1) {
         this.setState({ firstNameError: true });
       }
 
-      if (this.state.lastName.length < 1) {
+      if (_.trim(this.state.lastName).length < 1) {
         this.setState({ lastNameError: true });
       }
 
-      if (this.state.email.length < 1) {
+      if (_.trim(this.state.email).length < 1) {
         this.setState({ emailError: true, emailErrorMessage: 'Required' });
       }
 
@@ -101,9 +101,9 @@ export default class Register extends React.Component {
     }
 
     const registerInfo = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
+      firstName: _.trim(this.state.firstName),
+      lastName: _.trim(this.state.lastName),
+      email: _.trim(this.state.email),
       password: this.state.password,
       confirmPassword: this.state.confirmPassword,
     };
