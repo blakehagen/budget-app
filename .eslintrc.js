@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   'env': {
     'browser': true,
@@ -6,6 +8,7 @@ module.exports = {
   },
   'parser': 'babel-eslint',
   'parserOptions': {
+    "ecmaVersion": 6,
     'sourceType': 'module',
     'ecmaFeatures': {
       'jsx': true
@@ -19,8 +22,19 @@ module.exports = {
   'extends': [
     'airbnb',
   ],
+  'globals': {
+    '_': false,
+    'autoprefixer': false,
+    'path': false
+  },
+  'root': true,
   'rules': {
     'global-require': 'off',
     "jsx-a11y/href-no-hash": [ 0, [ "Link", "Anchor" ] ], // issue with the packages
+  },
+  'settings': {
+    'import/resolver': {
+      webpack: { config: path.resolve(__dirname, 'webpack.config.js') },
+    },
   }
 };

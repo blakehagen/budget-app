@@ -1,14 +1,14 @@
-const _                 = require('lodash');
-const autoprefixer      = require('autoprefixer');
-const path              = require('path');
-const webpack           = require('webpack');
+const _ = require('lodash');
+const autoprefixer = require('autoprefixer');
+const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: __dirname + '/app/index.html',
+  template: path.join(__dirname, '/app/index.html'),
   filename: 'index.html',
-  inject: 'body'
+  inject: 'body',
 });
 
 const ExtractTextPluginConfig = new ExtractTextPlugin('styles.css');
@@ -17,25 +17,26 @@ const useProductionBuild = _.includes(['production', 'development'], process.env
 
 const webpackConfig = {
   entry: [
-    './app/main.jsx'
+    './app/main.jsx',
   ],
   output: {
     path: __dirname + '/dist',
     publicPath: '/',
-    filename: 'index_bundle.js'
+    filename: 'index_bundle.js',
   },
-  devtool: 'source-map',  module: {
+  devtool: 'source-map',
+  module: {
     loaders: [
       {
         test: /\.jsx?$/,
         cacheable: true,
         exclude: /node_modules/,
-        loaders: ['babel-loader']
+        loaders: ['babel-loader'],
       },
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: ExtractTextPluginConfig.extract('style-loader', 'css-loader')
+        loader: ExtractTextPluginConfig.extract('style-loader', 'css-loader'),
       },
       {
         test: /\.scss$/,
@@ -45,17 +46,24 @@ const webpackConfig = {
       {
         test: /\.(jpg|jpeg|png|gif|svg)$/i,
         loaders: [
-          'file?hash=sha512&digest=hex&name=[hash].[ext]'
-        ]
-      }
-    ]
+          'file?hash=sha512&digest=hex&name=[hash].[ext]',
+        ],
+      },
+    ],
   },
+  postcss: [autoprefixer({ browsers: ['> 1%', 'last 5 versions', 'Firefox ESR', 'safari >= 4'] })],
+  plugins: [HTMLWebpackPluginConfig, ExtractTextPluginConfig, new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/])],
   resolve: {
     extensions: ['', '.js'],
-    root: path.resolve('./app')
+    root: path.resolve('./app'),
+    alias: {
+      lodash: path.join(__dirname, 'node_modules/lodash'),
+      moment: path.join(__dirname, 'node_modules/moment'),
+      numeral: path.join(__dirname, 'node_modules/numeral'),
+      react: path.join(__dirname, 'node_modules/react'),
+      'react-dom': path.join(__dirname, 'node_modules/react-dom'),
+    },
   },
-  postcss: [autoprefixer({browsers: ['> 1%', 'last 5 versions', 'Firefox ESR', 'safari >= 4']})],
-  plugins: [HTMLWebpackPluginConfig, ExtractTextPluginConfig, new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/])]
 };
 
 if (useProductionBuild) {
@@ -65,21 +73,21 @@ if (useProductionBuild) {
     comments: false,
     compress: {
       warnings: false,
-      drop_console: false
-    }
+      drop_console: false,
+    },
   }));
-  webpackConfig.plugins.push(new webpack.DefinePlugin({ // This will make it so that webpack will use minified production files from some libraries (like React)
+  webpackConfig.plugins.push(new webpack.DefinePlugin({
     'process.env': {
-      'NODE_ENV': JSON.stringify('production')
-    }
+      NODE_ENV: JSON.stringify('production'),
+    },
   }));
 
   webpackConfig.devtool = 'cheap-source-map';
 
   webpackConfig.output = {
-    path: __dirname + '/server/public',
+    path: path.join(__dirname, '/server/public'),
     publicPath: '/',
-    filename: 'index_bundle.js'
+    filename: 'index_bundle.js',
   };
 } else {
   webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());

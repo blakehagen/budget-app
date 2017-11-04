@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import {observer, inject} from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
 import styles from './login.scss';
@@ -21,39 +21,44 @@ export default class Login extends React.Component {
       isPasswordError: false,
       loading: false,
       isLoginError: false,
-      loginErrorMessage: ''
+      loginErrorMessage: '',
     };
   }
 
   render() {
-
     const inputSection = (
       <div className={styles.box}>
         <div className={styles.titleContainer}>
-          <div className={styles.piggybankIcon}/>
+          <div className={styles.piggybankIcon} />
           Budget App
         </div>
 
-        <input className={this.state.isEmailError ? styles.isError : ''}
-               onChange={this.setEmail}
-               type="text"
-               placeholder="Email"/>
-        <input className={this.state.isPasswordError ? styles.isError : ''}
-               onChange={this.setPassword}
-               type="password"
-               placeholder="Password"/>
+        <input
+          className={this.state.isEmailError ? styles.isError : ''}
+          onChange={this.setEmail}
+          type="text"
+          placeholder="Email"
+        />
+        <input
+          className={this.state.isPasswordError ? styles.isError : ''}
+          onChange={this.setPassword}
+          type="password"
+          placeholder="Password"
+        />
 
         {this.state.isLoginError ? (
-            <div className={styles.errorMessageContainer}>
-              {this.state.loginErrorMessage}
-            </div>
-          ) : null }
+          <div className={styles.errorMessageContainer}>
+            {this.state.loginErrorMessage}
+          </div>
+        ) : null }
 
-        <input className={styles.loginButton}
-               onClick={this.loginGo}
-               type="submit"
-               name="submit"
-               value="Login"/>
+        <input
+          className={styles.loginButton}
+          onClick={this.loginGo}
+          type="submit"
+          name="submit"
+          value="Login"
+        />
 
         <div className={styles.switchForm} onClick={this.goToRegister}>
           Sign Up
@@ -64,10 +69,10 @@ export default class Login extends React.Component {
     const spinner = (
       <div className={styles.box}>
         <div className={styles.titleContainer}>
-          <div className={styles.piggybankIcon}/>
+          <div className={styles.piggybankIcon} />
           Budget App
         </div>
-        <Spinner/>
+        <Spinner />
       </div>
     );
 
@@ -83,30 +88,29 @@ export default class Login extends React.Component {
   }
 
   setEmail(e) {
-    this.setState({email: e.target.value, isEmailError: false, isLoginError: false});
+    this.setState({ email: e.target.value, isEmailError: false, isLoginError: false });
   }
 
   setPassword(e) {
-    this.setState({password: e.target.value, isPasswordError: false, isLoginError: false});
+    this.setState({ password: e.target.value, isPasswordError: false, isLoginError: false });
   }
 
   validateLogin() {
-    this.setState({isLoginError: false});
+    this.setState({ isLoginError: false });
 
     if (this.state.email.length < 1 || this.state.password < 1) {
       if (this.state.email.length < 1) {
-        this.setState({isEmailError: true});
-
+        this.setState({ isEmailError: true });
       }
       if (this.state.password.length < 1) {
-        this.setState({isPasswordError: true});
+        this.setState({ isPasswordError: true });
       }
       return false;
     }
 
-    let emailRegex = /^.+@.+\..+$/;
+    const emailRegex = /^.+@.+\..+$/;
     if (!emailRegex.test(this.state.email)) {
-      this.setState({isEmailError: true});
+      this.setState({ isEmailError: true });
       return false;
     }
 
@@ -119,20 +123,20 @@ export default class Login extends React.Component {
       return false;
     }
 
-    let loginInfo = {
+    const loginInfo = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     };
 
-    this.setState({loading: true, email: '', password: ''});
+    this.setState({ loading: true, email: '', password: '' });
 
     this.userStore.login(loginInfo)
-      .then(response => {
+      .then((response) => {
         if (response.status !== 200) {
           this.setState({
             loading: false,
             isLoginError: true,
-            loginErrorMessage: _.get(response.data, 'error', 'Login Failed')
+            loginErrorMessage: _.get(response.data, 'error', 'Login Failed'),
           });
           return false;
         }
@@ -141,10 +145,9 @@ export default class Login extends React.Component {
         localStorage.setItem('userId', response.data.user.id);
         this.userStore.getUserBudgets(response.data.user.id);
 
-        this.userStore.user   = response.data.user;
+        this.userStore.user = response.data.user;
         this.userStore.userId = response.data.user.id;
         this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
       });
   }
-
 }
