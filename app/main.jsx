@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRedirect, hashHistory } from 'react-router';
+import { Router, Route, IndexRedirect, browserHistory } from 'react-router';
 import { Provider } from 'mobx-react';
 import UserStore from 'stores/UserStore';
 import Navigator from 'utils/Navigator';
@@ -21,7 +21,7 @@ const userStore = new UserStore(navigator);
 ReactDOM.render(
   <div className={styles.appBody}>
     <Provider userStore={userStore} navigator={navigator}>
-      <Router history={hashHistory} onUpdate={function () {
+      <Router history={browserHistory} onUpdate={function () {
         handleChange();
       }}>
         {/*<Route path="/" component={App}/>*/}
