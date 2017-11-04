@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
+import TextField from 'components/formComponents/TextField';
 import Spinner from 'components/Common/Spinner';
 import styles from './login.scss';
 
@@ -17,100 +18,37 @@ export default class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
-      isEmailError: false,
-      isPasswordError: false,
+      emailError: false,
+      emailErrorMessage: '',
+      passwordError: false,
       loading: false,
-      isLoginError: false,
-      loginErrorMessage: '',
+      // isLoginError: false,
+      // loginErrorMessage: '',
     };
   }
 
-  render() {
-    const inputSection = (
-      <div className={styles.box}>
-        <div className={styles.titleContainer}>
-          <div className={styles.piggybankIcon} />
-          Budget App
-        </div>
-
-        <input
-          className={this.state.isEmailError ? styles.isError : ''}
-          onChange={this.setEmail}
-          type="text"
-          placeholder="Email"
-        />
-        <input
-          className={this.state.isPasswordError ? styles.isError : ''}
-          onChange={this.setPassword}
-          type="password"
-          placeholder="Password"
-        />
-
-        {this.state.isLoginError ? (
-          <div className={styles.errorMessageContainer}>
-            {this.state.loginErrorMessage}
-          </div>
-        ) : null }
-
-        <input
-          className={styles.loginButton}
-          onClick={this.loginGo}
-          type="submit"
-          name="submit"
-          value="Login"
-        />
-
-        <div className={styles.switchForm} onClick={this.goToRegister}>
-          Sign Up
-        </div>
-      </div>
-    );
-
-    const spinner = (
-      <div className={styles.box}>
-        <div className={styles.titleContainer}>
-          <div className={styles.piggybankIcon} />
-          Budget App
-        </div>
-        <Spinner />
-      </div>
-    );
-
-    return (
-      <div className={styles.main}>
-        {this.state.loading ? spinner : inputSection}
-      </div>
-    );
+  handleInput(e, id) {
+    this.setState({ [id]: e.target.value, [`${id}Error`]: false });
   }
 
   goToRegister() {
     this.navigator.changeRoute('/register', 'replace');
   }
 
-  setEmail(e) {
-    this.setState({ email: e.target.value, isEmailError: false, isLoginError: false });
-  }
-
-  setPassword(e) {
-    this.setState({ password: e.target.value, isPasswordError: false, isLoginError: false });
-  }
-
   validateLogin() {
-    this.setState({ isLoginError: false });
-
     if (this.state.email.length < 1 || this.state.password < 1) {
       if (this.state.email.length < 1) {
-        this.setState({ isEmailError: true });
+        this.setState({ emailError: true, emailErrorMessage: 'Required' });
       }
       if (this.state.password.length < 1) {
-        this.setState({ isPasswordError: true });
+        this.setState({ passwordError: true });
       }
       return false;
     }
 
     const emailRegex = /^.+@.+\..+$/;
     if (!emailRegex.test(this.state.email)) {
-      this.setState({ isEmailError: true });
+      this.setState({ emailError: true, emailErrorMessage: 'Invalid Email' });
       return false;
     }
 
@@ -149,5 +87,55 @@ export default class Login extends React.Component {
         this.userStore.userId = response.data.user.id;
         this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
       });
+  }
+
+  render() {
+    const form = (
+      <div>
+        <TextField
+          type="text"
+          placeholder="Email"
+          id="email"
+          error={this.state.emailError}
+          errorText={this.state.emailErrorMessage}
+          handleInput={this.handleInput}
+          value={this.state.email}
+        />
+
+        <TextField
+          type="password"
+          placeholder="Password"
+          id="password"
+          error={this.state.passwordError}
+          errorText="Required"
+          handleInput={this.handleInput}
+          value={this.state.password}
+        />
+
+        <button
+          className={styles.loginButton}
+          onClick={this.loginGo}
+          type="submit"
+          name="submit"
+        >Login
+        </button>
+
+        <div className={styles.switchForm} >
+          <span onClick={this.goToRegister} role="link">Sign Up</span>
+        </div>
+      </div>
+    );
+
+    return (
+      <div className={styles.main}>
+        <div className={styles.box}>
+          <div className={styles.titleContainer}>
+            <div className={styles.piggybankIcon} />
+            Budget App
+          </div>
+          {this.state.loading ? <Spinner /> : form}
+        </div>
+      </div>
+    );
   }
 }
