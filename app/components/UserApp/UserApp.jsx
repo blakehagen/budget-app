@@ -1,6 +1,6 @@
 import React from 'react';
-import {reaction} from 'mobx';
-import {observer, inject} from 'mobx-react';
+import { reaction } from 'mobx';
+import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
 import TopBar from 'components/TopBar';
@@ -29,7 +29,7 @@ export default class UserApp extends React.Component {
     if (!this.userStore.user) {
       return (
         <div className={styles.loadingContainer}>
-          <Spinner/>
+          <Spinner />
         </div>
       );
     }
@@ -37,14 +37,14 @@ export default class UserApp extends React.Component {
     if (!this.userStore.userBudgets) {
       return (
         <div className={styles.loadingContainer}>
-          <Spinner/>
+          <Spinner />
         </div>
       );
     }
 
     return (
       <div>
-        <TopBar/>
+        <TopBar />
         <div className={styles.viewContainer}>
           {this.props.children}
         </div>

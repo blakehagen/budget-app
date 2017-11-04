@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import numeral from 'numeral';
 import React from 'react';
-import {observer, inject} from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import Spinner from 'components/Common/Spinner';
 import DetailsStatus from './DetailsStatus';
 import autoBind from 'react-autobind';
@@ -30,22 +30,26 @@ export default class BudgetDetails extends React.Component {
     if (this.userStore.updatingTransactions) {
       return (
         <div className={styles.loadingContainer}>
-          <Spinner/>
+          <Spinner />
         </div>
       );
     }
 
-    const transactions = _.map(this.userStore.selectedBudget.transactions, transaction => {
+    const transactions = _.map(this.userStore.selectedBudget.transactions, (transaction) => {
       const transactionAmount = numeral(transaction.amount).format('$0,0.00');
       return (
-        <div className={styles.transactionContainer}
-             key={transaction.id}>
+        <div
+          className={styles.transactionContainer}
+          key={transaction.id}
+        >
           <div className={styles.amountContainer}>
             {transactionAmount}
             <div className={styles.actionContainer}>
-              <div className={styles.deleteTransactionIcon}
-                   onClick={() => this.deleteTransaction(transaction)}/>
-              {/*<div className={styles.editTransactionIcon}/>*/}
+              <div
+                className={styles.deleteTransactionIcon}
+                onClick={() => this.deleteTransaction(transaction)}
+              />
+              {/* <div className={styles.editTransactionIcon}/>*/}
             </div>
           </div>
           <div className={styles.transactionDetailsContainer}>
@@ -65,7 +69,7 @@ export default class BudgetDetails extends React.Component {
 
     return (
       <div>
-        <DetailsStatus/>
+        <DetailsStatus />
         <div>
           {transactions}
         </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer, inject} from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import DashboardHeader from './DashboadHeader';
 import BudgetSummary from './BudgetSummary';
 import autoBind from 'react-autobind';
@@ -22,10 +22,9 @@ export default class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        <DashboardHeader/>
-        <BudgetSummary/>
+        <DashboardHeader />
+        <BudgetSummary />
       </div>
     );
   }
-
 }

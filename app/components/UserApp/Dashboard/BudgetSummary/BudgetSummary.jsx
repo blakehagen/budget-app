@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import numeral from 'numeral';
 import React from 'react';
-import {observer, inject} from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
-import {ProgressBar} from 'react-bootstrap';
+import { ProgressBar } from 'react-bootstrap';
 import styles from './budgetSummary.scss';
 
 @inject('userStore', 'navigator')
@@ -24,18 +24,18 @@ export default class BudgetSummary extends React.Component {
   render() {
     const loadingNewBudget = (
       <div className={styles.budgetLoading}>
-        <Spinner/>
+        <Spinner />
       </div>
     );
 
-    const budgets = _.map(this.userStore.userBudgets, budget => {
+    const budgets = _.map(this.userStore.userBudgets, (budget) => {
       let currentTotal = 0;
-      _.each(budget.transactions, transaction => {
+      _.each(budget.transactions, (transaction) => {
         currentTotal += Number(transaction.amount);
       });
 
-      let totalBudgetAmount = Number(budget.totalAmount);
-      let percentageUsed    = currentTotal / totalBudgetAmount * 100;
+      const totalBudgetAmount = Number(budget.totalAmount);
+      const percentageUsed = currentTotal / totalBudgetAmount * 100;
 
       return (
         <div className={styles.budgetContainer} key={budget.id} onClick={() => this.goToBudgetDetails(budget)}>
@@ -45,12 +45,14 @@ export default class BudgetSummary extends React.Component {
 
           </div>
           <div className={styles.budgetMain}>
-            <ProgressBar min={0}
-                         now={percentageUsed > 100 ? totalBudgetAmount : currentTotal}
-                         max={totalBudgetAmount}
-                         label={percentageUsed > 18 ? numeral(currentTotal).format('$0,0.00') : ''}
-                         className={styles.progressBar}
-                         bsStyle={percentageUsed > 85 ? 'danger' : 'success'}/>
+            <ProgressBar
+              min={0}
+              now={percentageUsed > 100 ? totalBudgetAmount : currentTotal}
+              max={totalBudgetAmount}
+              label={percentageUsed > 18 ? numeral(currentTotal).format('$0,0.00') : ''}
+              className={styles.progressBar}
+              bsStyle={percentageUsed > 85 ? 'danger' : 'success'}
+            />
           </div>
         </div>
       );
@@ -70,5 +72,4 @@ export default class BudgetSummary extends React.Component {
     this.userStore.selectedBudget = selectedBudget;
     this.navigator.changeRoute(`/user/${this.userStore.userId}/budget/${selectedBudget.id}`, 'push');
   }
-
 }

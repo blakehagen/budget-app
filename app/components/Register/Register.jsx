@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import {observer, inject} from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
 import styles from './register.scss';
@@ -27,51 +27,62 @@ export default class Register extends React.Component {
       isConfirmPasswordError: false,
       loading: false,
       isSignUpError: false,
-      signUpErrorMessage: ''
+      signUpErrorMessage: '',
     };
   }
 
   render() {
-
     const inputSection = (
       <div className={styles.box}>
         <div className={styles.titleContainer}>
-          <div className={styles.piggybankIcon}></div>
+          <div className={styles.piggybankIcon} />
           Budget App
         </div>
 
-        <input className={this.state.isFirstNameError ? styles.isError : ''}
-               onChange={this.setFirstName}
-               type="text"
-               placeholder="First Name"/>
-        <input className={this.state.isLastNameError ? styles.isError : ''}
-               onChange={this.setLastName}
-               type="text"
-               placeholder="Last Name"/>
-        <input className={this.state.isEmailError ? styles.isError : ''}
-               onChange={this.setEmail}
-               type="text"
-               placeholder="Email"/>
-        <input className={this.state.isPasswordError ? styles.isError : ''}
-               onChange={this.setPassword}
-               type="password"
-               placeholder="Password"/>
-        <input className={this.state.isConfirmPasswordError ? styles.isError : ''}
-               onChange={this.setConfirmPassword}
-               type="password"
-               placeholder="Confirm Password"/>
+        <input
+          className={this.state.isFirstNameError ? styles.isError : ''}
+          onChange={this.setFirstName}
+          type="text"
+          placeholder="First Name"
+        />
+        <input
+          className={this.state.isLastNameError ? styles.isError : ''}
+          onChange={this.setLastName}
+          type="text"
+          placeholder="Last Name"
+        />
+        <input
+          className={this.state.isEmailError ? styles.isError : ''}
+          onChange={this.setEmail}
+          type="text"
+          placeholder="Email"
+        />
+        <input
+          className={this.state.isPasswordError ? styles.isError : ''}
+          onChange={this.setPassword}
+          type="password"
+          placeholder="Password"
+        />
+        <input
+          className={this.state.isConfirmPasswordError ? styles.isError : ''}
+          onChange={this.setConfirmPassword}
+          type="password"
+          placeholder="Confirm Password"
+        />
 
         {this.state.isSignUpError ? (
-            <div className={styles.errorMessageContainer}>
-              {this.state.signUpErrorMessage}
-            </div>
-          ) : null }
+          <div className={styles.errorMessageContainer}>
+            {this.state.signUpErrorMessage}
+          </div>
+        ) : null }
 
-        <input className={styles.registerButton}
-               onClick={this.registerGo}
-               type="submit"
-               name="submit"
-               value="Create My Account"/>
+        <input
+          className={styles.registerButton}
+          onClick={this.registerGo}
+          type="submit"
+          name="submit"
+          value="Create My Account"
+        />
 
         <div className={styles.switchForm} onClick={this.goToLogin}>
           Login
@@ -82,10 +93,10 @@ export default class Register extends React.Component {
     const spinner = (
       <div className={styles.box}>
         <div className={styles.titleContainer}>
-          <div className={styles.piggybankIcon}></div>
+          <div className={styles.piggybankIcon} />
           Budget App
         </div>
-        <Spinner/>
+        <Spinner />
       </div>
     );
 
@@ -101,46 +112,45 @@ export default class Register extends React.Component {
   }
 
   setFirstName(e) {
-    this.setState({firstName: e.target.value, isFirstNameError: false, isSignUpError: false});
+    this.setState({ firstName: e.target.value, isFirstNameError: false, isSignUpError: false });
   }
 
   setLastName(e) {
-    this.setState({lastName: e.target.value, isLastNameError: false, isSignUpError: false});
+    this.setState({ lastName: e.target.value, isLastNameError: false, isSignUpError: false });
   }
 
   setEmail(e) {
-    this.setState({email: e.target.value, isEmailError: false, isSignUpError: false});
+    this.setState({ email: e.target.value, isEmailError: false, isSignUpError: false });
   }
 
   setPassword(e) {
-    this.setState({password: e.target.value, isPasswordError: false, isSignUpError: false});
+    this.setState({ password: e.target.value, isPasswordError: false, isSignUpError: false });
   }
 
   setConfirmPassword(e) {
-    this.setState({confirmPassword: e.target.value, isConfirmPasswordError: false, isSignUpError: false});
+    this.setState({ confirmPassword: e.target.value, isConfirmPasswordError: false, isSignUpError: false });
   }
 
   validateRegister() {
     if (this.state.firstName.length < 1 || this.state.lastName.length < 1 || this.state.email.length < 1 || this.state.password < 1 || this.state.confirmPassword.length < 1) {
-
       if (this.state.firstName.length < 1) {
-        this.setState({isFirstNameError: true});
+        this.setState({ isFirstNameError: true });
       }
 
       if (this.state.lastName.length < 1) {
-        this.setState({isLastNameError: true});
+        this.setState({ isLastNameError: true });
       }
 
       if (this.state.email.length < 1) {
-        this.setState({isEmailError: true});
+        this.setState({ isEmailError: true });
       }
 
       if (this.state.password.length < 1) {
-        this.setState({isPasswordError: true});
+        this.setState({ isPasswordError: true });
       }
 
       if (this.state.confirmPassword.length < 1) {
-        this.setState({isConfirmPasswordError: true});
+        this.setState({ isConfirmPasswordError: true });
       }
 
       return false;
@@ -148,13 +158,13 @@ export default class Register extends React.Component {
 
     // Make sure passwords match
     if (this.state.confirmPassword !== this.state.password) {
-      this.setState({isPasswordError: true, isConfirmPasswordError: true});
+      this.setState({ isPasswordError: true, isConfirmPasswordError: true });
       return false;
     }
 
-    let emailRegex = /^.+@.+\..+$/;
+    const emailRegex = /^.+@.+\..+$/;
     if (!emailRegex.test(this.state.email)) {
-      this.setState({isEmailError: true});
+      this.setState({ isEmailError: true });
       return false;
     }
 
@@ -167,23 +177,23 @@ export default class Register extends React.Component {
       return false;
     }
 
-    let registerInfo = {
+    const registerInfo = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       email: this.state.email,
       password: this.state.password,
-      confirmPassword: this.state.confirmPassword
+      confirmPassword: this.state.confirmPassword,
     };
 
-    this.setState({loading: true, password: '', confirmPassword: ''});
+    this.setState({ loading: true, password: '', confirmPassword: '' });
 
     this.userStore.register(registerInfo)
-      .then(response => {
+      .then((response) => {
         if (response.status !== 200) {
           this.setState({
             loading: false,
             isSignUpError: true,
-            signUpErrorMessage: _.get(response.data, 'error', 'Sign Up Failed')
+            signUpErrorMessage: _.get(response.data, 'error', 'Sign Up Failed'),
           });
           return false;
         }
@@ -192,10 +202,9 @@ export default class Register extends React.Component {
         localStorage.setItem('userId', response.data.user.id);
         this.userStore.getUserBudgets(response.data.user.id);
 
-        this.userStore.user   = response.data.user;
+        this.userStore.user = response.data.user;
         this.userStore.userId = response.data.user.id;
         this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
       });
   }
-
 }

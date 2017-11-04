@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer, inject} from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import styles from './dashboardHeader.scss';
 
@@ -19,12 +19,12 @@ export default class DashboardHeader extends React.Component {
         <div className={styles.actionContainer}>
 
           <div className={styles.bigButton} onClick={this.createNewTransaction}>
-            <div className={styles.plusIcon}/>
+            <div className={styles.plusIcon} />
             <span className={styles.buttonLabel}>Transaction</span>
           </div>
 
           <div className={styles.bigButton} onClick={this.createNewBudget}>
-            <div className={styles.plusIcon}/>
+            <div className={styles.plusIcon} />
             <span className={styles.buttonLabel}>Budget</span>
           </div>
 
@@ -40,5 +40,4 @@ export default class DashboardHeader extends React.Component {
   createNewTransaction() {
     this.navigator.changeRoute(`/user/${this.userStore.userId}/new-transaction`, 'push');
   }
-
 }

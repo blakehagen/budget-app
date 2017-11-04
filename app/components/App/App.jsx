@@ -6,6 +6,6 @@ export default class App extends React.Component {
       <div>
         Hello I am the app!
       </div>
-    )
+    );
   }
 }
