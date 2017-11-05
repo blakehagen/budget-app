@@ -26,6 +26,14 @@ export default class Login extends React.Component {
     };
   }
 
+  setAuthLoad(loading) {
+    this.userStore.setAuthLoad(loading);
+  }
+
+  goToRegister() {
+    this.navigator.changeRoute('/register', 'replace');
+  }
+
   handleInput(e, id) {
     this.setState({
       [id]: e.target.value,
@@ -33,10 +41,6 @@ export default class Login extends React.Component {
       loginError: false,
       loginErrorMessage: '',
     });
-  }
-
-  goToRegister() {
-    this.navigator.changeRoute('/register', 'replace');
   }
 
   validateLogin() {
@@ -57,10 +61,6 @@ export default class Login extends React.Component {
     }
 
     return true;
-  }
-
-  setAuthLoad(loading) {
-    this.userStore.setAuthLoad(loading);
   }
 
   loginGo(e) {

@@ -100,35 +100,58 @@ export default class UserStore {
   @action
   register(registerInfo) {
     return userService.register(registerInfo)
-      .then(response => response)
-      .catch(err => err.response);
-  }
-
-  @action
-  login(loginInfo) {
-    return userService.login(loginInfo)
       .then((response) => {
-        console.log('response -->', response);
-
         if (!_.get(response, 'data.success')) {
           this.authLoading = false;
           return false;
         }
-        console.log('SUCCESSFUL LOGIN!!');
-        localStorage.setItem('token', _.get(response, 'data.token'));
-        localStorage.setItem('userId', _.get(response, 'data.user.id'));
-        this.getUserBudgets(_.get(response, 'data.user.id'));
 
-        this.user = response.data.user;
-        this.userId = response.data.user.id;
-        this.navigator.changeRoute(`/user/${this.userId}/dashboard`, 'push');
-        this.authLoading = false;
+        const token = _.get(response, 'data.token');
+        const user = _.get(response, 'data.user');
+
+        this.handleAuthSuccess(token, user);
         return { success: _.get(response, 'data.success') };
       })
       .catch((err) => {
         this.authLoading = false;
         return { error: _.get(err, 'response.data.errorMessage', 'Error. Please try again.') };
       });
+  }
+
+  @action
+  login(loginInfo) {
+    return userService.login(loginInfo)
+      .then((response) => {
+        if (!_.get(response, 'data.success')) {
+          this.authLoading = false;
+          return false;
+        }
+
+        const token = _.get(response, 'data.token');
+        const user = _.get(response, 'data.user');
+
+        this.handleAuthSuccess(token, user);
+        return { success: _.get(response, 'data.success') };
+      })
+      .catch((err) => {
+        this.authLoading = false;
+        return { error: _.get(err, 'response.data.errorMessage', 'Error. Please try again.') };
+      });
+  }
+
+  @action
+  handleAuthSuccess(token, user) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', user.id);
+
+    // TODO --> Handle this better, get on login with what user needs
+    this.getUserBudgets(user.id);
+    // // // //
+
+    this.user = user;
+    this.userId = user.id;
+    this.navigator.changeRoute(`/user/${this.userId}/dashboard`, 'push');
+    this.authLoading = false;
   }
 
   @action

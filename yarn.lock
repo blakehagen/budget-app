@@ -1755,14 +1755,6 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.6.0:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.2.tgz#cf1ed15f12aad7f14ef5f2dfe05e6c42f91ef02a"
-  dependencies:
-    fbjs "^0.8.9"
-    loose-envify "^1.3.1"
-    object-assign "^4.1.1"
-
 cross-env@^3.1.2:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-3.1.4.tgz#56e8bca96f17908a6eb1bc2012ca126f92842130"
@@ -2276,10 +2268,6 @@ electron-to-chromium@^1.3.27:
   version "1.3.27"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.27.tgz#78ecb8a399066187bb374eede35d9c70565a803d"
 
-element-class@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/element-class/-/element-class-0.2.2.tgz#9d3bbd0767f9013ef8e1c8ebe722c1402a60050e"
-
 elliptic@^6.0.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.4.0.tgz#cac9af8762c85836187003c8dfe193e5e2eae5df"
@@ -2764,7 +2752,7 @@ fastparse@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/fastparse/-/fastparse-1.1.1.tgz#d1e2643b38a94d7583b479060e6c4affc94071f8"
 
-fbjs@^0.8.16, fbjs@^0.8.9:
+fbjs@^0.8.1, fbjs@^0.8.16, fbjs@^0.8.4:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -4476,7 +4464,7 @@ lodash@4.12.0:
   version "4.12.0"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.12.0.tgz#2bd6dc46a040f59e686c972ed21d93dc59053258"
 
-lodash@^4.0.0, lodash@^4.12.0, lodash@^4.14.0, lodash@^4.16.1, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.17.4:
+lodash@^4.0.0, lodash@^4.12.0, lodash@^4.14.0, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.17.4:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -6004,13 +5992,6 @@ rc@^1.1.2, rc@~1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~1.0.4"
 
-"react-addons-update@^0.14.0 || ^15.0.0":
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/react-addons-update/-/react-addons-update-15.6.2.tgz#e53753c5b34887974510c882d7fb075851d5e504"
-  dependencies:
-    fbjs "^0.8.9"
-    object-assign "^4.1.0"
-
 react-autobind@~1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/react-autobind/-/react-autobind-1.0.6.tgz#936bb58edf6b89b619c50f82f0e617159fdfd4f1"
@@ -6029,14 +6010,13 @@ react-bootstrap@~0.30.8:
     uncontrollable "^4.0.1"
     warning "^3.0.0"
 
-"react-dom@^0.14.0 || ^15.0.0", react-dom@~15.6.1:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.2.tgz#41cfadf693b757faf2708443a1d1fd5a02bef730"
+react-dom@~15.4.2:
+  version "15.4.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.4.2.tgz#015363f05b0a1fd52ae9efdd3a0060d90695208f"
   dependencies:
-    fbjs "^0.8.9"
+    fbjs "^0.8.1"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "^15.5.10"
 
 react-hot-api@^0.4.5:
   version "0.4.7"
@@ -6085,25 +6065,13 @@ react-select@^1.0.0-rc.3:
     classnames "^2.2.4"
     react-input-autosize "^1.1.0"
 
-react-toastr@~2.8.1:
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/react-toastr/-/react-toastr-2.8.2.tgz#55bfe8a5b1adc7a09e9fa14ddf428575876f42e1"
+react@~15.4.2:
+  version "15.4.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
   dependencies:
-    classnames "^2.2.5"
-    element-class "^0.2.2"
-    lodash "^4.16.1"
-    react-addons-update "^0.14.0 || ^15.0.0"
-    react-dom "^0.14.0 || ^15.0.0"
-
-react@~15.6.1:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
-  dependencies:
-    create-react-class "^15.6.0"
-    fbjs "^0.8.9"
+    fbjs "^0.8.4"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "^15.5.10"
 
 read-all-stream@^3.0.0:
   version "3.1.0"

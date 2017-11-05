@@ -30,9 +30,13 @@ export default class Register extends React.Component {
       passwordErrorMessage: '',
       confirmPasswordErrorMessage: '',
       loading: false,
-      // signUpError: false,
-      // signUpErrorMessage: '',
+      signUpError: false,
+      signUpErrorMessage: '',
     };
+  }
+
+  setAuthLoad(loading) {
+    this.userStore.setAuthLoad(loading);
   }
 
   goToLogin() {
@@ -40,7 +44,12 @@ export default class Register extends React.Component {
   }
 
   handleInput(e, id) {
-    this.setState({ [id]: e.target.value, [`${id}Error`]: false });
+    this.setState({
+      [id]: e.target.value,
+      [`${id}Error`]: false,
+      signUpError: false,
+      signUpErrorMessage: '',
+    });
   }
 
   validateRegister() {
@@ -100,6 +109,8 @@ export default class Register extends React.Component {
       return false;
     }
 
+    this.setAuthLoad(true);
+
     const registerInfo = {
       firstName: _.trim(this.state.firstName),
       lastName: _.trim(this.state.lastName),
@@ -108,26 +119,13 @@ export default class Register extends React.Component {
       confirmPassword: this.state.confirmPassword,
     };
 
-    this.setState({ loading: true, password: '', confirmPassword: '' });
+    this.setState({ password: '', confirmPassword: '' });
 
-    this.userStore.register(registerInfo)
+    return this.userStore.register(registerInfo)
       .then((response) => {
-        if (response.status !== 200) {
-          this.setState({
-            loading: false,
-            isSignUpError: true,
-            signUpErrorMessage: _.get(response.data, 'error', 'Sign Up Failed'),
-          });
-          return false;
+        if (response.error) {
+          this.setState({ signUpError: true, signUpErrorMessage: response.error });
         }
-        console.log('SUCCESSFUL REGISTRATION!!');
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', response.data.user.id);
-        this.userStore.getUserBudgets(response.data.user.id);
-
-        this.userStore.user = response.data.user;
-        this.userStore.userId = response.data.user.id;
-        this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
       });
   }
 
@@ -195,6 +193,13 @@ export default class Register extends React.Component {
         <div className={styles.switchForm} >
           <span onClick={this.goToLogin} role="link">Login</span>
         </div>
+
+        {this.state.signUpError && (
+          <div className={styles.errContainer}>
+            {this.state.signUpErrorMessage}
+          </div>
+        )}
+
       </div>
     );
 
@@ -205,7 +210,7 @@ export default class Register extends React.Component {
             <div className={styles.piggybankIcon} />
             Budget App
           </div>
-          {this.state.loading ? <Spinner /> : form}
+          {this.userStore.authLoading ? <Spinner /> : form}
         </div>
       </div>
     );
