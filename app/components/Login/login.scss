@@ -85,17 +85,15 @@
   }
 }
 
-.isError {
-  border: 1px solid #ED6464;
-}
-
-.errorMessageContainer {
-  font-weight: 400;
-  font-size: 15px;
-  color: #ED6464;
-  padding: 0 12px;
+.errContainer {
+  height: 38px;
   width: 250px;
-  margin-bottom: 10px;
+  background: #ED6464;
+  color: #FFFFFF;
+  font-weight: 100;
+  font-size: 15px;
+  margin: 14px 0 0 0;
+  cursor: default;
   display: flex;
   justify-content: center;
   align-items: center;

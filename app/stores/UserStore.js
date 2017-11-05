@@ -123,15 +123,17 @@ export default class UserStore {
         this.userId = response.data.user.id;
         this.navigator.changeRoute(`/user/${this.userId}/dashboard`, 'push');
         this.authLoading = false;
+        return { success: _.get(response, 'data.success') };
       })
       .catch((err) => {
         this.authLoading = false;
-        console.log('err msg -->', _.get(err, 'response.data.errorMessage', 'An error occurred. Please try again later.'));
+        return { error: _.get(err, 'response.data.errorMessage', 'Error. Please try again.') };
       });
   }
 
   @action
   logout() {
+    // need to logout of session!
     localStorage.clear();
     this.user = null;
     this.userId = null;

@@ -21,11 +21,18 @@ export default class Login extends React.Component {
       emailError: false,
       emailErrorMessage: '',
       passwordError: false,
+      loginError: false,
+      loginErrorMessage: '',
     };
   }
 
   handleInput(e, id) {
-    this.setState({ [id]: e.target.value, [`${id}Error`]: false });
+    this.setState({
+      [id]: e.target.value,
+      [`${id}Error`]: false,
+      loginError: false,
+      loginErrorMessage: '',
+    });
   }
 
   goToRegister() {
@@ -71,7 +78,12 @@ export default class Login extends React.Component {
 
     this.setState({ email: '', password: '' });
 
-    return this.userStore.login(loginInfo);
+    return this.userStore.login(loginInfo)
+      .then((response) => {
+        if (response.error) {
+          this.setState({ loginError: true, loginErrorMessage: response.error });
+        }
+      });
   }
 
   render() {
@@ -105,9 +117,16 @@ export default class Login extends React.Component {
         >Login
         </button>
 
-        <div className={styles.switchForm} >
+        <div className={styles.switchForm}>
           <span onClick={this.goToRegister} role="link">Sign Up</span>
         </div>
+
+        {this.state.loginError && (
+          <div className={styles.errContainer}>
+            {this.state.loginErrorMessage}
+          </div>
+        )}
+
       </div>
     );
 
