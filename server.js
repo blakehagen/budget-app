@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const path = require('path');
 const config = require('./webpack.config');
 const express = require('./server/config/express.js');
@@ -48,6 +49,15 @@ require('./server/api/transactions/transaction.routes')(app);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'server/public/index.html'));
+});
+
+// Error handler
+app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+  if (_.get(err, 'message')) {
+    return res.status(400).json({ errorMessage: _.get(err, 'message', 'Error') });
+  }
+
+  return res.status(500).json({ errorMessage: 'An error occurred. Please try again later.' });
 });
 
 app.listen(port, () => {

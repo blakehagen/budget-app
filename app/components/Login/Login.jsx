@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+import { reaction } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import TextField from 'components/formComponents/TextField';
@@ -21,9 +22,6 @@ export default class Login extends React.Component {
       emailError: false,
       emailErrorMessage: '',
       passwordError: false,
-      loading: false,
-      // isLoginError: false,
-      // loginErrorMessage: '',
     };
   }
 
@@ -55,38 +53,26 @@ export default class Login extends React.Component {
     return true;
   }
 
+  setAuthLoad(loading) {
+    this.userStore.setAuthLoad(loading);
+  }
+
   loginGo(e) {
     if (!this.validateLogin()) {
       e.preventDefault();
       return false;
     }
 
+    this.setAuthLoad(true);
+
     const loginInfo = {
       email: _.trim(this.state.email),
       password: this.state.password,
     };
 
-    this.setState({ loading: true, email: '', password: '' });
+    this.setState({ email: '', password: '' });
 
-    this.userStore.login(loginInfo)
-      .then((response) => {
-        if (response.status !== 200) {
-          this.setState({
-            loading: false,
-            isLoginError: true,
-            loginErrorMessage: _.get(response.data, 'error', 'Login Failed'),
-          });
-          return false;
-        }
-        console.log('SUCCESSFUL LOGIN!!');
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', response.data.user.id);
-        this.userStore.getUserBudgets(response.data.user.id);
-
-        this.userStore.user = response.data.user;
-        this.userStore.userId = response.data.user.id;
-        this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
-      });
+    return this.userStore.login(loginInfo);
   }
 
   render() {
@@ -133,7 +119,7 @@ export default class Login extends React.Component {
             <div className={styles.piggybankIcon} />
             Budget App
           </div>
-          {this.state.loading ? <Spinner /> : form}
+          {this.userStore.authLoading ? <Spinner /> : form}
         </div>
       </div>
     );

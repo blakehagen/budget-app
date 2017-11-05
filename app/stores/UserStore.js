@@ -9,6 +9,7 @@ export default class UserStore {
     autoBind(this);
     this.navigator = navigator;
 
+    this.authLoading = false;
     this.loadingUser = false;
     this.loadingBudgets = false;
     this.loadingNewBudget = false;
@@ -26,6 +27,7 @@ export default class UserStore {
     }
   }
 
+  @observable authLoading;
   @observable user;
   @observable userId;
   @observable loadingUser;
@@ -34,6 +36,11 @@ export default class UserStore {
   @observable selectedBudget;
   @observable updatingTransactions;
   @observable showBackArrow;
+
+  @action
+  setAuthLoad(isLoading) {
+    this.authLoading = isLoading;
+  }
 
   @action
   getUser(userId) {
@@ -100,8 +107,27 @@ export default class UserStore {
   @action
   login(loginInfo) {
     return userService.login(loginInfo)
-      .then(response => response)
-      .catch(err => err.response);
+      .then((response) => {
+        console.log('response -->', response);
+
+        if (!_.get(response, 'data.success')) {
+          this.authLoading = false;
+          return false;
+        }
+        console.log('SUCCESSFUL LOGIN!!');
+        localStorage.setItem('token', _.get(response, 'data.token'));
+        localStorage.setItem('userId', _.get(response, 'data.user.id'));
+        this.getUserBudgets(_.get(response, 'data.user.id'));
+
+        this.user = response.data.user;
+        this.userId = response.data.user.id;
+        this.navigator.changeRoute(`/user/${this.userId}/dashboard`, 'push');
+        this.authLoading = false;
+      })
+      .catch((err) => {
+        this.authLoading = false;
+        console.log('err msg -->', _.get(err, 'response.data.errorMessage', 'An error occurred. Please try again later.'));
+      });
   }
 
   @action

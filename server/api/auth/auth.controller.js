@@ -1,4 +1,3 @@
-
 const _ = require('lodash');
 const jwt = require('jwt-simple');
 const models = require('../../models/index');
@@ -42,18 +41,20 @@ module.exports = {
   },
 
   // LOG IN //
-  login(req, res) {
+  login(req, res, next) {
     models.User.findOne({
       where: { email: req.body.email },
       attributes: ['id', 'firstName', 'lastName', 'email', 'password'],
     })
       .then((user) => {
         if (!user) {
-          return res.status(404).json({ error: 'User email not found' });
+          const err = new Error('User email not found', 'noUserEmail');
+          return next(err);
         }
 
         if (!user.validPassword(req.body.password)) {
-          return res.status(400).json({ error: 'Invalid password' });
+          const err = new Error('Invalid password');
+          return next(err);
         }
 
         // Remove password field after validation
@@ -72,7 +73,7 @@ module.exports = {
 
         return res.status(200).json({ user: basicUser, token, success: true });
       })
-      .catch(err => res.status(400).json({ error: err }));
+      .catch(err => next(err));
   },
 
   // VERIFY AUTHED USER //
