@@ -11,7 +11,7 @@ if (!secret) {
 module.exports = {
 
   // USER INITIAL SIGN UP //
-  register(req, res) {
+  register(req, res, next) {
     models.User.isEmailUnique(req.body.email)
       .then(() => {
         const newUserInfo = {
@@ -37,7 +37,7 @@ module.exports = {
             return res.status(200).json({ user: userBasicInfo, token, success: true });
           });
       })
-      .catch(err => res.status(400).json({ error: err }));
+      .catch(err => next(err));
   },
 
   // LOG IN //

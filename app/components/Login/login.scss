@@ -1,6 +1,5 @@
 .main {
   height: 100vh;
-  min-height: 410px;
   width: 100%;
   //background: url('../../assets/common/coins-bg.jpg') no-repeat center;
   background-size: cover;
@@ -99,9 +98,10 @@
   align-items: center;
 }
 
-@media screen and (max-width: 370px) {
+@media screen and (max-width: 380px) {
   .box {
     width: 100%;
+    margin-top: 0;
     border-radius: 0;
   }
 }

@@ -51,13 +51,13 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'server/public/index.html'));
 });
 
-// Error handler
+// // ERROR HANDLER // //
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   if (_.get(err, 'message')) {
     return res.status(400).json({ errorMessage: _.get(err, 'message', 'Error') });
   }
 
-  return res.status(500).json({ errorMessage: 'An error occurred. Please try again later.' });
+  return res.status(500).json({ errorMessage: 'Server error' });
 });
 
 app.listen(port, () => {
