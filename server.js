@@ -42,6 +42,12 @@ app.get('/api/v1/test', (req, res) => {
 });
 
 // // ROUTES // //
+app.get('/logout', (req, res) => {
+  req.session = null;
+  delete req.session;
+  return res.status(200).json({ success: true });
+});
+
 require('./server/api/auth/auth.routes')(app);
 require('./server/api/users/user.routes')(app);
 require('./server/api/budgets/budget.routes')(app);

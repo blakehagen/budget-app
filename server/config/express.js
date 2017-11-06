@@ -1,11 +1,17 @@
 
 // EXPRESS //
+const _ = require('lodash');
 const express = require('express');
 const compression = require('compression');
-const session = require('express-session');
+const session = require('cookie-session');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('morgan');
+
+let sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret) {
+  sessionSecret = _.get(require('../../server/config/secret.js'), 'sessionSecret');
+}
 
 module.exports = () => {
   const app = express();
@@ -21,9 +27,9 @@ module.exports = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(session({
-    secret: 'g5~35$#hbb%#~`H$TWH@g~gfdg#GYha_#$%#%oibo',
-    resave: false,
-    saveUninitialized: true,
+    name: 'session',
+    secret: sessionSecret,
+    maxAge: 86400000 * 30, /* 30d */
   }));
 
   return app;

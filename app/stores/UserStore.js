@@ -156,11 +156,15 @@ export default class UserStore {
 
   @action
   logout() {
-    // need to logout of session!
     localStorage.clear();
+    // sessionStorage.clear();
     this.user = null;
     this.userId = null;
-    this.navigator.changeRoute('/login', 'replace');
+    this.userBudgets = null;
+    return userService.logout()
+      .then(() => {
+        this.navigator.changeRoute('/login', 'replace');
+      });
   }
 
   @action

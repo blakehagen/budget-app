@@ -29,4 +29,8 @@ export default {
       password: loginInfo.password,
     });
   },
+
+  logout() {
+    return axios.get('/logout');
+  },
 };
