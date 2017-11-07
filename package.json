@@ -8,6 +8,8 @@
     "prod": "NODE_ENV=production npm start",
     "build": "NODE_ENV=production webpack -p",
     "postinstall": "npm rebuild node-sass",
+    "heroku-prebuild": "yarn cache clean",
+    "heroku-postbuild": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
