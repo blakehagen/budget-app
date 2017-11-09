@@ -9,6 +9,17 @@ if (!secret) {
 }
 
 module.exports = {
+  // CHECK IF STORED SESSION //
+  sessionCheck(req, res, next) {
+    let result = false;
+    if (_.get(req.session, 'user', null)) {
+      result = true;
+    }
+    return res.status(200).json({
+      user: _.get(req.session, 'user', null),
+      result,
+    });
+  },
 
   // USER INITIAL SIGN UP //
   register(req, res, next) {

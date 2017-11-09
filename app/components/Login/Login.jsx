@@ -26,6 +26,10 @@ export default class Login extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.userStore.checkIfStoredSession();
+  }
+
   setAuthLoad(loading) {
     this.userStore.setAuthLoad(loading);
   }

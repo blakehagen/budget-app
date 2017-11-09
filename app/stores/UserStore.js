@@ -19,12 +19,6 @@ export default class UserStore {
     this.userId = localStorage.getItem('userId');
     this.selectedBudget = null;
     this.showBackArrow = false;
-
-    if (!_.isNull(this.userId)) {
-      this.getUser(this.userId);
-      this.getUserBudgets(this.userId);
-      this.navigator.changeRoute(`/user/${this.userId}/dashboard`, 'replace');
-    }
   }
 
   @observable authLoading;
@@ -36,6 +30,16 @@ export default class UserStore {
   @observable selectedBudget;
   @observable updatingTransactions;
   @observable showBackArrow;
+
+  @action
+  checkIfStoredSession() {
+    return userService.checkIfStoredSession()
+      .then((response) => {
+        if (!_.isNull(response.data.user) && response.data.result) {
+          this.navigator.changeRoute(`/user/${response.data.user.id}/dashboard`, 'replace');
+        }
+      });
+  }
 
   @action
   setAuthLoad(isLoading) {
@@ -70,6 +74,7 @@ export default class UserStore {
 
   @action
   getUserBudgets(userId) {
+    console.log('hi');
     if (!userId) {
       this.navigator.changeRoute('/login', 'replace');
       return false;
@@ -141,6 +146,7 @@ export default class UserStore {
 
   @action
   handleAuthSuccess(token, user) {
+    console.log('handleAuthSuccess');
     localStorage.setItem('token', token);
     localStorage.setItem('userId', user.id);
 

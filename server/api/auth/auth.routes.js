@@ -4,6 +4,12 @@ const authCtrl = require('./auth.controller');
 const middleware = require('../../middleware/middleware');
 
 module.exports = (app) => {
+  // ========================= //
+  // CHECK IF STORED SESSION //
+  // ========================= //
+  app.route('/api/v1/session-check')
+    .get(authCtrl.sessionCheck);
+
   // ======================= //
   // USER SIGN UP / REGISTER //
   // ======================= //
