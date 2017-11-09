@@ -39,19 +39,14 @@ module.exports = {
               email: createdUser.email,
             }, process.env.JWT_SECRET || secret);
 
-            req.session.user = {
-              id: createdUser.id,
-              firstName: createdUser.firstName,
-              lastName: createdUser.lastName,
-              email: createdUser.email,
-            };
-
             const user = {
               id: createdUser.id,
               firstName: createdUser.firstName,
               lastName: createdUser.lastName,
               email: createdUser.email,
             };
+
+            req.session.user = user;
 
             return res.status(200).json({ user, token, success: true });
           });
@@ -76,13 +71,6 @@ module.exports = {
           return next(err);
         }
 
-        req.session.user = {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-        };
-
         // Remove password field after validation
         const userData = {
           id: user.id,
@@ -90,6 +78,8 @@ module.exports = {
           lastName: user.lastName,
           email: user.email,
         };
+
+        req.session.user = userData;
 
         const token = jwt.encode({
           userId: user.id,
