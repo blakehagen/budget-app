@@ -1,4 +1,3 @@
-
 const _ = require('lodash');
 const jwt = require('jwt-simple');
 const models = require('../../models/index');
@@ -10,9 +9,20 @@ if (!secret) {
 }
 
 module.exports = {
+  // CHECK IF STORED SESSION //
+  sessionCheck(req, res, next) {
+    let result = false;
+    if (_.get(req.session, 'user', null)) {
+      result = true;
+    }
+    return res.status(200).json({
+      user: _.get(req.session, 'user', null),
+      result,
+    });
+  },
 
   // USER INITIAL SIGN UP //
-  register(req, res) {
+  register(req, res, next) {
     models.User.isEmailUnique(req.body.email)
       .then(() => {
         const newUserInfo = {
@@ -29,50 +39,56 @@ module.exports = {
               email: createdUser.email,
             }, process.env.JWT_SECRET || secret);
 
-            const userBasicInfo = {
+            const user = {
               id: createdUser.id,
               firstName: createdUser.firstName,
               lastName: createdUser.lastName,
+              email: createdUser.email,
             };
 
-            return res.status(200).json({ user: userBasicInfo, token, success: true });
+            req.session.user = user;
+
+            return res.status(200).json({ user, token, success: true });
           });
       })
-      .catch(err => res.status(400).json({ error: err }));
+      .catch(err => next(err));
   },
 
   // LOG IN //
-  login(req, res) {
+  login(req, res, next) {
     models.User.findOne({
       where: { email: req.body.email },
       attributes: ['id', 'firstName', 'lastName', 'email', 'password'],
     })
       .then((user) => {
         if (!user) {
-          return res.status(404).json({ error: 'User email not found' });
+          const err = new Error('User email not found', 'noUserEmail');
+          return next(err);
         }
 
         if (!user.validPassword(req.body.password)) {
-          return res.status(400).json({ error: 'Invalid password' });
+          const err = new Error('Invalid password');
+          return next(err);
         }
 
         // Remove password field after validation
-        const basicUser = {
+        const userData = {
           id: user.id,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
-          Budgets: user.Budgets,
         };
+
+        req.session.user = userData;
 
         const token = jwt.encode({
           userId: user.id,
           email: user.email,
         }, process.env.JWT_SECRET || secret);
 
-        return res.status(200).json({ user: basicUser, token, success: true });
+        return res.status(200).json({ user: userData, token, success: true });
       })
-      .catch(err => res.status(400).json({ error: err }));
+      .catch(err => next(err));
   },
 
   // VERIFY AUTHED USER //

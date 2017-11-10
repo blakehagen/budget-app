@@ -1,8 +1,7 @@
 .main {
   height: 100vh;
-  min-height: 410px;
   width: 100%;
-  background: url('../../assets/common/coins-bg.jpg') no-repeat center;
+  background: url('../../assets/common/coinsFinal2.jpg') no-repeat center;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -10,67 +9,51 @@
 }
 
 .box {
+  width: 320px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  border-radius: 10px;
-  padding: 0 10px 10px;
-  height: 255px;
   margin-top: 40px;
+  padding: 24px;
 }
 
 .titleContainer {
-  height: 38px;
+  height: 32px;
   border-radius: 4px;
   color: #45AB7F;
   width: 250px;
-  font-weight: 400;
+  font-weight: 700;
   font-family: 'Lato', sans-serif;
-  font-size: 32px;
-  line-height: 38px;
+  font-size: 28px;
+  line-height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   padding: 0 12px;
   cursor: default;
 }
 
 .piggybankIcon {
-  height: 38px;
-  width: 38px;
+  height: 34px;
+  width: 34px;
   background-size: cover;
   background: url('../../assets/common/piggybank-icon.svg') no-repeat center;
   margin-right: 12px;
 }
 
-input {
-  height: 38px;
-  border-radius: 4px;
-  background: #FFF;
-  color: #455A64;
-  padding: 0 12px;
-  width: 250px;
-  font-weight: 100;
-  font-size: 16px;
-  line-height: 38px;
-  border: 1px solid #45AB7F;
-  outline: 0;
-  margin-bottom: 10px;
-}
-
 .loginButton {
   outline: 0;
   height: 38px;
-  border-radius: 4px;
   background: rgba(69, 171, 127, 1);
   color: #FFFFFF;
-  width: 100%;
+  width: 250px;
   font-weight: 100;
   font-size: 15px;
-  margin: 0;
+  margin: 14px 0 0 0;
   cursor: pointer;
+  border: none;
   &:hover {
     background: #4AB888;
   }
@@ -80,29 +63,42 @@ input {
 }
 
 .switchForm {
-  font-weight: 100;
-  font-size: 12px;
-  margin-top: 10px;
+  margin-top: 14px;
+  width: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    font-weight: 400;
+    font-size: 14px;
+    color: #45AB7F;
+    cursor: pointer;
+    &:focus {
+      color: #4AB888;
+    }
+    &:hover {
+      color: #4AB888;
+    }
+  }
+}
+
+.errContainer {
+  height: 38px;
+  width: 250px;
+  background: #ED6464;
   color: #FFFFFF;
-  width: 250px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.isError {
-  border: 1px solid #ED6464;
-}
-
-.errorMessageContainer {
-  font-weight: 400;
+  font-weight: 100;
   font-size: 15px;
-  color: #ED6464;
-  padding: 0 12px;
-  width: 250px;
-  margin-bottom: 10px;
+  margin: 14px 0 0 0;
+  cursor: default;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media screen and (max-width: 380px) {
+  .box {
+    width: 100%;
+    margin-top: 0;
+  }
 }

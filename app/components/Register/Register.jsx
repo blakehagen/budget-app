@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
+import TextField from 'components/formComponents/TextField';
 import Spinner from 'components/Common/Spinner';
 import styles from './register.scss';
 
@@ -20,151 +21,82 @@ export default class Register extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
-      isFirstNameError: false,
-      isLastNameError: false,
-      isEmailError: false,
-      isPasswordError: false,
-      isConfirmPasswordError: false,
+      firstNameError: false,
+      lastNameError: false,
+      emailError: false,
+      passwordError: false,
+      confirmPasswordError: false,
+      emailErrorMessage: '',
+      passwordErrorMessage: '',
+      confirmPasswordErrorMessage: '',
       loading: false,
-      isSignUpError: false,
+      signUpError: false,
       signUpErrorMessage: '',
     };
   }
 
-  render() {
-    const inputSection = (
-      <div className={styles.box}>
-        <div className={styles.titleContainer}>
-          <div className={styles.piggybankIcon} />
-          Budget App
-        </div>
-
-        <input
-          className={this.state.isFirstNameError ? styles.isError : ''}
-          onChange={this.setFirstName}
-          type="text"
-          placeholder="First Name"
-        />
-        <input
-          className={this.state.isLastNameError ? styles.isError : ''}
-          onChange={this.setLastName}
-          type="text"
-          placeholder="Last Name"
-        />
-        <input
-          className={this.state.isEmailError ? styles.isError : ''}
-          onChange={this.setEmail}
-          type="text"
-          placeholder="Email"
-        />
-        <input
-          className={this.state.isPasswordError ? styles.isError : ''}
-          onChange={this.setPassword}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          className={this.state.isConfirmPasswordError ? styles.isError : ''}
-          onChange={this.setConfirmPassword}
-          type="password"
-          placeholder="Confirm Password"
-        />
-
-        {this.state.isSignUpError ? (
-          <div className={styles.errorMessageContainer}>
-            {this.state.signUpErrorMessage}
-          </div>
-        ) : null }
-
-        <input
-          className={styles.registerButton}
-          onClick={this.registerGo}
-          type="submit"
-          name="submit"
-          value="Create My Account"
-        />
-
-        <div className={styles.switchForm} onClick={this.goToLogin}>
-          Login
-        </div>
-      </div>
-    );
-
-    const spinner = (
-      <div className={styles.box}>
-        <div className={styles.titleContainer}>
-          <div className={styles.piggybankIcon} />
-          Budget App
-        </div>
-        <Spinner />
-      </div>
-    );
-
-    return (
-      <div className={styles.main}>
-        {this.state.loading ? spinner : inputSection}
-      </div>
-    );
+  setAuthLoad(loading) {
+    this.userStore.setAuthLoad(loading);
   }
 
   goToLogin() {
     this.navigator.changeRoute('/login', 'replace');
   }
 
-  setFirstName(e) {
-    this.setState({ firstName: e.target.value, isFirstNameError: false, isSignUpError: false });
-  }
-
-  setLastName(e) {
-    this.setState({ lastName: e.target.value, isLastNameError: false, isSignUpError: false });
-  }
-
-  setEmail(e) {
-    this.setState({ email: e.target.value, isEmailError: false, isSignUpError: false });
-  }
-
-  setPassword(e) {
-    this.setState({ password: e.target.value, isPasswordError: false, isSignUpError: false });
-  }
-
-  setConfirmPassword(e) {
-    this.setState({ confirmPassword: e.target.value, isConfirmPasswordError: false, isSignUpError: false });
+  handleInput(e, id) {
+    this.setState({
+      [id]: e.target.value,
+      [`${id}Error`]: false,
+      signUpError: false,
+      signUpErrorMessage: '',
+    });
   }
 
   validateRegister() {
-    if (this.state.firstName.length < 1 || this.state.lastName.length < 1 || this.state.email.length < 1 || this.state.password < 1 || this.state.confirmPassword.length < 1) {
-      if (this.state.firstName.length < 1) {
-        this.setState({ isFirstNameError: true });
+    if (
+      _.trim(this.state.firstName).length < 1
+      || _.trim(this.state.lastName).length < 1
+      || _.trim(this.state.email).length < 1
+      || _.trim(this.state.password).length < 1
+      || _.trim(this.state.confirmPassword).length < 1
+    ) {
+      if (_.trim(this.state.firstName).length < 1) {
+        this.setState({ firstNameError: true });
       }
 
-      if (this.state.lastName.length < 1) {
-        this.setState({ isLastNameError: true });
+      if (_.trim(this.state.lastName).length < 1) {
+        this.setState({ lastNameError: true });
       }
 
-      if (this.state.email.length < 1) {
-        this.setState({ isEmailError: true });
+      if (_.trim(this.state.email).length < 1) {
+        this.setState({ emailError: true, emailErrorMessage: 'Required' });
       }
 
       if (this.state.password.length < 1) {
-        this.setState({ isPasswordError: true });
+        this.setState({ passwordError: true, passwordErrorMessage: 'Required' });
       }
 
       if (this.state.confirmPassword.length < 1) {
-        this.setState({ isConfirmPasswordError: true });
+        this.setState({ confirmPasswordError: true, confirmPasswordErrorMessage: 'Required' });
       }
 
-      return false;
-    }
-
-    // Make sure passwords match
-    if (this.state.confirmPassword !== this.state.password) {
-      this.setState({ isPasswordError: true, isConfirmPasswordError: true });
       return false;
     }
 
     const emailRegex = /^.+@.+\..+$/;
     if (!emailRegex.test(this.state.email)) {
-      this.setState({ isEmailError: true });
+      this.setState({ emailError: true, emailErrorMessage: 'Invalid Email' });
+      return false;
+    }
+
+    // Make sure passwords match
+    if (this.state.confirmPassword !== this.state.password) {
+      this.setState({
+        passwordError: true,
+        confirmPasswordError: true,
+        passwordErrorMessage: 'Passwords do not match',
+        confirmPasswordErrorMessage: 'Passwords do not match',
+      });
       return false;
     }
 
@@ -177,34 +109,110 @@ export default class Register extends React.Component {
       return false;
     }
 
+    this.setAuthLoad(true);
+
     const registerInfo = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
+      firstName: _.trim(this.state.firstName),
+      lastName: _.trim(this.state.lastName),
+      email: _.trim(this.state.email),
       password: this.state.password,
       confirmPassword: this.state.confirmPassword,
     };
 
-    this.setState({ loading: true, password: '', confirmPassword: '' });
+    this.setState({ password: '', confirmPassword: '' });
 
-    this.userStore.register(registerInfo)
+    return this.userStore.register(registerInfo)
       .then((response) => {
-        if (response.status !== 200) {
-          this.setState({
-            loading: false,
-            isSignUpError: true,
-            signUpErrorMessage: _.get(response.data, 'error', 'Sign Up Failed'),
-          });
-          return false;
+        if (response.error) {
+          this.setState({ signUpError: true, signUpErrorMessage: response.error });
         }
-        console.log('SUCCESSFUL REGISTRATION!!');
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', response.data.user.id);
-        this.userStore.getUserBudgets(response.data.user.id);
-
-        this.userStore.user = response.data.user;
-        this.userStore.userId = response.data.user.id;
-        this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
       });
+  }
+
+  render() {
+    const form = (
+      <div>
+        <TextField
+          type="text"
+          placeholder="First Name"
+          id="firstName"
+          error={this.state.firstNameError}
+          errorText="Required"
+          handleInput={this.handleInput}
+          value={this.state.firstName}
+        />
+
+        <TextField
+          type="text"
+          placeholder="Last Name"
+          id="lastName"
+          error={this.state.lastNameError}
+          errorText="Required"
+          handleInput={this.handleInput}
+          value={this.state.lastName}
+        />
+
+        <TextField
+          type="text"
+          placeholder="Email"
+          id="email"
+          error={this.state.emailError}
+          errorText={this.state.emailErrorMessage}
+          handleInput={this.handleInput}
+          value={this.state.email}
+        />
+
+        <TextField
+          type="password"
+          placeholder="Password"
+          id="password"
+          error={this.state.passwordError}
+          errorText={this.state.passwordErrorMessage}
+          handleInput={this.handleInput}
+          value={this.state.password}
+        />
+
+        <TextField
+          type="password"
+          placeholder="Confirm Password"
+          id="confirmPassword"
+          error={this.state.confirmPasswordError}
+          errorText={this.state.confirmPasswordErrorMessage}
+          handleInput={this.handleInput}
+          value={this.state.confirmPassword}
+        />
+
+        <button
+          className={styles.loginButton}
+          onClick={this.registerGo}
+          type="submit"
+          name="submit"
+        >Register
+        </button>
+
+        <div className={styles.switchForm} >
+          <span onClick={this.goToLogin} role="link">Login</span>
+        </div>
+
+        {this.state.signUpError && (
+          <div className={styles.errContainer}>
+            {this.state.signUpErrorMessage}
+          </div>
+        )}
+
+      </div>
+    );
+
+    return (
+      <div className={styles.main}>
+        <div className={styles.box}>
+          <div className={styles.titleContainer}>
+            <div className={styles.piggybankIcon} />
+            Budget App
+          </div>
+          {this.userStore.authLoading ? <Spinner /> : form}
+        </div>
+      </div>
+    );
   }
 }

@@ -6,6 +6,10 @@ const BASE_URL = '/api/v1/';
 
 export default {
 
+  checkIfStoredSession() {
+    return axios.get(`${BASE_URL}session-check`);
+  },
+
   getUser(userId) {
     return axios.get(`${BASE_URL}user/${userId}`, {
       headers: {
@@ -28,5 +32,9 @@ export default {
       email: loginInfo.email,
       password: loginInfo.password,
     });
+  },
+
+  logout() {
+    return axios.get('/logout');
   },
 };

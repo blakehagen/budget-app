@@ -20,7 +20,10 @@ const userStore = new UserStore(navigator);
 
 ReactDOM.render(
   <div className={styles.appBody}>
-    <Provider userStore={userStore} navigator={navigator}>
+    <Provider
+      userStore={userStore}
+      navigator={navigator}
+    >
       <Router
         history={browserHistory}
         onUpdate={function () {

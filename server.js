@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const path = require('path');
 const config = require('./webpack.config');
 const express = require('./server/config/express.js');
@@ -41,6 +42,12 @@ app.get('/api/v1/test', (req, res) => {
 });
 
 // // ROUTES // //
+app.get('/logout', (req, res) => {
+  req.session = null;
+  delete req.session;
+  return res.status(200).json({ success: true });
+});
+
 require('./server/api/auth/auth.routes')(app);
 require('./server/api/users/user.routes')(app);
 require('./server/api/budgets/budget.routes')(app);
@@ -48,6 +55,15 @@ require('./server/api/transactions/transaction.routes')(app);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'server/public/index.html'));
+});
+
+// // ERROR HANDLER // //
+app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+  if (_.get(err, 'message')) {
+    return res.status(400).json({ errorMessage: _.get(err, 'message', 'Error') });
+  }
+
+  return res.status(500).json({ errorMessage: 'Server error' });
 });
 
 app.listen(port, () => {

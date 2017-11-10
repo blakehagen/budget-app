@@ -9,6 +9,7 @@ export default class UserStore {
     autoBind(this);
     this.navigator = navigator;
 
+    this.authLoading = false;
     this.loadingUser = false;
     this.loadingBudgets = false;
     this.loadingNewBudget = false;
@@ -18,14 +19,9 @@ export default class UserStore {
     this.userId = localStorage.getItem('userId');
     this.selectedBudget = null;
     this.showBackArrow = false;
-
-    if (!_.isNull(this.userId)) {
-      this.getUser(this.userId);
-      this.getUserBudgets(this.userId);
-      this.navigator.changeRoute(`/user/${this.userId}/dashboard`, 'replace');
-    }
   }
 
+  @observable authLoading;
   @observable user;
   @observable userId;
   @observable loadingUser;
@@ -34,6 +30,21 @@ export default class UserStore {
   @observable selectedBudget;
   @observable updatingTransactions;
   @observable showBackArrow;
+
+  @action
+  checkIfStoredSession() {
+    return userService.checkIfStoredSession()
+      .then((response) => {
+        if (!_.isNull(response.data.user) && response.data.result) {
+          this.navigator.changeRoute(`/user/${response.data.user.id}/dashboard`, 'replace');
+        }
+      });
+  }
+
+  @action
+  setAuthLoad(isLoading) {
+    this.authLoading = isLoading;
+  }
 
   @action
   getUser(userId) {
@@ -63,6 +74,7 @@ export default class UserStore {
 
   @action
   getUserBudgets(userId) {
+    console.log('hi');
     if (!userId) {
       this.navigator.changeRoute('/login', 'replace');
       return false;
@@ -93,23 +105,72 @@ export default class UserStore {
   @action
   register(registerInfo) {
     return userService.register(registerInfo)
-      .then(response => response)
-      .catch(err => err.response);
+      .then((response) => {
+        if (!_.get(response, 'data.success')) {
+          this.authLoading = false;
+          return false;
+        }
+
+        const token = _.get(response, 'data.token');
+        const user = _.get(response, 'data.user');
+
+        this.handleAuthSuccess(token, user);
+        return { success: _.get(response, 'data.success') };
+      })
+      .catch((err) => {
+        this.authLoading = false;
+        return { error: _.get(err, 'response.data.errorMessage', 'Error. Please try again.') };
+      });
   }
 
   @action
   login(loginInfo) {
     return userService.login(loginInfo)
-      .then(response => response)
-      .catch(err => err.response);
+      .then((response) => {
+        if (!_.get(response, 'data.success')) {
+          this.authLoading = false;
+          return false;
+        }
+
+        const token = _.get(response, 'data.token');
+        const user = _.get(response, 'data.user');
+
+        this.handleAuthSuccess(token, user);
+        return { success: _.get(response, 'data.success') };
+      })
+      .catch((err) => {
+        this.authLoading = false;
+        return { error: _.get(err, 'response.data.errorMessage', 'Error. Please try again.') };
+      });
+  }
+
+  @action
+  handleAuthSuccess(token, user) {
+    console.log('handleAuthSuccess');
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', user.id);
+
+    // TODO --> Handle this better, get on login with what user needs
+    this.getUserBudgets(user.id);
+    // // // //
+
+    this.user = user;
+    this.userId = user.id;
+    this.navigator.changeRoute(`/user/${this.userId}/dashboard`, 'push');
+    this.authLoading = false;
   }
 
   @action
   logout() {
     localStorage.clear();
+    // sessionStorage.clear();
     this.user = null;
     this.userId = null;
-    this.navigator.changeRoute('/login', 'replace');
+    this.userBudgets = null;
+    return userService.logout()
+      .then(() => {
+        this.navigator.changeRoute('/login', 'replace');
+      });
   }
 
   @action
