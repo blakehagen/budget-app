@@ -1,5 +1,5 @@
 module.exports = {
   development: {
-    url: 'postgres://rhwtdsgc:e1mbLrCuGT2olq5n6krVlxWZyfolah3L@babar.elephantsql.com:5432/rhwtdsgc',
+    url: 'postgres://ozahcecw:jJ6AEF8eEBIvbmpb9XloUpGkN3UfL2hH@baasu.db.elephantsql.com:5432/ozahcecw',
   },
 };

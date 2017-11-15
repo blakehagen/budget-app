@@ -1,5 +1,4 @@
 
-
 module.exports = {
   up(queryInterface, Sequelize) {
     return queryInterface.createTable(
@@ -28,8 +27,7 @@ module.exports = {
         updatedAt: {
           type: Sequelize.DATE,
         },
-      },
-    );
+      });
   },
 
   down(queryInterface, Sequelize) {

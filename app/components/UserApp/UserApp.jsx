@@ -17,12 +17,12 @@ export default class UserApp extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.userStore.user && !this.userStore.loadingUser) {
-      this.userStore.getUser(localStorage.getItem('userId'));
-    }
-    if (!this.userStore.userBudgets && !this.userStore.loadingBudgets) {
-      this.userStore.getUserBudgets(localStorage.getItem('userId'));
-    }
+    // if (!this.userStore.user && !this.userStore.loadingUser) {
+    //   this.userStore.getUser(localStorage.getItem('userId'));
+    // }
+    // if (!this.userStore.budgetSummaries) {
+    //   this.userStore.getUserBudgets(localStorage.getItem('userId'));
+    // }
   }
 
   render() {
@@ -34,7 +34,7 @@ export default class UserApp extends React.Component {
       );
     }
 
-    if (!this.userStore.userBudgets) {
+    if (!this.userStore.budgetSummaries) {
       return (
         <div className={styles.loadingContainer}>
           <Spinner />

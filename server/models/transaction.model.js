@@ -5,10 +5,10 @@ module.exports = (sequelize, DataTypes) => {
   let models;
 
   Transaction = sequelize.define('Transaction', {
-    vendor: DataTypes.TEXT,
+    vendor: DataTypes.STRING,
     amount: DataTypes.DECIMAL,
-    postedDateHumanized: DataTypes.TEXT,
-    description: DataTypes.TEXT,
+    postedDateHumanized: DataTypes.STRING,
+    description: DataTypes.STRING,
     PostedByUserId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -25,7 +25,10 @@ module.exports = (sequelize, DataTypes) => {
     classMethods: {
       init(_models) {
         models = _models;
-        Transaction.belongsTo(models.Budget);
+        Transaction.belongsTo(models.Category);
+      },
+      getUserBudgetSummaries(userId) {
+        /// new query here....
       },
       getTransactions(budgetId) {
         const sql = `SELECT t.id, t.vendor, t.amount, t.description, t."postedDateHumanized" from transactions t WHERE t."BudgetId" = ${budgetId} ORDER BY -t.id`;

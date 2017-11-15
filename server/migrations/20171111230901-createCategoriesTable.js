@@ -1,5 +1,4 @@
 
-
 module.exports = {
   up(queryInterface, Sequelize) {
     return queryInterface.createTable(
@@ -11,16 +10,10 @@ module.exports = {
           autoIncrement: true,
         },
         name: {
-          type: Sequelize.TEXT,
+          type: Sequelize.STRING,
         },
-        total: {
-          type: Sequelize.TEXT,
-        },
-        createdAt: {
-          type: Sequelize.DATE,
-        },
-        updatedAt: {
-          type: Sequelize.DATE,
+        limit: {
+          type: Sequelize.NUMERIC,
         },
         BudgetId: {
           type: Sequelize.INTEGER,
@@ -32,8 +25,16 @@ module.exports = {
           onUpdate: 'cascade',
           onDelete: 'cascade',
         },
-      },
-    );
+        description: {
+          type: Sequelize.NUMERIC,
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+        },
+      });
   },
 
   down(queryInterface, Sequelize) {

@@ -10,6 +10,7 @@ export default class UserStore {
     this.navigator = navigator;
 
     this.authLoading = false;
+    this.budgetSummaries = [];
     this.loadingUser = false;
     this.loadingBudgets = false;
     this.loadingNewBudget = false;
@@ -22,6 +23,7 @@ export default class UserStore {
   }
 
   @observable authLoading;
+  @observable budgetSummaries;
   @observable user;
   @observable userId;
   @observable loadingUser;
@@ -33,12 +35,13 @@ export default class UserStore {
 
   @action
   checkIfStoredSession() {
-    return userService.checkIfStoredSession()
-      .then((response) => {
-        if (!_.isNull(response.data.user) && response.data.result) {
-          this.navigator.changeRoute(`/user/${response.data.user.id}/dashboard`, 'replace');
-        }
-      });
+    console.log('check if stored session');
+    // return userService.checkIfStoredSession()
+    //   .then((response) => {
+    //     if (!_.isNull(response.data.user) && response.data.result) {
+    //       this.navigator.changeRoute(`/user/${response.data.user.id}/dashboard`, 'replace');
+    //     }
+    //   });
   }
 
   @action
@@ -72,35 +75,35 @@ export default class UserStore {
       });
   }
 
-  @action
-  getUserBudgets(userId) {
-    console.log('hi');
-    if (!userId) {
-      this.navigator.changeRoute('/login', 'replace');
-      return false;
-    }
-    this.loadingBudgets = true;
-
-    budgetService.getBudgets(userId)
-      .then((response) => {
-        this.loadingBudgets = false;
-        this.loadingNewBudget = false;
-        if (_.isError(response) || response.status !== 200) {
-          this.navigator.changeRoute('/login', 'replace');
-        } else {
-          this.userBudgets = response.data;
-          if (this.selectedBudget) {
-            this.selectedBudget = _.find(this.userBudgets, { id: this.selectedBudget.id });
-            this.updatingTransactions = false;
-          }
-        }
-      })
-      .catch((err) => {
-        this.loadingBudgets = false;
-        console.error(err);
-        this.navigator.changeRoute('/login', 'replace');
-      });
-  }
+  // @action
+  // getUserBudgets(userId) {
+  //   console.log('hi');
+  //   if (!userId) {
+  //     this.navigator.changeRoute('/login', 'replace');
+  //     return false;
+  //   }
+  //   this.loadingBudgets = true;
+  //
+  //   budgetService.getBudgets(userId)
+  //     .then((response) => {
+  //       this.loadingBudgets = false;
+  //       this.loadingNewBudget = false;
+  //       if (_.isError(response) || response.status !== 200) {
+  //         this.navigator.changeRoute('/login', 'replace');
+  //       } else {
+  //         this.userBudgets = response.data;
+  //         if (this.selectedBudget) {
+  //           this.selectedBudget = _.find(this.userBudgets, { id: this.selectedBudget.id });
+  //           this.updatingTransactions = false;
+  //         }
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       this.loadingBudgets = false;
+  //       console.error(err);
+  //       this.navigator.changeRoute('/login', 'replace');
+  //     });
+  // }
 
   @action
   register(registerInfo) {
@@ -147,15 +150,17 @@ export default class UserStore {
   @action
   handleAuthSuccess(token, user) {
     console.log('handleAuthSuccess');
+    console.log('user -->', user);
     localStorage.setItem('token', token);
     localStorage.setItem('userId', user.id);
 
     // TODO --> Handle this better, get on login with what user needs
-    this.getUserBudgets(user.id);
+    // this.getUserBudgets(user.id);
     // // // //
 
     this.user = user;
     this.userId = user.id;
+    this.budgetSummaries = user.budgetSummaries;
     this.navigator.changeRoute(`/user/${this.userId}/dashboard`, 'push');
     this.authLoading = false;
   }

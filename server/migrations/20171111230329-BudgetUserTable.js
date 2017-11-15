@@ -1,5 +1,4 @@
 
-
 module.exports = {
   up(queryInterface, Sequelize) {
     return queryInterface.createTable(
@@ -25,8 +24,7 @@ module.exports = {
           onUpdate: 'cascade',
           onDelete: 'cascade',
         },
-      },
-    );
+      });
   },
 
   down(queryInterface, Sequelize) {

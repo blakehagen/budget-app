@@ -26,17 +26,17 @@ module.exports = {
       });
   },
 
-  getUserBudgets(req, res) {
-    models.Budget.getUserBudgets(req.params.userId)
-      .then(budgets => BPromise.each(budgets, budget => models.Transaction.getTransactions(budget.id)
-        .then((transactions) => {
-          budget.transactions = transactions;
-        }))
-        .then(() => res.status(200).json(budgets)))
-      .catch((err) => {
-        console.log('err', err);
-        return res.status(400).json({ error: err });
-      });
-  },
+  // getUserBudgets(req, res) {
+  //   models.Budget.getUserBudgets(req.params.userId)
+  //     .then(budgets => BPromise.each(budgets, budget => models.Transaction.getTransactions(budget.id)
+  //       .then((transactions) => {
+  //         budget.transactions = transactions;
+  //       }))
+  //       .then(() => res.status(200).json(budgets)))
+  //     .catch((err) => {
+  //       console.log('err', err);
+  //       return res.status(400).json({ error: err });
+  //     });
+  // },
 
 };
