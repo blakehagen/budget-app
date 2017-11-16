@@ -1,0 +1,41 @@
+.card {
+  width: 250px;
+  margin: 20px 40px;
+  .header {
+    height: 40px;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 100;
+    color: #555555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.summaryContentWrapper {
+  margin-top: 20px;
+}
+
+.summaryContent {
+  padding: 4px 0 4px 14px;
+  display: flex;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 100;
+  cursor: default;
+}
+
+.amount {
+  font-size: 20px;
+  color: #555555;
+}
+
+.label {
+  width: 80px;
+  font-size: 14px;
+  color: #BBBBBB;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

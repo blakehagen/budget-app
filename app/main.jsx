@@ -14,6 +14,7 @@ import BudgetDetails from 'components/UserApp/Dashboard/BudgetDetails';
 import CreateBudget from 'components/UserApp/CreateBudget';
 import CreateTransaction from 'components/UserApp/CreateTransaction';
 import styles from './main.scss';
+import reactCircularProgressSyles from './styles/lib/react-circular-progressbar.css'; // eslint-disable-line
 
 const navigator = new Navigator();
 const userStore = new UserStore(navigator);
@@ -34,7 +35,7 @@ ReactDOM.render(
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route
-          path="/user/:userId"
+          path="/:userId"
           onEnter={paramsCheck()}
           component={UserApp}
         >
@@ -58,7 +59,7 @@ ReactDOM.render(
             onEnter={paramsCheck()}
             component={CreateTransaction}
           />
-          <IndexRedirect to="/user/:userId/dashboard" />
+          <IndexRedirect to="/:userId/dashboard" />
         </Route>
         <Route path="*" component={Login}>
           <IndexRedirect to="/login" />
@@ -75,6 +76,7 @@ function handleChange() {
 function paramsCheck() {
   return (nextState, replace) => {
     if (nextState.params.userId !== String(userStore.userId)) {
+      // Just redirect to current user dashboard instead of logging out...
       replace('/login');
     }
   };

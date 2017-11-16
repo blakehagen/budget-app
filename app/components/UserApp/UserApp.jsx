@@ -16,14 +16,14 @@ export default class UserApp extends React.Component {
     this.navigator = this.props.navigator;
   }
 
-  componentWillMount() {
-    // if (!this.userStore.user && !this.userStore.loadingUser) {
-    //   this.userStore.getUser(localStorage.getItem('userId'));
-    // }
-    // if (!this.userStore.budgetSummaries) {
-    //   this.userStore.getUserBudgets(localStorage.getItem('userId'));
-    // }
-  }
+  // componentWillMount() {
+  // if (!this.userStore.user && !this.userStore.loadingUser) {
+  //   this.userStore.getUser(localStorage.getItem('userId'));
+  // }
+  // if (!this.userStore.budgetSummaries) {
+  //   this.userStore.getUserBudgets(localStorage.getItem('userId'));
+  // }
+  // }
 
   render() {
     if (!this.userStore.user) {

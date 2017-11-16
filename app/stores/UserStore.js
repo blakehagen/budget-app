@@ -161,7 +161,7 @@ export default class UserStore {
     this.user = user;
     this.userId = user.id;
     this.budgetSummaries = user.budgetSummaries;
-    this.navigator.changeRoute(`/user/${this.userId}/dashboard`, 'push');
+    this.navigator.changeRoute(`/${this.userId}/dashboard`, 'push');
     this.authLoading = false;
   }
 
