@@ -20,6 +20,7 @@ export default class CreateBudget extends React.Component {
     this.navigator = this.props.navigator;
     this.state = {
       budgetName: '',
+      budgetNameError: false,
       recurring: '',
       categoryName: '',
       categoryLimit: '',
@@ -36,7 +37,7 @@ export default class CreateBudget extends React.Component {
     this.userStore.showBackArrow = true;
   }
 
-  setInterval(interval) {
+  setBudgetInterval(interval) {
     this.setState({ recurring: interval.value });
   }
 
@@ -52,11 +53,8 @@ export default class CreateBudget extends React.Component {
     const limit = this.state.categoryLimit;
 
     if (!this.validateCategory(name, limit)) {
-      console.log('INVALID category!');
       return false;
     }
-
-    console.log('valid category!');
 
     this.setState({
       budgetCategories: _.concat(this.state.budgetCategories, {
@@ -156,8 +154,8 @@ export default class CreateBudget extends React.Component {
             type="text"
             placeholder="Budget Name"
             id="name"
-            error={this.state.nameError}
-            errorText={this.state.nameErrorMessage}
+            error={this.state.budgetNameError}
+            errorText="Required"
             handleInput={this.handleInput}
             value={this.state.name}
           />
@@ -170,7 +168,7 @@ export default class CreateBudget extends React.Component {
             clearable={false}
             searchable={false}
             options={budgetIntervalOptions}
-            onChange={this.setInterval}
+            onChange={this.setBudgetInterval}
           />
 
           <div className={styles.categoryWrapper}>
@@ -242,39 +240,57 @@ export default class CreateBudget extends React.Component {
   // }
 
   validateInputs() {
-    if (this.state.budgetName.length < 1 || this.state.budgetLimit.length < 1) {
-      if (this.state.budgetName.length < 1) {
-        this.setState({ errorBudgetName: 'Required' });
-      }
+    const newState = {};
 
-      if (this.state.budgetLimit.length < 1) {
-        this.setState({ errorBudgetLimit: 'Required' });
-      }
-      return false;
+    if (_.trim(this.state.budgetName).length < 1) {
+      newState.budgetNameError = true;
     }
 
-    const limit = Number(this.state.budgetLimit);
+    this.setState({
+      budgetNameError: newState.budgetNameError || false,
+    });
 
-    if (_.isNaN(limit)) {
-      this.setState({ errorBudgetLimit: 'Enter a number' });
-      return false;
-    }
-
-    if (limit < 1) {
-      this.setState({ errorBudgetLimit: 'Cannot be less than 1' });
+    if (newState.budgetNameError) {
       return false;
     }
 
     return true;
+    // if (this.state.budgetName.length < 1 || this.state.budgetLimit.length < 1) {
+    //   if (this.state.budgetName.length < 1) {
+    //     this.setState({ errorBudgetName: 'Required' });
+    //   }
+    //
+    //   if (this.state.budgetLimit.length < 1) {
+    //     this.setState({ errorBudgetLimit: 'Required' });
+    //   }
+    //   return false;
+    // }
+    //
+    // const limit = Number(this.state.budgetLimit);
+    //
+    // if (_.isNaN(limit)) {
+    //   this.setState({ errorBudgetLimit: 'Enter a number' });
+    //   return false;
+    // }
+    //
+    // if (limit < 1) {
+    //   this.setState({ errorBudgetLimit: 'Cannot be less than 1' });
+    //   return false;
+    // }
+    //
+    // return true;
   }
 
   saveNewBudget(e) {
     console.log('save!');
 
-    // if (!this.validateInputs()) {
-    //   e.preventDefault();
-    //   return false;
-    // }
+    if (!this.validateInputs()) {
+      e.preventDefault();
+      return false;
+    }
+
+    console.log('VALID SAVE!');
+
 
     // const budgetInfo = {
     //   CreatedByUserId: this.userStore.user.id,
