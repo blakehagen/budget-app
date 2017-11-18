@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING,
     recurring: DataTypes.BOOLEAN,
     createdDateHumanized: DataTypes.STRING,
-    UserId: {
+    CreatedByUserId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
             ) as "budgetSpent"
           FROM budgets b
           WHERE b.status = 'active'
-          AND b."UserId" = ${userId}
+          AND b."CreatedByUserId" = ${userId}
         `;
         return sequelize.query(sql, {
           raw: true,

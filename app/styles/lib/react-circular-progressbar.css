@@ -29,6 +29,7 @@
     font-size: 20px;
     dominant-baseline: middle;
     text-anchor: middle;
+    cursor: default;
 }
 
 .CircularProgressbar .CircularProgressbar-background {

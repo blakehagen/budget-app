@@ -4,13 +4,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .title {
-  font-size: 20px;
+  padding: 4px 0 0 0;
+  font-size: 22px;
   font-weight: 100;
-  color: #455A64;
+  color: #555555;
 }
 
 .createBudgetForm {
@@ -18,18 +19,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
-.budgetInput {
-  border: 1px solid #FFFFFF;
-  border-radius: 0;
-  border-bottom: 1px solid #CCCCCC;
-  width: 290px;
-  margin-bottom: 0;
-  &:focus {
-    border-bottom: 1px solid #45AB7F;
-  }
+.categoryWrapper {
+  border: 1px solid #EEE;
+  background: #f9f9f9;
+  padding: 2px 20px 20px;
+  margin-top: 6px;
 }
 
 .errorContainer {
@@ -43,19 +40,26 @@
 }
 
 .saveButton {
-  width: 290px;
   height: 38px;
-  border-radius: 4px;
   background: rgba(69, 171, 127, 1);
   color: #FFFFFF;
+  width: 250px;
   font-weight: 100;
   font-size: 15px;
-  margin-top: 14px;
+  margin: 14px 0 0 0;
   cursor: pointer;
+  border: none;
   &:hover {
     background: #4AB888;
   }
   &:focus {
     background: #4AB888;
   }
+}
+
+.selectDropdown {
+  width: 250px;
+  height: 38px;
+  border: none;
+  margin: 10px 0;
 }

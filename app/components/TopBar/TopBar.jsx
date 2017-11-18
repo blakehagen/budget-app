@@ -35,7 +35,7 @@ export default class TopBar extends React.Component {
   }
 
   goToDashboard() {
-    this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'push');
+    this.navigator.changeRoute(`/${this.userStore.userId}/dashboard`, 'push');
   }
 
   logout() {

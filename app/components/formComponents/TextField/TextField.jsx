@@ -16,6 +16,7 @@ const TextInput = (props) => {
         placeholder={placeholder}
         onKeyUp={e => handleInput(e, id)}
         defaultValue={value}
+        id={id}
       />
     </div>
   );

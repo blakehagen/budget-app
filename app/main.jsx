@@ -15,6 +15,7 @@ import CreateBudget from 'components/UserApp/CreateBudget';
 import CreateTransaction from 'components/UserApp/CreateTransaction';
 import styles from './main.scss';
 import reactCircularProgressSyles from './styles/lib/react-circular-progressbar.css'; // eslint-disable-line
+import reactSelectOverrides from './styles/react-select-overrides.scss'; // eslint-disable-line
 
 const navigator = new Navigator();
 const userStore = new UserStore(navigator);
@@ -50,7 +51,7 @@ ReactDOM.render(
             component={BudgetDetails}
           />
           <Route
-            path="new-budget"
+            path="create-budget"
             onEnter={paramsCheck()}
             component={CreateBudget}
           />

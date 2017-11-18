@@ -34,10 +34,10 @@ export default class DashboardHeader extends React.Component {
   }
 
   createNewBudget() {
-    this.navigator.changeRoute(`/user/${this.userStore.userId}/new-budget`, 'push');
+    this.navigator.changeRoute(`/${this.userStore.userId}/create-budget`, 'push');
   }
 
   createNewTransaction() {
-    this.navigator.changeRoute(`/user/${this.userStore.userId}/new-transaction`, 'push');
+    this.navigator.changeRoute(`/${this.userStore.userId}/new-transaction`, 'push');
   }
 }
