@@ -103,10 +103,19 @@ export default class CreateBudget extends React.Component {
       newState.categoryLimitErrorMessage = 'Required';
     }
 
-    const limitRegex = /^\d*\.?\d*$/;
-    if (!limitRegex.test(limit)) {
-      newState.categoryLimitError = true;
-      newState.categoryLimitErrorMessage = 'Must be a number';
+    if (!newState.categoryLimitError) {
+      const limitRegex = /^\d*\.?\d*$/;
+      if (!limitRegex.test(limit)) {
+        newState.categoryLimitError = true;
+        newState.categoryLimitErrorMessage = 'Must be a number';
+      }
+    }
+
+    if (!newState.categoryLimitError) {
+      if (_.toNumber(limit) < 1) {
+        newState.categoryLimitError = true;
+        newState.categoryLimitErrorMessage = 'Must be greater than 1';
+      }
     }
 
     this.setState({
