@@ -4,14 +4,26 @@ import TextField from 'components/formComponents/TextField';
 import styles from './categoryForm.scss';
 
 const CategoryForm = (props) => {
-  const { categoryName, categoryLimit, categoryDescription, handleInput, onSave } = props;
+  const {
+    categoryName,
+    categoryLimit,
+    handleInput,
+    onSave,
+    categoryNameError,
+    categoryLimitError,
+    categoryNameErrorMessage,
+    categoryLimitErrorMessage
+  } = props;
+
   return (
     <div className={styles.wrapper}>
       <TextField
         type="text"
         placeholder="Category Name"
         handleInput={handleInput}
-        defaultValue={categoryName}
+        value={categoryName}
+        error={categoryNameError}
+        errorText={categoryNameErrorMessage}
         id="Name"
       />
 
@@ -20,6 +32,8 @@ const CategoryForm = (props) => {
         placeholder="Category Limit ($)"
         handleInput={handleInput}
         value={categoryLimit}
+        error={categoryLimitError}
+        errorText={categoryLimitErrorMessage}
         id="Limit"
       />
 

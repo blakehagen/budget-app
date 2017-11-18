@@ -23,7 +23,10 @@ export default class CreateBudget extends React.Component {
       recurring: '',
       categoryName: '',
       categoryLimit: '',
-      categoryDescription: '',
+      categoryNameError: false,
+      categoryLimitError: false,
+      categoryNameErrorMessage: '',
+      categoryLimitErrorMessage: '',
       budgetCategories: [],
     };
   }
@@ -38,17 +41,26 @@ export default class CreateBudget extends React.Component {
   }
 
   handleCategoryInput(e, id) {
-    this.setState({ [`category${id}`]: e.target.value });
+    this.setState({
+      [`category${id}`]: e.target.value,
+      [`category${id}Error`]: false,
+    });
   }
 
   categorySave() {
-    console.log('categorySave!');
     const name = this.state.categoryName;
     const limit = this.state.categoryLimit;
 
+    if (!this.validateCategory(name, limit)) {
+      console.log('INVALID category!');
+      return false;
+    }
+
+    console.log('valid category!');
+
     this.setState({
       budgetCategories: _.concat(this.state.budgetCategories, {
-        name,
+        name: _.trim(name),
         limit,
       }),
     });
@@ -64,7 +76,6 @@ export default class CreateBudget extends React.Component {
   }
 
   clearCategoryForm() {
-    console.log('clearForm!');
     this.setState({
       categoryName: '',
       categoryLimit: '',
@@ -77,6 +88,39 @@ export default class CreateBudget extends React.Component {
   removeCategory(index) {
     this.state.budgetCategories.splice(index, 1);
     this.setState({ budgetCategories: this.state.budgetCategories });
+  }
+
+  validateCategory(name, limit) {
+    const newState = {};
+
+    if (_.trim(name).length < 1) {
+      newState.categoryNameError = true;
+      newState.categoryNameErrorMessage = 'Required';
+    }
+
+    if (_.trim(limit).length < 1) {
+      newState.categoryLimitError = true;
+      newState.categoryLimitErrorMessage = 'Required';
+    }
+
+    const limitRegex = /^\d*\.?\d*$/;
+    if (!limitRegex.test(limit)) {
+      newState.categoryLimitError = true;
+      newState.categoryLimitErrorMessage = 'Must be a number';
+    }
+
+    this.setState({
+      categoryNameError: newState.categoryNameError || false,
+      categoryNameErrorMessage: newState.categoryNameErrorMessage || '',
+      categoryLimitError: newState.categoryLimitError || false,
+      categoryLimitErrorMessage: newState.categoryLimitErrorMessage || '',
+    });
+
+    if (newState.categoryNameError || newState.categoryLimitError) {
+      return false;
+    }
+
+    return true;
   }
 
   render() {
@@ -131,6 +175,10 @@ export default class CreateBudget extends React.Component {
               categoryLimit={this.state.categoryLimit}
               handleInput={this.handleCategoryInput}
               onSave={this.categorySave}
+              categoryNameError={this.state.categoryNameError}
+              categoryLimitError={this.state.categoryLimitError}
+              categoryNameErrorMessage={this.state.categoryNameErrorMessage}
+              categoryLimitErrorMessage={this.state.categoryLimitErrorMessage}
             />
           </div>
 
