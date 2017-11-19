@@ -3,51 +3,47 @@ import PropTypes from 'prop-types';
 import TextField from 'components/formComponents/TextField';
 import styles from './categoryForm.scss';
 
-const CategoryForm = (props) => {
-  const {
-    categoryName,
-    categoryLimit,
-    handleInput,
-    onSave,
-    categoryNameError,
-    categoryLimitError,
-    categoryNameErrorMessage,
-    categoryLimitErrorMessage,
-  } = props;
+const CategoryForm = ({
+  categoryName,
+  categoryLimit,
+  handleInput,
+  onSave,
+  categoryNameError,
+  categoryLimitError,
+  categoryNameErrorMessage,
+  categoryLimitErrorMessage,
+}) => (
+  <div className={styles.wrapper}>
+    <TextField
+      type="text"
+      placeholder="Category Name"
+      handleInput={handleInput}
+      value={categoryName}
+      error={categoryNameError}
+      errorText={categoryNameErrorMessage}
+      id="Name"
+    />
 
-  return (
-    <div className={styles.wrapper}>
-      <TextField
-        type="text"
-        placeholder="Category Name"
-        handleInput={handleInput}
-        value={categoryName}
-        error={categoryNameError}
-        errorText={categoryNameErrorMessage}
-        id="Name"
-      />
+    <TextField
+      type="text"
+      placeholder="Category Limit ($)"
+      handleInput={handleInput}
+      value={categoryLimit}
+      error={categoryLimitError}
+      errorText={categoryLimitErrorMessage}
+      id="Limit"
+    />
 
-      <TextField
-        type="text"
-        placeholder="Category Limit ($)"
-        handleInput={handleInput}
-        value={categoryLimit}
-        error={categoryLimitError}
-        errorText={categoryLimitErrorMessage}
-        id="Limit"
-      />
+    <button
+      className={styles.saveCategory}
+      onClick={onSave}
+      type="submit"
+      name="submit"
+    >Add Category to Budget
+    </button>
 
-      <button
-        className={styles.saveCategory}
-        onClick={onSave}
-        type="submit"
-        name="submit"
-      >Add Category to Budget
-      </button>
-
-    </div>
-  );
-};
+  </div>
+);
 
 CategoryForm.propTypes = {
   categoryName: PropTypes.string.isRequired,
