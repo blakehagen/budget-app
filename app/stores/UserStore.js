@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { browserHistory } from 'react-router';
 import { observable, action } from 'mobx';
 import autoBind from 'react-autobind';
 import userService from 'services/user';
@@ -33,17 +34,26 @@ export default class UserStore {
   @observable updatingTransactions;
   @observable showBackArrow;
 
+  /* ****************************************************************************
+    Check User Session
+  **************************************************************************** */
   @action
   checkIfStoredSession() {
-    console.log('check if stored session');
-    // return userService.checkIfStoredSession()
-    //   .then((response) => {
-    //     if (!_.isNull(response.data.user) && response.data.result) {
-    //       this.navigator.changeRoute(`/user/${response.data.user.id}/dashboard`, 'replace');
-    //     }
-    //   });
+    this.authLoading = true;
+    return userService.checkIfStoredSession()
+      .then((response) => {
+        console.log('response.data -->', response.data);
+        if (response.data.success) {
+          this.handleAuthSuccess(localStorage.getItem('token'), response.data.user);
+        } else {
+          this.authLoading = false;
+        }
+      });
   }
 
+  /* ****************************************************************************
+  Loading Auth
+  **************************************************************************** */
   @action
   setAuthLoad(isLoading) {
     this.authLoading = isLoading;
@@ -105,6 +115,9 @@ export default class UserStore {
   //     });
   // }
 
+  /* ****************************************************************************
+    User Signup / Register
+  **************************************************************************** */
   @action
   register(registerInfo) {
     return userService.register(registerInfo)
@@ -126,6 +139,9 @@ export default class UserStore {
       });
   }
 
+  /* ****************************************************************************
+  User Login
+  **************************************************************************** */
   @action
   login(loginInfo) {
     return userService.login(loginInfo)
@@ -147,28 +163,31 @@ export default class UserStore {
       });
   }
 
+  /* ****************************************************************************
+  Handle Auth Success
+  **************************************************************************** */
   @action
   handleAuthSuccess(token, user) {
-    console.log('handleAuthSuccess');
-    console.log('user -->', user);
     localStorage.setItem('token', token);
     localStorage.setItem('userId', user.id);
-
-    // TODO --> Handle this better, get on login with what user needs
-    // this.getUserBudgets(user.id);
-    // // // //
 
     this.user = user;
     this.userId = user.id;
     this.budgetSummaries = user.budgetSummaries;
-    this.navigator.changeRoute(`/${this.userId}/dashboard`, 'push');
+
+    const location = browserHistory.getCurrentLocation();
+    if (location.pathname !== `/${this.userId}/dashboard`) {
+      this.navigator.changeRoute(`/${this.userId}/dashboard`, 'push');
+    }
     this.authLoading = false;
   }
 
+  /* ****************************************************************************
+  Logout
+  **************************************************************************** */
   @action
   logout() {
     localStorage.clear();
-    // sessionStorage.clear();
     this.user = null;
     this.userId = null;
     this.userBudgets = null;

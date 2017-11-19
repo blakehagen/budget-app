@@ -14,6 +14,8 @@ import BudgetDetails from 'components/UserApp/Dashboard/BudgetDetails';
 import CreateBudget from 'components/UserApp/CreateBudget';
 import CreateTransaction from 'components/UserApp/CreateTransaction';
 import styles from './main.scss';
+
+/* Import styles for webpack bundling */
 import reactCircularProgressSyles from './styles/lib/react-circular-progressbar.css'; // eslint-disable-line
 import reactSelectOverrides from './styles/react-select-overrides.scss'; // eslint-disable-line
 

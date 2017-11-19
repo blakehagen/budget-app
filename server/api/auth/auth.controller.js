@@ -22,18 +22,22 @@ function generateToken(userId, userEmail) {
 }
 
 module.exports = {
-
   /* ****************************************************************************
    Check User Session
    **************************************************************************** */
-  sessionCheck(req, res, next) {
-    let result = false;
-    if (_.get(req.session, 'user', null)) {
-      result = true;
+  sessionCheck(req, res) {
+    if (_.get(req.session, 'user', null) && _.get(req.headers, 'authorization', null)) {
+      return getUserBudgetSnapshots(req.session.user.id)
+        .then((userBudgets) => {
+          req.session.user.budgetSummaries = userBudgets;
+          return res.status(200).json({
+            user: _.get(req.session, 'user'),
+            success: true,
+          });
+        });
     }
     return res.status(200).json({
-      user: _.get(req.session, 'user', null),
-      result,
+      success: false,
     });
   },
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { reaction } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
@@ -16,25 +15,14 @@ export default class UserApp extends React.Component {
     this.navigator = this.props.navigator;
   }
 
-  // componentWillMount() {
-  // if (!this.userStore.user && !this.userStore.loadingUser) {
-  //   this.userStore.getUser(localStorage.getItem('userId'));
-  // }
-  // if (!this.userStore.budgetSummaries) {
-  //   this.userStore.getUserBudgets(localStorage.getItem('userId'));
-  // }
-  // }
+  componentWillMount() {
+    if (!this.userStore.user) {
+      this.userStore.checkIfStoredSession();
+    }
+  }
 
   render() {
-    if (!this.userStore.user) {
-      return (
-        <div className={styles.loadingContainer}>
-          <Spinner />
-        </div>
-      );
-    }
-
-    if (!this.userStore.budgetSummaries) {
+    if (this.userStore.authLoading) {
       return (
         <div className={styles.loadingContainer}>
           <Spinner />

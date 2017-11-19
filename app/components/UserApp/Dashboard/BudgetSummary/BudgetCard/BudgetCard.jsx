@@ -9,7 +9,6 @@ import CircularProgressbar from 'react-circular-progressbar';
 import styles from './budgetCard.scss';
 
 const BudgetCard = (props) => {
-  console.log('props -->', props);
   const percentUsed = Math.round((props.spent / props.limit) * 100) || 0;
   return (
     <div className={styles.card}>
