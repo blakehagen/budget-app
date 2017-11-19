@@ -36,14 +36,20 @@ const SelectField = (props) => {
   );
 };
 
-// SelectField.propTypes = {
-//   error: PropTypes.bool.isRequired,
-//   errorText: PropTypes.string.isRequired,
-//   handleInput: PropTypes.func.isRequired,
-//   id: PropTypes.string.isRequired,
-//   placeholder: PropTypes.string.isRequired,
-//   type: PropTypes.string.isRequired,
-//   value: PropTypes.string.isRequired,
-// };
+SelectField.defaultProps = {
+  value: '',
+};
+
+SelectField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  error: PropTypes.bool.isRequired,
+  errorText: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  clearable: PropTypes.bool.isRequired,
+  searchable: PropTypes.bool.isRequired,
+};
 
 export default SelectField;

@@ -22,6 +22,10 @@ const TextInput = (props) => {
   );
 };
 
+TextInput.defaultProps = {
+  value: '',
+};
+
 TextInput.propTypes = {
   error: PropTypes.bool.isRequired,
   errorText: PropTypes.string.isRequired,
@@ -29,7 +33,7 @@ TextInput.propTypes = {
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 };
 
 export default TextInput;

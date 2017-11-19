@@ -12,7 +12,7 @@ const CategoryForm = (props) => {
     categoryNameError,
     categoryLimitError,
     categoryNameErrorMessage,
-    categoryLimitErrorMessage
+    categoryLimitErrorMessage,
   } = props;
 
   return (
@@ -49,19 +49,15 @@ const CategoryForm = (props) => {
   );
 };
 
-// CategoryForm.propTypes = {
-//   error: PropTypes.bool.isRequired,
-//   errorText: PropTypes.string.isRequired,
-//   handleInput: PropTypes.func.isRequired,
-//   id: PropTypes.string.isRequired,
-//   placeholder: PropTypes.string.isRequired,
-//   type: PropTypes.string.isRequired,
-//   value: PropTypes.string.isRequired,
-// };
-
-// error={this.state.nameError}
-// errorText={this.state.nameErrorMessage}
-// handleInput={this.handleInput}
-// value={this.state.name}
+CategoryForm.propTypes = {
+  categoryName: PropTypes.string.isRequired,
+  categoryLimit: PropTypes.string.isRequired,
+  handleInput: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  categoryNameError: PropTypes.bool.isRequired,
+  categoryLimitError: PropTypes.bool.isRequired,
+  categoryNameErrorMessage: PropTypes.string.isRequired,
+  categoryLimitErrorMessage: PropTypes.string.isRequired,
+};
 
 export default CategoryForm;
