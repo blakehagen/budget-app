@@ -16,9 +16,14 @@ const TextInput = (props) => {
         placeholder={placeholder}
         onKeyUp={e => handleInput(e, id)}
         defaultValue={value}
+        id={id}
       />
     </div>
   );
+};
+
+TextInput.defaultProps = {
+  value: '',
 };
 
 TextInput.propTypes = {
@@ -28,7 +33,7 @@ TextInput.propTypes = {
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 };
 
 export default TextInput;

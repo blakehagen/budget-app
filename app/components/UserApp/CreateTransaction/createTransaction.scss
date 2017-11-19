@@ -65,35 +65,3 @@
   height: 38px !important;
   border: none !important;
 }
-
-// *************************************** //
-// **** SELECT DROP-DOWN OVERRIDES **** //
-// *************************************** //
-
-:global(.Select-control) {
-  color: #45AB7F !important;
-  border: 1px solid #FFFFFF !important;
-  border-radius: 0 !important;
-  border-bottom: 1px solid #CCCCCC !important;
-}
-
-:global(.Select-placeholder) {
-  color: #45AB7F !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-weight: 100 !important;
-  letter-spacing: 0.5px !important;
-  font-size: 16px !important;
-  outline: none !important;
-}
-
-:global(.Select-value-label) {
-  color: #45AB7F !important;
-  font-weight: 100 !important;
-  font-size: 16px !important;
-}
-
-:global(.Select-option) {
-  color: #455A64 !important;
-  font-weight: 100 !important;
-  font-size: 16px !important;
-}

@@ -1,5 +1,4 @@
 
-
 module.exports = {
   up(queryInterface, Sequelize) {
     return queryInterface.createTable(
@@ -11,6 +10,15 @@ module.exports = {
           autoIncrement: true,
         },
         name: {
+          type: Sequelize.STRING,
+        },
+        status: {
+          type: Sequelize.STRING,
+        },
+        recurring: {
+          type: Sequelize.BOOLEAN,
+        },
+        createdDateHumanized: {
           type: Sequelize.STRING,
         },
         createdAt: {

@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const jwt = require('jwt-simple');
 const models = require('../../models/index');
+const budgetUtils = require('../../utils/budgetUtils');
 
 let secret = process.env.JWT_SECRET;
 
@@ -8,20 +9,41 @@ if (!secret) {
   secret = _.get(require('../../../server/config/secret.js'), 'tokenSecret');
 }
 
+function getUserBudgetSnapshots(userId) {
+  return models.Budget.getBudgetSnapshots(userId)
+    .then(budgets => (budgetUtils.getDifference(budgets)));
+}
+
+function generateToken(userId, userEmail) {
+  return jwt.encode({
+    userId,
+    email: userEmail,
+  }, process.env.JWT_SECRET || secret);
+}
+
 module.exports = {
-  // CHECK IF STORED SESSION //
-  sessionCheck(req, res, next) {
-    let result = false;
-    if (_.get(req.session, 'user', null)) {
-      result = true;
+  /* ****************************************************************************
+   Check User Session
+   **************************************************************************** */
+  sessionCheck(req, res) {
+    if (_.get(req.session, 'user', null) && _.get(req.headers, 'authorization', null)) {
+      return getUserBudgetSnapshots(req.session.user.id)
+        .then((userBudgets) => {
+          req.session.user.budgetSummaries = userBudgets;
+          return res.status(200).json({
+            user: _.get(req.session, 'user'),
+            success: true,
+          });
+        });
     }
     return res.status(200).json({
-      user: _.get(req.session, 'user', null),
-      result,
+      success: false,
     });
   },
 
-  // USER INITIAL SIGN UP //
+  /* ****************************************************************************
+   Initial User Register
+   **************************************************************************** */
   register(req, res, next) {
     models.User.isEmailUnique(req.body.email)
       .then(() => {
@@ -34,17 +56,14 @@ module.exports = {
 
         models.User.create(newUserInfo)
           .then((createdUser) => {
-            const token = jwt.encode({
-              userId: createdUser.id,
-              email: createdUser.email,
-            }, process.env.JWT_SECRET || secret);
-
             const user = {
               id: createdUser.id,
               firstName: createdUser.firstName,
               lastName: createdUser.lastName,
               email: createdUser.email,
             };
+
+            const token = generateToken(user.id, user.email);
 
             req.session.user = user;
 
@@ -54,7 +73,9 @@ module.exports = {
       .catch(err => next(err));
   },
 
-  // LOG IN //
+  /* ****************************************************************************
+   Login
+   **************************************************************************** */
   login(req, res, next) {
     models.User.findOne({
       where: { email: req.body.email },
@@ -71,29 +92,30 @@ module.exports = {
           return next(err);
         }
 
-        // Remove password field after validation
-        const userData = {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-        };
+        return getUserBudgetSnapshots(user.id)
+          .then((userBudgets) => {
+            const userData = {
+              id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              budgetSummaries: userBudgets,
+            };
 
-        req.session.user = userData;
+            req.session.user = userData;
 
-        const token = jwt.encode({
-          userId: user.id,
-          email: user.email,
-        }, process.env.JWT_SECRET || secret);
+            const token = generateToken(user.id, user.email);
 
-        return res.status(200).json({ user: userData, token, success: true });
+            return res.status(200).json({ user: userData, token, success: true });
+          });
       })
       .catch(err => next(err));
   },
 
-  // VERIFY AUTHED USER //
+  /* ****************************************************************************
+   Verify Authenticated User
+   **************************************************************************** */
   verifyUser(req, res) {
     return res.status(200).json({ success: true });
   },
-
 };

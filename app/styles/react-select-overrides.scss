@@ -1,0 +1,29 @@
+// *************************************** //
+// **** REACT-SELECT DROP-DOWN OVERRIDES **** //
+// *************************************** //
+
+:global(.Select-control) {
+  border-radius: 0;
+  border: 1px solid #45AB7F;
+}
+
+:global(.Select-placeholder) {
+  color: #BBBBBB;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 100;
+  font-size: 14px;
+  outline: 0;
+  letter-spacing: 0.5px;
+}
+
+:global(.Select-value-label) {
+  color: #455A64;
+  font-weight: 100;
+  font-size: 14px;
+}
+
+:global(.Select-option) {
+  color: #455A64;
+  font-weight: 100;
+  font-size: 14px;
+}

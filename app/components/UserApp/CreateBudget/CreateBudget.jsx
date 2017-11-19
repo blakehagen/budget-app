@@ -3,6 +3,11 @@ import moment from 'moment';
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
+import TextField from 'components/formComponents/TextField';
+import SelectField from 'components/formComponents/SelectField';
+import CategoryForm from './CategoryForm';
+import CategoryList from './CategoryList';
+
 import styles from './createBudget.scss';
 
 @inject('userStore', 'navigator')
@@ -15,83 +20,141 @@ export default class CreateBudget extends React.Component {
     this.navigator = this.props.navigator;
     this.state = {
       budgetName: '',
-      budgetLimit: '',
-      errorBudgetName: '',
-      errorBudgetLimit: '',
+      budgetNameError: false,
+      recurring: null,
+      recurringError: false,
+      categoryName: '',
+      categoryLimit: '',
+      categoryNameError: false,
+      categoryLimitError: false,
+      categoryNameErrorMessage: '',
+      categoryLimitErrorMessage: '',
+      budgetCategories: [],
     };
   }
 
   componentWillMount() {
+    // TODO: handle on store
     this.userStore.showBackArrow = true;
   }
 
-  render() {
-    return (
-      <div className={styles.formContainer}>
-        <span className={styles.title}>Create New Budget</span>
-        <div className={styles.createBudgetForm}>
-
-          <input
-            className={styles.budgetInput}
-            onChange={this.setBudgetName}
-            type="text"
-            placeholder="New Budget Name"
-          />
-          <div className={styles.errorContainer}>
-            {this.state.errorBudgetName ? this.state.errorBudgetName : ''}
-          </div>
-
-          <input
-            className={styles.budgetInput}
-            onChange={this.setBudgetLimit}
-            type="text"
-            placeholder="Budget Limit"
-          />
-          <div className={styles.errorContainer}>
-            {this.state.errorBudgetLimit ? this.state.errorBudgetLimit : ''}
-          </div>
-
-          <input
-            className={styles.saveButton}
-            onClick={this.saveNewBudget}
-            type="submit"
-            name="submit"
-            value="Create New Budget"
-          />
-        </div>
-      </div>
-    );
+  setBudgetInterval(interval) {
+    this.setState({ recurring: interval.value, recurringError: false });
   }
 
-  setBudgetName(e) {
-    this.setState({ budgetName: e.target.value, errorBudgetName: '' });
+  handleCategoryInput(e, id) {
+    this.setState({
+      [`category${id}`]: e.target.value,
+      [`category${id}Error`]: false,
+    });
   }
 
-  setBudgetLimit(e) {
-    this.setState({ budgetLimit: e.target.value, errorBudgetLimit: '' });
+  categorySave() {
+    const name = this.state.categoryName;
+    const limit = this.state.categoryLimit;
+
+    if (!this.validateCategory(name, limit)) {
+      return false;
+    }
+
+    this.setState({
+      budgetCategories: _.concat(this.state.budgetCategories, {
+        name: _.trim(name),
+        limit,
+      }),
+      categoryName: '',
+      categoryLimit: '',
+    });
+
+    // WHY DO I NEED THIS? Only way I could clear form... //
+    document.getElementById('Name').value = '';
+    document.getElementById('Limit').value = '';
+  }
+
+  handleInput(e, id) {
+    this.setState({
+      [id]: e.target.value,
+      [`${id}Error`]: false,
+    });
+  }
+
+  removeCategory(index) {
+    this.state.budgetCategories.splice(index, 1);
+    this.setState({ budgetCategories: this.state.budgetCategories });
+  }
+
+  validateCategory(name, limit) {
+    const newState = {};
+
+    if (_.trim(name).length < 1) {
+      newState.categoryNameError = true;
+      newState.categoryNameErrorMessage = 'Required';
+    }
+
+    if (_.trim(limit).length < 1) {
+      newState.categoryLimitError = true;
+      newState.categoryLimitErrorMessage = 'Required';
+    }
+
+    if (!newState.categoryLimitError) {
+      const limitRegex = /^\d*\.?\d*$/;
+      if (!limitRegex.test(limit)) {
+        newState.categoryLimitError = true;
+        newState.categoryLimitErrorMessage = 'Must be a number';
+      }
+    }
+
+    if (!newState.categoryLimitError) {
+      if (_.toNumber(limit) < 1) {
+        newState.categoryLimitError = true;
+        newState.categoryLimitErrorMessage = 'Must be greater than 1';
+      }
+    }
+
+    this.setState({
+      categoryNameError: newState.categoryNameError || false,
+      categoryNameErrorMessage: newState.categoryNameErrorMessage || '',
+      categoryLimitError: newState.categoryLimitError || false,
+      categoryLimitErrorMessage: newState.categoryLimitErrorMessage || '',
+    });
+
+    if (newState.categoryNameError || newState.categoryLimitError) {
+      return false;
+    }
+
+    return true;
   }
 
   validateInputs() {
-    if (this.state.budgetName.length < 1 || this.state.budgetLimit.length < 1) {
-      if (this.state.budgetName.length < 1) {
-        this.setState({ errorBudgetName: 'Required' });
-      }
+    const newState = {};
 
-      if (this.state.budgetLimit.length < 1) {
-        this.setState({ errorBudgetLimit: 'Required' });
-      }
-      return false;
+    if (_.trim(this.state.budgetName).length < 1) {
+      newState.budgetNameError = true;
     }
 
-    const limit = Number(this.state.budgetLimit);
-
-    if (_.isNaN(limit)) {
-      this.setState({ errorBudgetLimit: 'Enter a number' });
-      return false;
+    if (_.isNull(this.state.recurring)) {
+      newState.recurringError = true;
     }
 
-    if (limit < 1) {
-      this.setState({ errorBudgetLimit: 'Cannot be less than 1' });
+    if (_.isEmpty(this.state.budgetCategories)) {
+      newState.categoryLimitError = true;
+      newState.categoryLimitErrorMessage = 'Budget must have at least 1 category';
+      newState.categoryNameError = true;
+      newState.categoryNameErrorMessage = 'Budget must have at least 1 category';
+    }
+
+    this.setState({
+      budgetNameError: newState.budgetNameError || false,
+      recurringError: newState.recurringError || false,
+      categoryNameError: newState.categoryNameError || false,
+      categoryNameErrorMessage: newState.categoryNameErrorMessage || '',
+      categoryLimitError: newState.categoryLimitError || false,
+      categoryLimitErrorMessage: newState.categoryLimitErrorMessage || '',
+    });
+
+    if (newState.budgetNameError
+      || newState.recurringError
+      || _.isEmpty(this.state.budgetCategories)) {
       return false;
     }
 
@@ -104,15 +167,98 @@ export default class CreateBudget extends React.Component {
       return false;
     }
 
-    const budgetInfo = {
-      CreatedByUserId: this.userStore.user.id,
-      name: this.state.budgetName,
-      totalAmount: Number(this.state.budgetLimit),
-      createdDateHumanized: moment().format('L'),
-    };
+    const categories = _.clone(this.state.budgetCategories);
 
-    this.userStore.loadingNewBudget = true;
-    this.userStore.createNewBudget(budgetInfo);
-    this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'replace');
+    _.forEach(categories, (category) => {
+      category.limit = _.toNumber(category.limit);
+    });
+
+    const limit = _.reduce(categories, (sum, category) => sum + category.limit, 0);
+
+    const newBudgetData = {
+      name: this.state.budgetName,
+      status: 'active',
+      recurring: this.state.recurring,
+      createdDateHumanized: moment().format('L'),
+      categories,
+    };
+    console.log('newBudgetData -->', newBudgetData);
+    console.log('limit -->', limit);
+    //
+    // this.userStore.loadingNewBudget = true;
+    // this.userStore.createNewBudget(budgetInfo);
+    // this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'replace');
+  }
+
+  render() {
+    console.log('this.state -->', this.state);
+    const budgetIntervalOptions = [
+      {
+        value: true,
+        label: 'Recurring (Monthly)',
+        clearableValue: false,
+      },
+      {
+        value: false,
+        label: 'No Interval',
+        clearableValue: false,
+      },
+    ];
+
+    return (
+      <div className={styles.formContainer}>
+        <span className={styles.title}>Create New Budget</span>
+        <div className={styles.createBudgetForm}>
+
+          <TextField
+            type="text"
+            placeholder="Budget Name"
+            id="budgetName"
+            error={this.state.budgetNameError}
+            errorText="Required"
+            handleInput={this.handleInput}
+            value={this.state.name}
+          />
+
+          <SelectField
+            label="Select Budget Interval"
+            name="Select Budget Interval"
+            value={this.state.recurring}
+            clearable={false}
+            searchable={false}
+            options={budgetIntervalOptions}
+            handleChange={this.setBudgetInterval}
+            error={this.state.recurringError}
+            errorText="Required"
+          />
+
+          <div className={styles.categoryWrapper}>
+            <CategoryList
+              categories={this.state.budgetCategories}
+              removeCategory={this.removeCategory}
+            />
+
+            <CategoryForm
+              categoryName={this.state.categoryName}
+              categoryLimit={this.state.categoryLimit}
+              handleInput={this.handleCategoryInput}
+              onSave={this.categorySave}
+              categoryNameError={this.state.categoryNameError}
+              categoryLimitError={this.state.categoryLimitError}
+              categoryNameErrorMessage={this.state.categoryNameErrorMessage}
+              categoryLimitErrorMessage={this.state.categoryLimitErrorMessage}
+            />
+          </div>
+
+          <button
+            className={styles.saveButton}
+            onClick={this.saveNewBudget}
+            type="submit"
+            name="submit"
+          >Create Budget
+          </button>
+        </div>
+      </div>
+    );
   }
 }

@@ -5,9 +5,12 @@ import axios from 'axios';
 const BASE_URL = '/api/v1/';
 
 export default {
-
   checkIfStoredSession() {
-    return axios.get(`${BASE_URL}session-check`);
+    return axios.get(`${BASE_URL}session-check`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
   },
 
   getUser(userId) {
