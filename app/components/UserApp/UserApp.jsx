@@ -22,7 +22,7 @@ export default class UserApp extends React.Component {
   }
 
   render() {
-    if (this.userStore.authLoading) {
+    if (this.userStore.authLoading || !this.userStore.user) {
       return (
         <div className={styles.loadingContainer}>
           <Spinner />
