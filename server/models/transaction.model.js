@@ -27,9 +27,6 @@ module.exports = (sequelize, DataTypes) => {
         models = _models;
         Transaction.belongsTo(models.Category);
       },
-      getUserBudgetSummaries(userId) {
-        /// new query here....
-      },
       getTransactions(budgetId) {
         const sql = `SELECT t.id, t.vendor, t.amount, t.description, t."postedDateHumanized" from transactions t WHERE t."BudgetId" = ${budgetId} ORDER BY -t.id`;
 

@@ -1,6 +1,8 @@
 .card {
-  width: 250px;
-  margin: 20px 40px;
+  width: 270px;
+  margin: 20px;
+  padding: 20px;
+  border:1px solid #DDDDDD;
   .header {
     height: 40px;
     width: 100%;
@@ -32,7 +34,7 @@
 }
 
 .label {
-  width: 80px;
+  width: 82px;
   font-size: 14px;
   color: #BBBBBB;
   display: flex;

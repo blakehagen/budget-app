@@ -27,17 +27,6 @@ module.exports = (sequelize, DataTypes) => {
         Category.hasMany(models.Transaction);
         Category.belongsTo(models.Budget);
       },
-      // getUserBudgets(userId) {
-      //   const sql = `SELECT b.id, b.name, b."createdDateHumanized" FROM budgets b
-      //   INNER JOIN "budgets_users" bu ON bu."BudgetId" = b.id
-      //   WHERE bu."UserId" = ${userId}
-      //   ORDER BY -b.id`;
-      //
-      //   return sequelize.query(sql, {
-      //     raw: true,
-      //     type: models.Sequelize.QueryTypes.SELECT,
-      //   });
-      // },
     },
   });
   return Category;
