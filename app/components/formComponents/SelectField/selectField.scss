@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.selectDropdown {
+  width: 250px;
+  height: 38px;
+  border: none;
+  //margin: 10px 0;
+}
+
+.errorContainer {
+  width: 250px;
+  height: 20px;
+  color: #ED6464;
+  font-weight: 100;
+  font-size: 11px;
+  padding-bottom: 2px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+//.textField {
+//  font-family: 'Open Sans', sans-serif;
+//  font-weight: 100;
+//  font-size: 14px;
+//  border: 1px solid #45AB7F;
+//  border-radius: 0;
+//  outline: 0;
+//  width: 250px;
+//  height: 38px;
+//  line-height: 38px;
+//  background: #FFF;
+//  color: #455A64;
+//  padding: 0 12px;
+//  margin-bottom: 4px;
+//}

@@ -6,7 +6,6 @@ import styles from './categoryList.scss';
 
 const CategoryList = (props) => {
   const { categories, removeCategory } = props;
-  console.log('rendering CategoryList', categories);
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
@@ -47,10 +46,5 @@ const CategoryList = (props) => {
 //   type: PropTypes.string.isRequired,
 //   value: PropTypes.string.isRequired,
 // };
-
-// error={this.state.nameError}
-// errorText={this.state.nameErrorMessage}
-// handleInput={this.handleInput}
-// value={this.state.name}
 
 export default CategoryList;
