@@ -3,13 +3,13 @@ import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import styles from './topBar.scss';
 
-@inject('userStore', 'navigator')
+@inject('dataStore', 'navigator')
 @observer
 export default class TopBar extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore = this.props.userStore;
+    this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
   }
 
@@ -17,7 +17,7 @@ export default class TopBar extends React.Component {
     return (
       <div className={styles.topBarMain}>
 
-        {this.userStore.showBackArrow ?
+        {this.dataStore.showBackArrow ?
           <div className={styles.navIcons}>
             <div className={styles.backArrowContainer} onClick={this.goToDashboard}>
               <div className={styles.backIcon} />
@@ -25,7 +25,7 @@ export default class TopBar extends React.Component {
           </div> : null}
 
         <div className={styles.piggybankIcon} />
-        <div className={styles.welcome}>{this.userStore.user.firstName} {this.userStore.user.lastName} &nbsp;
+        <div className={styles.welcome}>{this.dataStore.user.firstName} {this.dataStore.user.lastName} &nbsp;
           |&nbsp;&nbsp;</div>
         <div className={styles.logoutAction}>
           <span onClick={this.logout}>Log Out</span>
@@ -35,10 +35,10 @@ export default class TopBar extends React.Component {
   }
 
   goToDashboard() {
-    this.navigator.changeRoute(`/${this.userStore.userId}/dashboard`, 'push');
+    this.navigator.changeRoute(`/${this.dataStore.userId}/dashboard`, 'push');
   }
 
   logout() {
-    this.userStore.logout();
+    this.dataStore.logout();
   }
 }

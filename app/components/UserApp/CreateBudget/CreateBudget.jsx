@@ -10,13 +10,13 @@ import CategoryList from './CategoryList';
 
 import styles from './createBudget.scss';
 
-@inject('userStore', 'navigator')
+@inject('dataStore', 'navigator')
 @observer
 export default class CreateBudget extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore = this.props.userStore;
+    this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
     this.state = {
       budgetName: '',
@@ -35,7 +35,7 @@ export default class CreateBudget extends React.Component {
 
   componentWillMount() {
     // TODO: handle on store
-    this.userStore.showBackArrow = true;
+    this.dataStore.showBackArrow = true;
   }
 
   setBudgetInterval(interval) {
@@ -185,13 +185,12 @@ export default class CreateBudget extends React.Component {
     console.log('newBudgetData -->', newBudgetData);
     console.log('limit -->', limit);
     //
-    // this.userStore.loadingNewBudget = true;
-    // this.userStore.createNewBudget(budgetInfo);
-    // this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'replace');
+    // this.dataStore.loadingNewBudget = true;
+    // this.dataStore.createNewBudget(budgetInfo);
+    // this.navigator.changeRoute(`/user/${this.dataStore.userId}/dashboard`, 'replace');
   }
 
   render() {
-    console.log('this.state -->', this.state);
     const budgetIntervalOptions = [
       {
         value: true,

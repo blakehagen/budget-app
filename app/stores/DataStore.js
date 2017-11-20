@@ -5,7 +5,7 @@ import autoBind from 'react-autobind';
 import userService from 'services/user';
 import budgetService from 'services/budget';
 
-export default class UserStore {
+export default class DataStore {
   constructor(navigator) {
     autoBind(this);
     this.navigator = navigator;

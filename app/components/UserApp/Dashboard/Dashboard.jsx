@@ -5,18 +5,18 @@ import BudgetSummary from './BudgetSummary';
 import autoBind from 'react-autobind';
 import styles from './dashboard.scss';
 
-@inject('userStore', 'navigator')
+@inject('dataStore', 'navigator')
 @observer
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore = this.props.userStore;
+    this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
   }
 
   componentWillMount() {
-    this.userStore.showBackArrow = false;
+    this.dataStore.showBackArrow = false;
   }
 
   render() {

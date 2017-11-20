@@ -6,13 +6,13 @@ import TextField from 'components/formComponents/TextField';
 import Spinner from 'components/Common/Spinner';
 import styles from './login.scss';
 
-@inject('userStore', 'navigator')
+@inject('dataStore', 'navigator')
 @observer
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore = this.props.userStore;
+    this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
 
     this.state = {
@@ -27,11 +27,11 @@ export default class Login extends React.Component {
   }
 
   componentWillMount() {
-    this.userStore.checkIfStoredSession();
+    this.dataStore.checkIfStoredSession();
   }
 
   setAuthLoad(loading) {
-    this.userStore.setAuthLoad(loading);
+    this.dataStore.setAuthLoad(loading);
   }
 
   goToRegister() {
@@ -82,7 +82,7 @@ export default class Login extends React.Component {
 
     this.setState({ email: '', password: '' });
 
-    return this.userStore.login(loginInfo)
+    return this.dataStore.login(loginInfo)
       .then((response) => {
         if (response.error) {
           this.setState({ loginError: true, loginErrorMessage: response.error });
@@ -141,7 +141,7 @@ export default class Login extends React.Component {
             <div className={styles.piggybankIcon} />
             Budget App
           </div>
-          {this.userStore.authLoading ? <Spinner /> : form}
+          {this.dataStore.authLoading ? <Spinner /> : form}
         </div>
       </div>
     );
