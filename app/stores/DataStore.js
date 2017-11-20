@@ -59,64 +59,8 @@ export default class DataStore {
     this.authLoading = isLoading;
   }
 
-  @action
-  getUser(userId) {
-    if (!userId) {
-      this.navigator.changeRoute('/login', 'replace');
-      return false;
-    }
-
-    this.loadingUser = true;
-
-    userService.getUser(userId)
-      .then((response) => {
-        this.loadingUser = false;
-        if (_.isError(response) || response.status !== 200) {
-          this.navigator.changeRoute('/login', 'replace');
-        } else {
-          this.user = response.data;
-          this.userId = response.data.id;
-        }
-      })
-      .catch((err) => {
-        this.loadingUser = false;
-        console.error(err);
-        this.navigator.changeRoute('/login', 'replace');
-      });
-  }
-
-  // @action
-  // getUserBudgets(userId) {
-  //   console.log('hi');
-  //   if (!userId) {
-  //     this.navigator.changeRoute('/login', 'replace');
-  //     return false;
-  //   }
-  //   this.loadingBudgets = true;
-  //
-  //   budgetService.getBudgets(userId)
-  //     .then((response) => {
-  //       this.loadingBudgets = false;
-  //       this.loadingNewBudget = false;
-  //       if (_.isError(response) || response.status !== 200) {
-  //         this.navigator.changeRoute('/login', 'replace');
-  //       } else {
-  //         this.userBudgets = response.data;
-  //         if (this.selectedBudget) {
-  //           this.selectedBudget = _.find(this.userBudgets, { id: this.selectedBudget.id });
-  //           this.updatingTransactions = false;
-  //         }
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       this.loadingBudgets = false;
-  //       console.error(err);
-  //       this.navigator.changeRoute('/login', 'replace');
-  //     });
-  // }
-
   /* ****************************************************************************
-    User Signup / Register
+  User Signup / Register
   **************************************************************************** */
   @action
   register(registerInfo) {
@@ -197,18 +141,82 @@ export default class DataStore {
       });
   }
 
+  /* ****************************************************************************
+  Create New Budget
+  **************************************************************************** */
   @action
-  createNewBudget(newBudgetInfo) {
-    budgetService.createNewBudget(newBudgetInfo)
+  createNewBudget(newBudgetData, limit) {
+    budgetService.createNewBudget(newBudgetData)
       .then((response) => {
         if (response.data.success) {
-          this.getUserBudgets(this.userId);
+          console.log('response.data on createNewBudget -->', response.data);
+          // this.getUserBudgets(this.userId);
         }
       })
       .catch((err) => {
         console.log('err --> ', err.data.error);
       });
   }
+
+
+
+  @action
+  getUser(userId) {
+    if (!userId) {
+      this.navigator.changeRoute('/login', 'replace');
+      return false;
+    }
+
+    this.loadingUser = true;
+
+    userService.getUser(userId)
+      .then((response) => {
+        this.loadingUser = false;
+        if (_.isError(response) || response.status !== 200) {
+          this.navigator.changeRoute('/login', 'replace');
+        } else {
+          this.user = response.data;
+          this.userId = response.data.id;
+        }
+      })
+      .catch((err) => {
+        this.loadingUser = false;
+        console.error(err);
+        this.navigator.changeRoute('/login', 'replace');
+      });
+  }
+
+  // @action
+  // getUserBudgets(userId) {
+  //   console.log('hi');
+  //   if (!userId) {
+  //     this.navigator.changeRoute('/login', 'replace');
+  //     return false;
+  //   }
+  //   this.loadingBudgets = true;
+  //
+  //   budgetService.getBudgets(userId)
+  //     .then((response) => {
+  //       this.loadingBudgets = false;
+  //       this.loadingNewBudget = false;
+  //       if (_.isError(response) || response.status !== 200) {
+  //         this.navigator.changeRoute('/login', 'replace');
+  //       } else {
+  //         this.userBudgets = response.data;
+  //         if (this.selectedBudget) {
+  //           this.selectedBudget = _.find(this.userBudgets, { id: this.selectedBudget.id });
+  //           this.updatingTransactions = false;
+  //         }
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       this.loadingBudgets = false;
+  //       console.error(err);
+  //       this.navigator.changeRoute('/login', 'replace');
+  //     });
+  // }
+
+
 
   @action
   saveTransaction(transactionInfo) {

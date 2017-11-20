@@ -5,7 +5,7 @@ import { Provider } from 'mobx-react';
 import DataStore from 'stores/DataStore';
 import Navigator from 'utils/Navigator';
 
-import App from 'components/App';
+// import App from 'components/App';
 import Login from 'components/Login';
 import Register from 'components/Register';
 import UserApp from 'components/UserApp';

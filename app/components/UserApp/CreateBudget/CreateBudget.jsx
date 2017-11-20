@@ -186,8 +186,7 @@ export default class CreateBudget extends React.Component {
     console.log('limit -->', limit);
     //
     // this.dataStore.loadingNewBudget = true;
-    // this.dataStore.createNewBudget(budgetInfo);
-    // this.navigator.changeRoute(`/user/${this.dataStore.userId}/dashboard`, 'replace');
+    return this.dataStore.createNewBudget(newBudgetData, limit);
   }
 
   render() {

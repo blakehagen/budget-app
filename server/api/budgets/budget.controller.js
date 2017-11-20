@@ -5,19 +5,33 @@ const models = require('../../models/index');
 module.exports = {
 
   createBudget(req, res) {
-    models.Budget.create(req.body)
+    const { name, recurring, status, createdDateHumanized, categories } = req.body;
+    const budgetToCreate = {
+      name,
+      recurring,
+      status,
+      createdDateHumanized,
+      CreatedByUserId: _.get(req.session, 'user.id'),
+    };
+
+    models.Budget.create(budgetToCreate)
       .then((budget) => {
         models.Budget_User.create({
-          UserId: req.body.CreatedByUserId,
+          UserId: budgetToCreate.CreatedByUserId,
+          BudgetId: budget.id,
+        });
+
+        BPromise.each(categories, category => models.Category.create({
+          name: category.name,
+          limit: category.limit,
           BudgetId: budget.id,
         })
           .then(() => {
-            const newBudget = {
-              id: budget.id,
-              name: budget.name,
-              totalAmount: budget.totalAmount,
-            };
-            return res.status(200).json({ budget: newBudget, success: true });
+            console.log('okie dokie??');
+          }))
+          .then(() => {
+            console.log('we done!');
+            return res.status(200).json({ success: true });
           });
       })
       .catch((err) => {

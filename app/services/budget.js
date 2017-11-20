@@ -15,12 +15,7 @@ export default {
   },
 
   createNewBudget(budgetInfo) {
-    return axios.post(`${BASE_URL}budgets/create`, {
-      CreatedByUserId: budgetInfo.CreatedByUserId,
-      name: budgetInfo.name,
-      totalAmount: budgetInfo.totalAmount,
-      createdDateHumanized: budgetInfo.createdDateHumanized,
-    }, {
+    return axios.post(`${BASE_URL}budgets/create`, budgetInfo, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
