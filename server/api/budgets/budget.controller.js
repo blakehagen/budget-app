@@ -3,7 +3,9 @@ const BPromise = require('bluebird');
 const models = require('../../models/index');
 
 module.exports = {
-
+  /* ****************************************************************************
+  CREATE NEW BUDGET
+  **************************************************************************** */
   createBudget(req, res) {
     const { name, recurring, status, createdDateHumanized, categories } = req.body;
     const budgetToCreate = {
