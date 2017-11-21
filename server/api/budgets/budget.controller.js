@@ -27,14 +27,8 @@ module.exports = {
           name: category.name,
           limit: category.limit,
           BudgetId: budget.id,
-        })
-          .then(() => {
-            console.log('okie dokie??');
-          }))
-          .then(() => {
-            console.log('we done!');
-            return res.status(200).json({ success: true });
-          });
+        }))
+          .then(() => res.status(200).json({ success: true }));
       })
       .catch((err) => {
         console.log('err', err);
