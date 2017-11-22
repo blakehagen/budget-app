@@ -28,12 +28,6 @@ export default class BudgetSummary extends React.Component {
   // }
 
   render() {
-    // const loadingNewBudget = (
-    //   <div className={styles.budgetLoading}>
-    //     <Spinner />
-    //   </div>
-    // );
-
     const budgets = _.map(this.dataStore.budgetSummaries, ({
       id,
       name,
@@ -76,7 +70,6 @@ export default class BudgetSummary extends React.Component {
     return (
       <div className={styles.budgetSummaryMain}>
         <div className={styles.budgets}>
-          {this.dataStore.loadingNewBudget ? loadingNewBudget : null}
           {budgets}
         </div>
       </div>
