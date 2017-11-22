@@ -5,24 +5,24 @@ import Spinner from 'components/Common/Spinner';
 import TopBar from 'components/TopBar';
 import styles from './userApp.scss';
 
-@inject('userStore', 'navigator')
+@inject('dataStore', 'navigator')
 @observer
 export default class UserApp extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore = this.props.userStore;
+    this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
   }
 
   componentWillMount() {
-    if (!this.userStore.user) {
-      this.userStore.checkIfStoredSession();
+    if (!this.dataStore.user) {
+      this.dataStore.checkIfStoredSession();
     }
   }
 
   render() {
-    if (this.userStore.authLoading || !this.userStore.user) {
+    if (this.dataStore.authLoading || !this.dataStore.user) {
       return (
         <div className={styles.loadingContainer}>
           <Spinner />

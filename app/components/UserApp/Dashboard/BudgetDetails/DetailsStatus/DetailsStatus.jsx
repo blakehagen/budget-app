@@ -5,20 +5,20 @@ import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import styles from './detailsStatus.scss';
 
-@inject('userStore', 'navigator')
+@inject('dataStore', 'navigator')
 @observer
 export default class DetailsStatus extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore = this.props.userStore;
+    this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
   }
 
   render() {
-    const totalBudgetAmount = Number(this.userStore.selectedBudget.totalAmount);
+    const totalBudgetAmount = Number(this.dataStore.selectedBudget.totalAmount);
     let currentTotal = 0;
-    _.each(this.userStore.selectedBudget.transactions, (transaction) => {
+    _.each(this.dataStore.selectedBudget.transactions, (transaction) => {
       currentTotal += Number(transaction.amount);
     });
     const percentageUsed = currentTotal / totalBudgetAmount * 100;
@@ -30,7 +30,7 @@ export default class DetailsStatus extends React.Component {
     return (
       <div className={styles.statusContainer}>
         <div className={styles.title}>
-          {this.userStore.selectedBudget.name}
+          {this.dataStore.selectedBudget.name}
         </div>
 
         <div className={styles.summary}>
@@ -59,6 +59,6 @@ export default class DetailsStatus extends React.Component {
   }
 
   newTransaction() {
-    this.navigator.changeRoute(`/user/${this.userStore.userId}/new-transaction`, 'push');
+    this.navigator.changeRoute(`/user/${this.dataStore.userId}/new-transaction`, 'push');
   }
 }

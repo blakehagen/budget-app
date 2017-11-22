@@ -8,33 +8,33 @@ import BudgetCard from './BudgetCard';
 // import { ProgressBar } from 'react-bootstrap';
 import styles from './budgetSummary.scss';
 
-@inject('userStore', 'navigator')
+@inject('dataStore', 'navigator')
 @observer
 export default class BudgetSummary extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore = this.props.userStore;
+    this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
   }
 
   componentDidMount() {
-    this.userStore.selectedBudget = null;
+    this.dataStore.selectedBudget = null;
   }
 
   // goToBudgetDetails(selectedBudget) {
-  //   this.userStore.selectedBudget = selectedBudget;
-  //   this.navigator.changeRoute(`/user/${this.userStore.userId}/budget/${selectedBudget.id}`, 'push');
+  //   this.dataStore.selectedBudget = selectedBudget;
+  //   this.navigator.changeRoute(`/user/${this.dataStore.userId}/budget/${selectedBudget.id}`, 'push');
   // }
 
   render() {
-    // const loadingNewBudget = (
-    //   <div className={styles.budgetLoading}>
-    //     <Spinner />
-    //   </div>
-    // );
-
-    const budgets = _.map(this.userStore.budgetSummaries, ({ id, name, budgetLimit, budgetSpent, difference }) => {
+    const budgets = _.map(this.dataStore.budgetSummaries, ({
+      id,
+      name,
+      budgetLimit,
+      budgetSpent,
+      difference,
+    }) => {
       return (
         <BudgetCard
           key={id}
@@ -44,7 +44,7 @@ export default class BudgetSummary extends React.Component {
           spent={budgetSpent}
           remaining={difference}
         />
-      )
+      );
 
       // return (
       //   <div className={styles.budgetContainer} key={budget.id} onClick={() => this.goToBudgetDetails(budget)}>
@@ -70,7 +70,6 @@ export default class BudgetSummary extends React.Component {
     return (
       <div className={styles.budgetSummaryMain}>
         <div className={styles.budgets}>
-          {this.userStore.loadingNewBudget ? loadingNewBudget : null}
           {budgets}
         </div>
       </div>

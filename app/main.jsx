@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRedirect, browserHistory } from 'react-router';
 import { Provider } from 'mobx-react';
-import UserStore from 'stores/UserStore';
+import DataStore from 'stores/DataStore';
 import Navigator from 'utils/Navigator';
 
-import App from 'components/App';
+// import App from 'components/App';
 import Login from 'components/Login';
 import Register from 'components/Register';
 import UserApp from 'components/UserApp';
@@ -20,12 +20,12 @@ import reactCircularProgressSyles from './styles/lib/react-circular-progressbar.
 import reactSelectOverrides from './styles/react-select-overrides.scss'; // eslint-disable-line
 
 const navigator = new Navigator();
-const userStore = new UserStore(navigator);
+const dataStore = new DataStore(navigator);
 
 ReactDOM.render(
   <div className={styles.appBody}>
     <Provider
-      userStore={userStore}
+      dataStore={dataStore}
       navigator={navigator}
     >
       <Router
@@ -78,7 +78,7 @@ function handleChange() {
 
 function paramsCheck() {
   return (nextState, replace) => {
-    if (nextState.params.userId !== String(userStore.userId)) {
+    if (nextState.params.userId !== String(dataStore.userId)) {
       // Just redirect to current user dashboard instead of logging out...
       replace('/login');
     }

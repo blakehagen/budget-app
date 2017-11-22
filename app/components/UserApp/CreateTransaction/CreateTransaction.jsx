@@ -6,13 +6,13 @@ import Select from 'react-select';
 import autoBind from 'react-autobind';
 import styles from './createTransaction.scss';
 
-@inject('userStore', 'navigator')
+@inject('dataStore', 'navigator')
 @observer
 export default class CreateTransaction extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore = this.props.userStore;
+    this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
     this.state = {
       selectedBudget: null,
@@ -27,11 +27,11 @@ export default class CreateTransaction extends React.Component {
   }
 
   componentWillMount() {
-    this.userStore.showBackArrow = true;
+    this.dataStore.showBackArrow = true;
   }
 
   render() {
-    const budgetMenuItems = _.map(this.userStore.userBudgets, budget => ({
+    const budgetMenuItems = _.map(this.dataStore.userBudgets, budget => ({
       value: budget.name,
       label: budget.name,
       id: budget.id,
@@ -157,7 +157,7 @@ export default class CreateTransaction extends React.Component {
     }
 
     const transactionInfo = {
-      PostedByUserId: this.userStore.user.id,
+      PostedByUserId: this.dataStore.user.id,
       BudgetId: this.state.selectedBudget.id,
       vendor: this.state.vendor,
       amount: Number(this.state.amount),
@@ -165,10 +165,10 @@ export default class CreateTransaction extends React.Component {
       postedDateHumanized: moment().format('l h:mma'),
     };
 
-    this.userStore.selectedBudget = _.find(this.userStore.userBudgets, { id: this.state.selectedBudget.id });
+    this.dataStore.selectedBudget = _.find(this.dataStore.userBudgets, { id: this.state.selectedBudget.id });
 
-    this.userStore.updatingTransactions = true;
-    this.userStore.saveTransaction(transactionInfo);
-    this.navigator.changeRoute(`/user/${this.userStore.userId}/budget/${this.state.selectedBudget.id}`, 'push');
+    this.dataStore.updatingTransactions = true;
+    this.dataStore.saveTransaction(transactionInfo);
+    this.navigator.changeRoute(`/user/${this.dataStore.userId}/budget/${this.state.selectedBudget.id}`, 'push');
   }
 }

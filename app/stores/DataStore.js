@@ -5,7 +5,7 @@ import autoBind from 'react-autobind';
 import userService from 'services/user';
 import budgetService from 'services/budget';
 
-export default class UserStore {
+export default class DataStore {
   constructor(navigator) {
     autoBind(this);
     this.navigator = navigator;
@@ -13,6 +13,8 @@ export default class UserStore {
     this.authLoading = false;
     this.budgetSummaries = [];
     this.loadingUser = false;
+    this.creatingNewBudget = false;
+    this.creatingNewBudgetError = false;
     this.loadingBudgets = false;
     this.loadingNewBudget = false;
     this.updatingTransactions = false;
@@ -25,6 +27,8 @@ export default class UserStore {
 
   @observable authLoading;
   @observable budgetSummaries;
+  @observable creatingNewBudget;
+  @observable creatingNewBudgetError;
   @observable user;
   @observable userId;
   @observable loadingUser;
@@ -58,6 +62,125 @@ export default class UserStore {
   setAuthLoad(isLoading) {
     this.authLoading = isLoading;
   }
+
+  /* ****************************************************************************
+  User Signup / Register
+  **************************************************************************** */
+  @action
+  register(registerInfo) {
+    return userService.register(registerInfo)
+      .then((response) => {
+        if (!_.get(response, 'data.success')) {
+          this.authLoading = false;
+          return false;
+        }
+
+        const token = _.get(response, 'data.token');
+        const user = _.get(response, 'data.user');
+
+        this.handleAuthSuccess(token, user);
+        return { success: _.get(response, 'data.success') };
+      })
+      .catch((err) => {
+        this.authLoading = false;
+        return { error: _.get(err, 'response.data.errorMessage', 'Error. Please try again.') };
+      });
+  }
+
+  /* ****************************************************************************
+  User Login
+  **************************************************************************** */
+  @action
+  login(loginInfo) {
+    return userService.login(loginInfo)
+      .then((response) => {
+        if (!_.get(response, 'data.success')) {
+          this.authLoading = false;
+          return false;
+        }
+
+        const token = _.get(response, 'data.token');
+        const user = _.get(response, 'data.user');
+
+        this.handleAuthSuccess(token, user);
+        return { success: _.get(response, 'data.success') };
+      })
+      .catch((err) => {
+        this.authLoading = false;
+        return { error: _.get(err, 'response.data.errorMessage', 'Error. Please try again.') };
+      });
+  }
+
+  /* ****************************************************************************
+  Handle Auth Success
+  **************************************************************************** */
+  @action
+  handleAuthSuccess(token, user) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', user.id);
+
+    this.user = user;
+    this.userId = user.id;
+    if (_.get(user, 'budgetSummaries')) {
+      this.budgetSummaries = user.budgetSummaries;
+    }
+
+    const location = browserHistory.getCurrentLocation();
+    if (location.pathname !== `/${this.userId}/dashboard`) {
+      this.navigator.changeRoute(`/${this.userId}/dashboard`, 'push');
+    }
+    this.authLoading = false;
+  }
+
+  /* ****************************************************************************
+  Logout
+  **************************************************************************** */
+  @action
+  logout() {
+    localStorage.clear();
+    this.user = null;
+    this.userId = null;
+    this.userBudgets = null;
+    return userService.logout()
+      .then(() => {
+        this.navigator.changeRoute('/login', 'replace');
+      });
+  }
+
+  /* ****************************************************************************
+  Create New Budget
+  **************************************************************************** */
+  @action
+  createNewBudget(newBudgetData, limit) {
+    this.creatingNewBudget = true;
+    budgetService.createNewBudget(newBudgetData)
+      .then((response) => {
+        if (response.data.success) {
+
+          const newBudgetSummary = response.data.budget;
+          newBudgetSummary.budgetLimit = limit;
+          newBudgetSummary.difference = limit;
+
+          this.budgetSummaries.push(newBudgetSummary);
+          this.navigator.changeRoute(`/${this.user.id}/dashboard`, 'replace');
+          this.creatingNewBudget = false;
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        this.creatingNewBudget = false;
+        this.creatingNewBudgetError = true;
+      });
+  }
+
+  /* ****************************************************************************
+  Set Create New Budget ERROR
+  **************************************************************************** */
+  @action
+  setCreateNewBudgetError(isError) {
+    this.creatingNewBudgetError = isError;
+  }
+
 
   @action
   getUser(userId) {
@@ -115,100 +238,6 @@ export default class UserStore {
   //     });
   // }
 
-  /* ****************************************************************************
-    User Signup / Register
-  **************************************************************************** */
-  @action
-  register(registerInfo) {
-    return userService.register(registerInfo)
-      .then((response) => {
-        if (!_.get(response, 'data.success')) {
-          this.authLoading = false;
-          return false;
-        }
-
-        const token = _.get(response, 'data.token');
-        const user = _.get(response, 'data.user');
-
-        this.handleAuthSuccess(token, user);
-        return { success: _.get(response, 'data.success') };
-      })
-      .catch((err) => {
-        this.authLoading = false;
-        return { error: _.get(err, 'response.data.errorMessage', 'Error. Please try again.') };
-      });
-  }
-
-  /* ****************************************************************************
-  User Login
-  **************************************************************************** */
-  @action
-  login(loginInfo) {
-    return userService.login(loginInfo)
-      .then((response) => {
-        if (!_.get(response, 'data.success')) {
-          this.authLoading = false;
-          return false;
-        }
-
-        const token = _.get(response, 'data.token');
-        const user = _.get(response, 'data.user');
-
-        this.handleAuthSuccess(token, user);
-        return { success: _.get(response, 'data.success') };
-      })
-      .catch((err) => {
-        this.authLoading = false;
-        return { error: _.get(err, 'response.data.errorMessage', 'Error. Please try again.') };
-      });
-  }
-
-  /* ****************************************************************************
-  Handle Auth Success
-  **************************************************************************** */
-  @action
-  handleAuthSuccess(token, user) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('userId', user.id);
-
-    this.user = user;
-    this.userId = user.id;
-    this.budgetSummaries = user.budgetSummaries;
-
-    const location = browserHistory.getCurrentLocation();
-    if (location.pathname !== `/${this.userId}/dashboard`) {
-      this.navigator.changeRoute(`/${this.userId}/dashboard`, 'push');
-    }
-    this.authLoading = false;
-  }
-
-  /* ****************************************************************************
-  Logout
-  **************************************************************************** */
-  @action
-  logout() {
-    localStorage.clear();
-    this.user = null;
-    this.userId = null;
-    this.userBudgets = null;
-    return userService.logout()
-      .then(() => {
-        this.navigator.changeRoute('/login', 'replace');
-      });
-  }
-
-  @action
-  createNewBudget(newBudgetInfo) {
-    budgetService.createNewBudget(newBudgetInfo)
-      .then((response) => {
-        if (response.data.success) {
-          this.getUserBudgets(this.userId);
-        }
-      })
-      .catch((err) => {
-        console.log('err --> ', err.data.error);
-      });
-  }
 
   @action
   saveTransaction(transactionInfo) {

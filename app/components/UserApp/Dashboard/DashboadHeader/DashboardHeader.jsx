@@ -3,13 +3,13 @@ import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import styles from './dashboardHeader.scss';
 
-@inject('userStore', 'navigator')
+@inject('dataStore', 'navigator')
 @observer
 export default class DashboardHeader extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore = this.props.userStore;
+    this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
   }
 
@@ -34,10 +34,10 @@ export default class DashboardHeader extends React.Component {
   }
 
   createNewBudget() {
-    this.navigator.changeRoute(`/${this.userStore.userId}/create-budget`, 'push');
+    this.navigator.changeRoute(`/${this.dataStore.userId}/create-budget`, 'push');
   }
 
   createNewTransaction() {
-    this.navigator.changeRoute(`/${this.userStore.userId}/new-transaction`, 'push');
+    this.navigator.changeRoute(`/${this.dataStore.userId}/new-transaction`, 'push');
   }
 }

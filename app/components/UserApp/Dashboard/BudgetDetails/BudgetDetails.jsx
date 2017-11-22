@@ -7,27 +7,27 @@ import DetailsStatus from './DetailsStatus';
 import autoBind from 'react-autobind';
 import styles from './budgetDetails.scss';
 
-@inject('userStore', 'navigator')
+@inject('dataStore', 'navigator')
 @observer
 export default class BudgetDetails extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
-    this.userStore = this.props.userStore;
+    this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
   }
 
   componentWillMount() {
-    this.userStore.showBackArrow = true;
+    this.dataStore.showBackArrow = true;
   }
 
   render() {
-    if (!this.userStore.selectedBudget) {
+    if (!this.dataStore.selectedBudget) {
       this.goToBudgetSummary();
       return null;
     }
 
-    if (this.userStore.updatingTransactions) {
+    if (this.dataStore.updatingTransactions) {
       return (
         <div className={styles.loadingContainer}>
           <Spinner />
@@ -35,7 +35,7 @@ export default class BudgetDetails extends React.Component {
       );
     }
 
-    const transactions = _.map(this.userStore.selectedBudget.transactions, (transaction) => {
+    const transactions = _.map(this.dataStore.selectedBudget.transactions, (transaction) => {
       const transactionAmount = numeral(transaction.amount).format('$0,0.00');
       return (
         <div
@@ -78,11 +78,11 @@ export default class BudgetDetails extends React.Component {
   }
 
   goToBudgetSummary() {
-    this.navigator.changeRoute(`/user/${this.userStore.userId}/dashboard`, 'replace');
+    this.navigator.changeRoute(`/user/${this.dataStore.userId}/dashboard`, 'replace');
   }
 
   deleteTransaction(transaction) {
-    this.userStore.deleteTransaction(transaction.id);
-    this.userStore.updatingTransactions = true;
+    this.dataStore.deleteTransaction(transaction.id);
+    this.dataStore.updatingTransactions = true;
   }
 }

@@ -29,16 +29,6 @@
   margin-top: 24px;
 }
 
-.errorContainer {
-  width: 290px;
-  height: 18px;
-  color: #ED6464;
-  font-weight: 100;
-  font-size: 13px;
-  margin: 6px 0 0;
-  padding-left: 8px;
-}
-
 .saveButton {
   height: 38px;
   background: rgba(69, 171, 127, 1);
@@ -55,4 +45,18 @@
   &:focus {
     background: #4AB888;
   }
+}
+
+.errorContainer {
+  height: 38px;
+  width: 250px;
+  margin-top: 12px;
+  font-weight: 100;
+  font-size: 15px;
+  background: #ED6464;
+  color: #FFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
 }
