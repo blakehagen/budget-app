@@ -35,6 +35,13 @@ const BudgetCard = (props) => {
             <div className={styles.label}>Remaining &nbsp;&nbsp;</div>
             <div className={styles.amount}>{numeral(props.remaining).format('$0,0.00')}</div>
           </div>
+
+          <div className={styles.buttonWrapper}>
+            <button className={styles.cardButton}>
+              Details
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
