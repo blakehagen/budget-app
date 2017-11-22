@@ -20,7 +20,6 @@ module.exports = {
     try {
       const decoded = jwt.decode(token, process.env.JWT_SECRET || secret);
       if (decoded) {
-        console.log('WE GOOD TO GO!!!!');
         return next();
       }
     } catch (err) {

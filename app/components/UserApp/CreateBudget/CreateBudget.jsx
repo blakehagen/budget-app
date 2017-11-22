@@ -3,6 +3,7 @@ import moment from 'moment';
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
+import Spinner from 'components/Common/Spinner';
 import TextField from 'components/formComponents/TextField';
 import SelectField from 'components/formComponents/SelectField';
 import CategoryForm from './CategoryForm';
@@ -39,10 +40,12 @@ export default class CreateBudget extends React.Component {
   }
 
   setBudgetInterval(interval) {
+    this.dataStore.setCreateNewBudgetError(false);
     this.setState({ recurring: interval.value, recurringError: false });
   }
 
   handleCategoryInput(e, id) {
+    this.dataStore.setCreateNewBudgetError(false);
     this.setState({
       [`category${id}`]: e.target.value,
       [`category${id}Error`]: false,
@@ -72,6 +75,7 @@ export default class CreateBudget extends React.Component {
   }
 
   handleInput(e, id) {
+    this.dataStore.setCreateNewBudgetError(false);
     this.setState({
       [id]: e.target.value,
       [`${id}Error`]: false,
@@ -182,10 +186,15 @@ export default class CreateBudget extends React.Component {
       createdDateHumanized: moment().format('L'),
       categories,
     };
-    console.log('newBudgetData -->', newBudgetData);
-    console.log('limit -->', limit);
-    //
-    // this.dataStore.loadingNewBudget = true;
+
+    this.setState({
+      budgetCategories: [],
+      budgetName: '',
+      recurring: null,
+      categoryName: '',
+      categoryLimit: '',
+    });
+
     return this.dataStore.createNewBudget(newBudgetData, limit);
   }
 
@@ -203,59 +212,70 @@ export default class CreateBudget extends React.Component {
       },
     ];
 
+    const form = (
+      <div className={styles.createBudgetForm}>
+
+        <TextField
+          type="text"
+          placeholder="Budget Name"
+          id="budgetName"
+          error={this.state.budgetNameError}
+          errorText="Required"
+          handleInput={this.handleInput}
+          value={this.state.name}
+        />
+
+        <SelectField
+          label="Select Budget Interval"
+          name="Select Budget Interval"
+          value={this.state.recurring}
+          clearable={false}
+          searchable={false}
+          options={budgetIntervalOptions}
+          handleChange={this.setBudgetInterval}
+          error={this.state.recurringError}
+          errorText="Required"
+        />
+
+        <div className={styles.categoryWrapper}>
+          <CategoryList
+            categories={this.state.budgetCategories}
+            removeCategory={this.removeCategory}
+          />
+
+          <CategoryForm
+            categoryName={this.state.categoryName}
+            categoryLimit={this.state.categoryLimit}
+            handleInput={this.handleCategoryInput}
+            onSave={this.categorySave}
+            categoryNameError={this.state.categoryNameError}
+            categoryLimitError={this.state.categoryLimitError}
+            categoryNameErrorMessage={this.state.categoryNameErrorMessage}
+            categoryLimitErrorMessage={this.state.categoryLimitErrorMessage}
+          />
+        </div>
+
+        <button
+          className={styles.saveButton}
+          onClick={this.saveNewBudget}
+          type="submit"
+          name="submit"
+        >Create Budget
+        </button>
+
+        {this.dataStore.creatingNewBudgetError && (
+          <div className={styles.errorContainer}>
+            Error
+          </div>
+        )}
+
+      </div>
+    );
+
     return (
       <div className={styles.formContainer}>
         <span className={styles.title}>Create New Budget</span>
-        <div className={styles.createBudgetForm}>
-
-          <TextField
-            type="text"
-            placeholder="Budget Name"
-            id="budgetName"
-            error={this.state.budgetNameError}
-            errorText="Required"
-            handleInput={this.handleInput}
-            value={this.state.name}
-          />
-
-          <SelectField
-            label="Select Budget Interval"
-            name="Select Budget Interval"
-            value={this.state.recurring}
-            clearable={false}
-            searchable={false}
-            options={budgetIntervalOptions}
-            handleChange={this.setBudgetInterval}
-            error={this.state.recurringError}
-            errorText="Required"
-          />
-
-          <div className={styles.categoryWrapper}>
-            <CategoryList
-              categories={this.state.budgetCategories}
-              removeCategory={this.removeCategory}
-            />
-
-            <CategoryForm
-              categoryName={this.state.categoryName}
-              categoryLimit={this.state.categoryLimit}
-              handleInput={this.handleCategoryInput}
-              onSave={this.categorySave}
-              categoryNameError={this.state.categoryNameError}
-              categoryLimitError={this.state.categoryLimitError}
-              categoryNameErrorMessage={this.state.categoryNameErrorMessage}
-              categoryLimitErrorMessage={this.state.categoryLimitErrorMessage}
-            />
-          </div>
-
-          <button
-            className={styles.saveButton}
-            onClick={this.saveNewBudget}
-            type="submit"
-            name="submit"
-          >Create Budget
-          </button>
-        </div>
+        {this.dataStore.creatingNewBudget ? <Spinner /> : form}
       </div>
     );
   }

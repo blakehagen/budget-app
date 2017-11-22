@@ -13,6 +13,8 @@ export default class DataStore {
     this.authLoading = false;
     this.budgetSummaries = [];
     this.loadingUser = false;
+    this.creatingNewBudget = false;
+    this.creatingNewBudgetError = false;
     this.loadingBudgets = false;
     this.loadingNewBudget = false;
     this.updatingTransactions = false;
@@ -25,6 +27,8 @@ export default class DataStore {
 
   @observable authLoading;
   @observable budgetSummaries;
+  @observable creatingNewBudget;
+  @observable creatingNewBudgetError;
   @observable user;
   @observable userId;
   @observable loadingUser;
@@ -117,7 +121,9 @@ export default class DataStore {
 
     this.user = user;
     this.userId = user.id;
-    this.budgetSummaries = user.budgetSummaries;
+    if (_.get(user, 'budgetSummaries')) {
+      this.budgetSummaries = user.budgetSummaries;
+    }
 
     const location = browserHistory.getCurrentLocation();
     if (location.pathname !== `/${this.userId}/dashboard`) {
@@ -146,18 +152,34 @@ export default class DataStore {
   **************************************************************************** */
   @action
   createNewBudget(newBudgetData, limit) {
+    this.creatingNewBudget = true;
     budgetService.createNewBudget(newBudgetData)
       .then((response) => {
         if (response.data.success) {
-          console.log('response.data on createNewBudget -->', response.data);
-          // this.getUserBudgets(this.userId);
+
+          const newBudgetSummary = response.data.budget;
+          newBudgetSummary.budgetLimit = limit;
+          newBudgetSummary.difference = limit;
+
+          this.budgetSummaries.push(newBudgetSummary);
+          this.navigator.changeRoute(`/${this.user.id}/dashboard`, 'replace');
+          this.creatingNewBudget = false;
         }
       })
       .catch((err) => {
-        console.log('err --> ', err.data.error);
+        console.error(err);
+        this.creatingNewBudget = false;
+        this.creatingNewBudgetError = true;
       });
   }
 
+  /* ****************************************************************************
+  Set Create New Budget ERROR
+  **************************************************************************** */
+  @action
+  setCreateNewBudgetError(isError) {
+    this.creatingNewBudgetError = isError;
+  }
 
 
   @action
@@ -215,7 +237,6 @@ export default class DataStore {
   //       this.navigator.changeRoute('/login', 'replace');
   //     });
   // }
-
 
 
   @action

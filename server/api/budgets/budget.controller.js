@@ -6,7 +6,7 @@ module.exports = {
   /* ****************************************************************************
   CREATE NEW BUDGET
   **************************************************************************** */
-  createBudget(req, res) {
+  createBudget(req, res, next) {
     const { name, recurring, status, createdDateHumanized, categories } = req.body;
     const budgetToCreate = {
       name,
@@ -28,12 +28,20 @@ module.exports = {
           limit: category.limit,
           BudgetId: budget.id,
         }))
-          .then(() => res.status(200).json({ success: true }));
+          .then(() => {
+          // Will add budgetLimit and difference on front end //
+            const budgetCreatedSummary = {
+              id: budget.id,
+              name: budget.name,
+              status: budget.status,
+              createdDateHumanized: budget.createdDateHumanized,
+              budgetSpent: 0,
+            };
+
+            return res.status(200).json({ success: true, budget: budgetCreatedSummary });
+          });
       })
-      .catch((err) => {
-        console.log('err', err);
-        return res.status(400).json({ error: err });
-      });
+      .catch(err => next(err));
   },
 
   // getUserBudgets(req, res) {

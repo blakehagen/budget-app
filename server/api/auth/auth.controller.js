@@ -29,9 +29,10 @@ module.exports = {
     if (_.get(req.session, 'user', null) && _.get(req.headers, 'authorization', null)) {
       return getUserBudgetSnapshots(req.session.user.id)
         .then((userBudgets) => {
-          req.session.user.budgetSummaries = userBudgets;
+          const userData = _.clone(req.session.user);
+          userData.budgetSummaries = userBudgets;
           return res.status(200).json({
-            user: _.get(req.session, 'user'),
+            user: userData,
             success: true,
           });
         });
@@ -102,7 +103,12 @@ module.exports = {
               budgetSummaries: userBudgets,
             };
 
-            req.session.user = userData;
+            req.session.user = {
+              id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+            };
 
             const token = generateToken(user.id, user.email);
 

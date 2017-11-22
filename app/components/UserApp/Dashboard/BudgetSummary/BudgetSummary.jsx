@@ -34,7 +34,13 @@ export default class BudgetSummary extends React.Component {
     //   </div>
     // );
 
-    const budgets = _.map(this.dataStore.budgetSummaries, ({ id, name, budgetLimit, budgetSpent, difference }) => {
+    const budgets = _.map(this.dataStore.budgetSummaries, ({
+      id,
+      name,
+      budgetLimit,
+      budgetSpent,
+      difference,
+    }) => {
       return (
         <BudgetCard
           key={id}
@@ -44,7 +50,7 @@ export default class BudgetSummary extends React.Component {
           spent={budgetSpent}
           remaining={difference}
         />
-      )
+      );
 
       // return (
       //   <div className={styles.budgetContainer} key={budget.id} onClick={() => this.goToBudgetDetails(budget)}>
