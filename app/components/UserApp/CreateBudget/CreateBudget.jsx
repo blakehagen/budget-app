@@ -35,8 +35,7 @@ export default class CreateBudget extends React.Component {
   }
 
   componentWillMount() {
-    // TODO: handle on store
-    this.dataStore.showBackArrow = true;
+    this.dataStore.setNavArrow(true);
   }
 
   setBudgetInterval(interval) {

@@ -1,0 +1,84 @@
+.singleCategoryContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+  height: 52px;
+  cursor: pointer;
+  padding: 0 16px;
+}
+
+.categoryHeader {
+  font-size: 15px;
+  font-weight: 100;
+  color: #455A64;
+  padding: 0 0 6px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerName {
+  padding-left: 6px;
+}
+
+.total {
+  padding-right: 6px;
+}
+
+.categoryMain {
+  height: 28px;
+  position: relative;
+}
+
+.progressBar {
+  width: 100%;
+  height: 100%;
+}
+
+// ****************************************** //
+// **** BOOTSTRAP PROGRESS BAR OVERRIDES **** //
+// ****************************************** //
+
+:global(.progress) {
+  box-shadow: none;
+  border: 1px solid #DDD;
+}
+
+:global(.progress-bar-success) {
+  background: #45AB7F;
+  line-height: 28px;
+  box-shadow: none;
+  letter-spacing: 0.5px;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+:global(.progress-bar-danger) {
+  background: #ED6464;
+  line-height: 28px;
+  box-shadow: none;
+  letter-spacing: 0.5px;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+@media screen and (max-width: 400px) {
+  .categoryHeader {
+    font-size: 13px;
+  }
+
+  .singleCategoryContainer {
+    margin: 8px 0;
+    height: 52px;
+    padding: 0;
+  }
+
+  :global(.progress-bar-success) {
+    font-size: 12px;
+  }
+
+  :global(.progress-bar-danger) {
+    font-size: 12px;
+  }
+}

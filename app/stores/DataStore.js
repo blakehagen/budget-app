@@ -217,6 +217,14 @@ export default class DataStore {
     console.log('RESET');
   }
 
+  /* ****************************************************************************
+  Set Nav (Back) Arrow
+  **************************************************************************** */
+  @action
+  setNavArrow(showArrow) {
+    this.showBackArrow = showArrow;
+  }
+
 
   // @action
   // getUser(userId) {
