@@ -1,11 +1,8 @@
 import _ from 'lodash';
-// import numeral from 'numeral';
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
-// import Spinner from 'components/Common/Spinner';
 import BudgetCard from './BudgetCard';
-// import { ProgressBar } from 'react-bootstrap';
 import styles from './budgetSummary.scss';
 
 @inject('dataStore', 'navigator')
@@ -18,12 +15,9 @@ export default class BudgetSummary extends React.Component {
     this.navigator = this.props.navigator;
   }
 
-  componentDidMount() {
-    this.dataStore.selectedBudget = null;
-  }
-
   goToBudgetCategoryView(selectedBudgetId) {
     console.log('click goToBudgetCategoryView', selectedBudgetId);
+    // TODO: handle on store
     this.dataStore.selectedBudget = _.find(this.dataStore.budgetSummaries,
       { id: selectedBudgetId });
     this.navigator.changeRoute(`/${this.dataStore.userId}/budget/${selectedBudgetId}`, 'push');
