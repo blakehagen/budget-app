@@ -1,6 +1,5 @@
 .mainWrapper {
   padding: 10px 30px 30px 30px;
-  border:1px solid red;
   display: flex;
   justify-content: center;
 }
@@ -11,6 +10,5 @@
   display: flex;
   flex-direction: row;
   flex-flow: wrap;
-  justify-content: center;
-  border:1px solid blue;
+  justify-content: flex-start;
 }

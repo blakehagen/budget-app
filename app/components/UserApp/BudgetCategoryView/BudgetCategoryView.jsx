@@ -6,6 +6,7 @@ import { observer, inject } from 'mobx-react';
 import { reaction } from 'mobx';
 import autoBind from 'react-autobind';
 import ActionHeader from '../ActionHeader';
+import Summary from '../Summary';
 
 // import Spinner from 'components/Common/Spinner';
 // import BudgetCard from './BudgetCard';
@@ -84,9 +85,18 @@ export default class BudgetCategoryView extends React.Component {
       <div>
         <ActionHeader />
         <div className={styles.mainWrapper}>
-
           <div className={styles.categories}>
-            hi this is BudgetCategoryView
+
+            <Summary
+              type="budget"
+              name={this.dataStore.selectedBudget.name}
+              limit={this.dataStore.selectedBudget.budgetLimit}
+              spent={this.dataStore.selectedBudget.budgetSpent}
+              remaining={this.dataStore.selectedBudget.difference}
+            />
+
+
+
           </div>
         </div>
       </div>
