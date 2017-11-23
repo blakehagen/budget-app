@@ -1,9 +1,13 @@
 .budgetSummaryMain {
   padding: 10px 30px 30px 30px;
+  border:1px solid green;
+  display: flex;
+  justify-content: center;
 }
 
 .budgets {
   width: 100%;
+  max-width: 1500px;
   display: flex;
   flex-direction: row;
   flex-flow: wrap;

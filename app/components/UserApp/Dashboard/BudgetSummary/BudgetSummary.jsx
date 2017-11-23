@@ -22,10 +22,12 @@ export default class BudgetSummary extends React.Component {
     this.dataStore.selectedBudget = null;
   }
 
-  // goToBudgetDetails(selectedBudget) {
-  //   this.dataStore.selectedBudget = selectedBudget;
-  //   this.navigator.changeRoute(`/user/${this.dataStore.userId}/budget/${selectedBudget.id}`, 'push');
-  // }
+  goToBudgetCategoryView(selectedBudgetId) {
+    console.log('click goToBudgetCategoryView', selectedBudgetId);
+    this.dataStore.selectedBudget = _.find(this.dataStore.budgetSummaries,
+      { id: selectedBudgetId });
+    this.navigator.changeRoute(`/${this.dataStore.userId}/budget/${selectedBudgetId}`, 'push');
+  }
 
   render() {
     const budgets = _.map(this.dataStore.budgetSummaries, ({
@@ -43,6 +45,7 @@ export default class BudgetSummary extends React.Component {
           limit={budgetLimit}
           spent={budgetSpent}
           remaining={difference}
+          details={this.goToBudgetCategoryView}
         />
       );
 

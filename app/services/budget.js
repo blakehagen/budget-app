@@ -5,15 +5,6 @@ import axios from 'axios';
 const BASE_URL = '/api/v1/';
 
 export default {
-
-  getBudgets(userId) {
-    return axios.get(`${BASE_URL}budgets/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-  },
-
   createNewBudget(budgetInfo) {
     return axios.post(`${BASE_URL}budgets/create`, budgetInfo, {
       headers: {
@@ -21,6 +12,24 @@ export default {
       },
     });
   },
+
+  getBudgetCategories(budgetId) {
+    return axios.get(`${BASE_URL}budgets/categories/${budgetId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+  },
+
+  // getBudgets(userId) {
+  //   return axios.get(`${BASE_URL}budgets/${userId}`, {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //     },
+  //   });
+  // },
+
+
 
   saveTransaction(transactionInfo) {
     return axios.post(`${BASE_URL}transactions/create`, {

@@ -48,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
           FROM budgets b
           WHERE b.status = 'active'
           AND b."CreatedByUserId" = ${userId}
+          ORDER BY -b.id
         `;
         return sequelize.query(sql, {
           raw: true,

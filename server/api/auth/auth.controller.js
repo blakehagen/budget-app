@@ -26,7 +26,7 @@ module.exports = {
    Check User Session
    **************************************************************************** */
   sessionCheck(req, res) {
-    if (_.get(req.session, 'user', null) && _.get(req.headers, 'authorization', null)) {
+    if (_.get(req.session, 'user', null)) {
       return getUserBudgetSnapshots(req.session.user.id)
         .then((userBudgets) => {
           const userData = _.clone(req.session.user);

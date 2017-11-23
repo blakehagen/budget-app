@@ -1,0 +1,16 @@
+.mainWrapper {
+  padding: 10px 30px 30px 30px;
+  border:1px solid red;
+  display: flex;
+  justify-content: center;
+}
+
+.categories {
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap;
+  justify-content: center;
+  border:1px solid blue;
+}
