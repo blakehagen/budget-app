@@ -27,6 +27,18 @@ module.exports = (sequelize, DataTypes) => {
         Category.hasMany(models.Transaction);
         Category.belongsTo(models.Budget);
       },
+      getCategoryList(budgetId) {
+        const sql = `
+          SELECT c.id, c.name
+          FROM categories c
+          WHERE c."BudgetId" = ${budgetId}
+          ORDER BY c.name
+        `;
+        return sequelize.query(sql, {
+          raw: true,
+          type: models.Sequelize.QueryTypes.SELECT,
+        });
+      },
       getCategoryDetails(budgetId) {
         const sql = `
           SELECT c.id, c.name, c.limit,

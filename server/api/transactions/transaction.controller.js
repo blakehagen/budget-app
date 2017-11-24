@@ -3,7 +3,7 @@ const budgetUtils = require('../../utils/budgetUtils');
 
 module.exports = {
   /* ****************************************************************************
-  GET TRANSACTIONS BY CATEGORY ID
+  GET TRANSACTION DETAILS BY CATEGORY ID
   **************************************************************************** */
   getTransactions(req, res, next) {
     models.Transaction.getTransactions(req.params.categoryId)

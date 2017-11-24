@@ -13,6 +13,7 @@ export default class DataStore {
     this.authLoading = false;
     this.budgetSummaries = [];
     // this.loadingUser = false;
+    this.categoryList = null;
     this.creatingNewBudget = false;
     this.creatingNewBudgetError = false;
     // this.loadingBudgets = false;
@@ -30,6 +31,7 @@ export default class DataStore {
 
   @observable authLoading;
   @observable budgetSummaries;
+  @observable categoryList;
   @observable creatingNewBudget;
   @observable creatingNewBudgetError;
   @observable user;
@@ -192,7 +194,30 @@ export default class DataStore {
   }
 
   /* ****************************************************************************
-  Get Budget Categories
+  Get Budget Category List
+  **************************************************************************** */
+  @action
+  getCategoryList(budgetId) {
+    return budgetService.getCategoryList(budgetId)
+      .then((response) => {
+        if (response.data.success) {
+          return _.map(response.data.categories, category => ({
+            value: category.id,
+            label: category.name,
+            id: category.id,
+            key: 'Category',
+            clearableValue: false,
+          }));
+        }
+        return [];
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  /* ****************************************************************************
+  Get Budget Category Details
   **************************************************************************** */
   @action
   getBudgetCategories(budgetId) {
