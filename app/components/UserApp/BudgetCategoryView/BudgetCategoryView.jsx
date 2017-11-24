@@ -21,6 +21,7 @@ export default class BudgetCategoryView extends React.Component {
   }
 
   componentWillMount() {
+    this.dataStore.clearSelectedCategory();
     this.dataStore.setNavArrow(true);
   }
 
@@ -37,7 +38,7 @@ export default class BudgetCategoryView extends React.Component {
   }
 
   viewDetails(categoryId) {
-    console.log('categoryId for details -->', categoryId);
+    this.dataStore.setSelectedCategory(categoryId);
     this.navigator.changeRoute(`/${this.dataStore.userId}/budget/${this.dataStore.selectedBudget.id}/category/${categoryId}`, 'push');
   }
 

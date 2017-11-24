@@ -23,6 +23,8 @@ export default class DataStore {
     this.userId = localStorage.getItem('userId');
     this.selectedBudget = null;
     this.selectedBudgetCategoriesLoaded = false;
+    this.selectedCategory = null;
+    this.selectedCategoryTransactionsLoaded = false;
     this.showBackArrow = false;
   }
 
@@ -32,12 +34,14 @@ export default class DataStore {
   @observable creatingNewBudgetError;
   @observable user;
   @observable userId;
-  @observable loadingUser;
-  @observable userBudgets;
-  @observable loadingBudgets;
+  // @observable loadingUser;
+  // @observable userBudgets;
+  // @observable loadingBudgets;
   @observable selectedBudget;
   @observable selectedBudgetCategoriesLoaded;
-  @observable updatingTransactions;
+  @observable selectedCategory;
+  @observable selectedCategoryTransactionsLoaded;
+  // @observable updatingTransactions;
   @observable showBackArrow;
 
   /* ****************************************************************************
@@ -214,15 +218,14 @@ export default class DataStore {
   getCategoryTransactions(categoryId) {
     budgetService.getCategoryTransactions(categoryId)
       .then((response) => {
-        console.log('response -->', response);
-        // TODO-> route on backend :)
-        // if (response.data.success) {
-        //   const categories = response.data.categories;
-        //   if (this.selectedBudget) {
-        //     this.selectedBudget.categories = categories;
-        //   }
-        //   this.selectedBudgetCategoriesLoaded = true;
-        // }
+        console.log('transaction response -->', response.data);
+        if (response.data.success) {
+          const transactions = response.data.transactions;
+          if (this.selectedCategory) {
+            this.selectedCategory.transactions = transactions;
+          }
+          this.selectedCategoryTransactionsLoaded = true;
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -242,10 +245,30 @@ export default class DataStore {
   Clear Selected Budget
   **************************************************************************** */
   @action
-  resetSelectedBudget() {
+  clearSelectedBudget() {
     this.selectedBudget = null;
     this.selectedBudgetCategoriesLoaded = false;
-    console.log('RESET');
+    console.log('SELECTED BUDGET CLEARED');
+  }
+
+  /* ****************************************************************************
+  Set Selected Category
+  **************************************************************************** */
+  @action
+  setSelectedCategory(categoryId) {
+    this.selectedCategory = _.find(_.get(this.selectedBudget, 'categories'), { id: categoryId });
+    this.selectedCategory.difference = this.selectedCategory.limit - this.selectedCategory.spent;
+    console.log('selectedCategory set');
+  }
+
+  /* ****************************************************************************
+  Clear Selected Category
+  **************************************************************************** */
+  @action
+  clearSelectedCategory() {
+    this.selectedCategory = null;
+    this.selectedCategoryTransactionsLoaded = false;
+    console.log('SELECTED CATEGORY CLEARED');
   }
 
   /* ****************************************************************************

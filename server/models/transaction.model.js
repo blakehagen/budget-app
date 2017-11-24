@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       getTransactions(categoryId) {
         const sql = `
-          SELECT t.id, t.vendor, t.amount, t.description, t."CategoryId"
+          SELECT t.id, t.vendor, t.amount, t.description, t."postedDate", t."CategoryId"
           FROM transactions t
           WHERE t."CategoryId" = ${categoryId}
           Order By -t.id

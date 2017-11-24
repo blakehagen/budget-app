@@ -7,7 +7,7 @@ import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
 // import ActionHeader from '../ActionHeader';
 import Summary from '../Summary';
-// import Categories from './Categories';
+import Transactions from './Transactions';
 import styles from './categoryDetails.scss';
 
 @inject('dataStore', 'navigator')
@@ -29,15 +29,15 @@ export default class CategoryDetails extends React.Component {
     const categoryId = _.last(_.split(location.pathname, '/'));
     this.dataStore.getCategoryTransactions(categoryId);
 
-    // this.reaction = reaction(() => _.get(this.dataStore, 'selectedBudgetCategoriesLoaded'), categoriesLoaded => categoriesLoaded, true);
+    this.reaction = reaction(() => _.get(this.dataStore, 'selectedCategoryTransactionsLoaded'), transactionsLoaded => transactionsLoaded, true);
   }
 
-  // componentWillUnmount() {
-  //   this.reaction();
-  // }
+  componentWillUnmount() {
+    this.reaction();
+  }
 
   render() {
-    if (!_.get(this.dataStore, 'selectedBudgetCategoriesLoaded', null)) {
+    if (!_.get(this.dataStore, 'selectedCategoryTransactionsLoaded', null)) {
       return (
         <div className={styles.loadingContainer}>
           <Spinner />
@@ -47,26 +47,24 @@ export default class CategoryDetails extends React.Component {
 
     return (
       <div>
-        Where my deets at?
-        {/*<ActionHeader />*/}
-        {/*<div className={styles.mainWrapper}>*/}
-          {/*<div className={styles.categories}>*/}
+        {/*<ActionHeader /> TODO -> Need / want this? */}
+        <div className={styles.mainWrapper}>
+          <div className={styles.detailsWrapper}>
 
-            {/*<Summary*/}
-              {/*type="budget"*/}
-              {/*name={this.dataStore.selectedBudget.name}*/}
-              {/*limit={this.dataStore.selectedBudget.budgetLimit}*/}
-              {/*spent={this.dataStore.selectedBudget.budgetSpent}*/}
-              {/*remaining={this.dataStore.selectedBudget.difference}*/}
-            {/*/>*/}
+            <Summary
+              type="category"
+              name={_.get(this.dataStore, 'selectedCategory.name')}
+              limit={_.get(this.dataStore, 'selectedCategory.limit')}
+              spent={_.get(this.dataStore, 'selectedCategory.spent')}
+              remaining={_.get(this.dataStore, 'selectedCategory.difference')}
+            />
 
-            {/*<Categories*/}
-              {/*categories={this.dataStore.selectedBudget.categories}*/}
-              {/*handleClick={this.viewDetails}*/}
-            {/*/>*/}
+            <Transactions
+              transactions={_.get(this.dataStore, 'selectedCategory.transactions')}
+            />
 
-          {/*</div>*/}
-        {/*</div>*/}
+          </div>
+        </div>
       </div>
     );
   }

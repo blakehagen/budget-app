@@ -1,0 +1,87 @@
+.transactionWrapper {
+  margin-top: 12px;
+}
+
+.singleTransactionContainer {
+  border-bottom: 1px solid #D9D9D9;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  &:first-child {
+    border-top: 1px solid #D9D9D9;
+  }
+  &:nth-child(2n) {
+    background: #FAFAFA;
+  }
+}
+
+.amountContainer {
+  width: 115px;
+  height: 100%;
+  padding-top: 12px;
+  padding-right: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  font-size: 20px;
+  font-weight: 400;
+  color: #455A64;
+  cursor: default;
+}
+
+.actionContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 9px;
+}
+
+.icon {
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  background-size: cover;
+}
+
+.deleteTransactionIcon {
+  //margin-right: 13px;
+  @extend .icon;
+  background: url('../images/delete-icon-gray.svg') no-repeat center;
+}
+
+.editTransactionIcon {
+  @extend .icon;
+  background: url('../images/edit-icon.svg') no-repeat center;
+}
+
+.transactionDetailsContainer {
+  width: calc(100% - 100px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 12px 8px 12px 4px;
+  cursor: default;
+  .row {
+    color: #455A64;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 100;
+    .date {
+      font-weight: 400;
+      line-height: 18px;
+    }
+    .description {
+      font-size: 13px;
+      line-height: 18px;
+    }
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+}

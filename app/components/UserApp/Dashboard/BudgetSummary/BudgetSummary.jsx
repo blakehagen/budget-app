@@ -16,7 +16,7 @@ export default class BudgetSummary extends React.Component {
   }
 
   componentWillMount() {
-    this.dataStore.resetSelectedBudget();
+    this.dataStore.clearSelectedBudget();
   }
 
   goToBudgetCategoryView(selectedBudgetId) {
