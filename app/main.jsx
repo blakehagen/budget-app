@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRedirect, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
 import { Provider } from 'mobx-react';
 import DataStore from 'stores/DataStore';
 import Navigator from 'utils/Navigator';
@@ -11,6 +11,7 @@ import Register from 'components/Register';
 import UserApp from 'components/UserApp';
 import Dashboard from 'components/UserApp/Dashboard';
 import BudgetCategoryView from 'components/UserApp/BudgetCategoryView';
+import CategoryDetails from 'components/UserApp/CategoryDetails';
 // import BudgetDetails from 'components/UserApp/Dashboard/BudgetDetails';
 import CreateBudget from 'components/UserApp/CreateBudget';
 import CreateTransaction from 'components/UserApp/CreateTransaction';
@@ -48,11 +49,18 @@ ReactDOM.render(
             onEnter={paramsCheck()}
             component={Dashboard}
           />
+
           <Route
             path="budget/:budgetId"
             onEnter={paramsCheck()}
-            component={BudgetCategoryView}
-          />
+          >
+            <IndexRoute component={BudgetCategoryView} />
+            <Route
+              path="category/:categoryId"
+              component={CategoryDetails}
+            />
+          </Route>
+
           <Route
             path="create-budget"
             onEnter={paramsCheck()}

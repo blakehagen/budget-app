@@ -12,7 +12,7 @@ module.exports = {
   numberifyData(data) {
     return _.map(data, (obj) => {
       _.forEach(obj, (val, key) => {
-        if (key === 'limit' || key === 'spent' || key === 'budgetLimit' || key === 'budgetSpent') {
+        if (key === 'limit' || key === 'spent' || key === 'budgetLimit' || key === 'budgetSpent' || key === 'amount') {
           obj[key] = _.toNumber(val); // eslint-disable-line
         }
       });

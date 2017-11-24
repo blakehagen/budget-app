@@ -15,11 +15,12 @@ export default class BudgetSummary extends React.Component {
     this.navigator = this.props.navigator;
   }
 
+  componentWillMount() {
+    this.dataStore.resetSelectedBudget();
+  }
+
   goToBudgetCategoryView(selectedBudgetId) {
-    console.log('click goToBudgetCategoryView', selectedBudgetId);
-    // TODO: handle on store
-    this.dataStore.selectedBudget = _.find(this.dataStore.budgetSummaries,
-      { id: selectedBudgetId });
+    this.dataStore.setSelectedBudget(selectedBudgetId);
     this.navigator.changeRoute(`/${this.dataStore.userId}/budget/${selectedBudgetId}`, 'push');
   }
 

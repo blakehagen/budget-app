@@ -21,6 +21,14 @@ export default {
     });
   },
 
+  getCategoryTransactions(categoryId) {
+    return axios.get(`${BASE_URL}transactions/${categoryId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+  },
+
   // getBudgets(userId) {
   //   return axios.get(`${BASE_URL}budgets/${userId}`, {
   //     headers: {

@@ -16,7 +16,7 @@ export default class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    this.dataStore.showBackArrow = false;
+    this.dataStore.setNavArrow(false);
   }
 
   render() {

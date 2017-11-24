@@ -5,7 +5,7 @@ import { ProgressBar } from 'react-bootstrap';
 import styles from './categories.scss';
 
 const Categories = (props) => {
-  const { categories } = props;
+  const { categories, handleClick } = props;
   const categoryProgressBars = _.map(categories, ({
     id,
     name,
@@ -17,6 +17,7 @@ const Categories = (props) => {
       <div
         key={id}
         className={styles.singleCategoryContainer}
+        onClick={() => handleClick(id)}
       >
 
         <div className={styles.categoryHeader}>
@@ -47,6 +48,7 @@ const Categories = (props) => {
 
 Categories.propTypes = {
   categories: PropTypes.array.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default Categories;

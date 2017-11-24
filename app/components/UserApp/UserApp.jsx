@@ -17,6 +17,7 @@ export default class UserApp extends React.Component {
 
   componentWillMount() {
     if (!this.dataStore.user) {
+      console.log('no user in componentWillMount --> checking if stored session');
       this.dataStore.checkIfStoredSession();
     }
   }

@@ -208,7 +208,38 @@ export default class DataStore {
   }
 
   /* ****************************************************************************
-  Reset Selected Budget
+  Get Transactions for Selected Category
+  **************************************************************************** */
+  @action
+  getCategoryTransactions(categoryId) {
+    budgetService.getCategoryTransactions(categoryId)
+      .then((response) => {
+        console.log('response -->', response);
+        // TODO-> route on backend :)
+        // if (response.data.success) {
+        //   const categories = response.data.categories;
+        //   if (this.selectedBudget) {
+        //     this.selectedBudget.categories = categories;
+        //   }
+        //   this.selectedBudgetCategoriesLoaded = true;
+        // }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  /* ****************************************************************************
+  Set Selected Budget
+  **************************************************************************** */
+  @action
+  setSelectedBudget(selectedBudgetId) {
+    this.selectedBudget = _.find(this.budgetSummaries, { id: selectedBudgetId });
+    console.log('selectedBudgetSet');
+  }
+
+  /* ****************************************************************************
+  Clear Selected Budget
   **************************************************************************** */
   @action
   resetSelectedBudget() {

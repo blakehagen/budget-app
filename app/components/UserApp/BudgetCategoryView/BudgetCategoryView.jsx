@@ -33,8 +33,12 @@ export default class BudgetCategoryView extends React.Component {
   }
 
   componentWillUnmount() {
-    this.dataStore.resetSelectedBudget();
     this.reaction();
+  }
+
+  viewDetails(categoryId) {
+    console.log('categoryId for details -->', categoryId);
+    this.navigator.changeRoute(`/${this.dataStore.userId}/budget/${this.dataStore.selectedBudget.id}/category/${categoryId}`, 'push');
   }
 
   render() {
@@ -60,7 +64,10 @@ export default class BudgetCategoryView extends React.Component {
               remaining={this.dataStore.selectedBudget.difference}
             />
 
-            <Categories categories={this.dataStore.selectedBudget.categories} />
+            <Categories
+              categories={this.dataStore.selectedBudget.categories}
+              handleClick={this.viewDetails}
+            />
 
           </div>
         </div>

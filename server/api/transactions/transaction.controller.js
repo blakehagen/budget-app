@@ -1,6 +1,18 @@
 const models = require('../../models/index');
+const budgetUtils = require('../../utils/budgetUtils');
 
 module.exports = {
+  /* ****************************************************************************
+  GET TRANSACTIONS BY CATEGORY ID
+  **************************************************************************** */
+  getTransactions(req, res, next) {
+    models.Transaction.getTransactions(req.params.categoryId)
+      .then((response) => {
+        const transactions = budgetUtils.numberifyData(response);
+        return res.status(200).json({ success: true, transactions });
+      })
+      .catch(err => next(err));
+  },
 
   createTransaction(req, res) {
     models.Transaction.create(req.body)
