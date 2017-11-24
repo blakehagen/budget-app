@@ -1,8 +1,5 @@
-import _ from 'lodash';
 import numeral from 'numeral';
 import React from 'react';
-import { observer, inject } from 'mobx-react';
-import autoBind from 'react-autobind';
 
 import CircularProgressbar from 'react-circular-progressbar';
 
@@ -35,10 +32,22 @@ const BudgetCard = (props) => {
             <div className={styles.label}>Remaining &nbsp;&nbsp;</div>
             <div className={styles.amount}>{numeral(props.remaining).format('$0,0.00')}</div>
           </div>
+
+          <div className={styles.buttonWrapper}>
+            <button
+              className={styles.cardButton}
+              onClick={() => props.details(props.id)}
+            >
+              Details
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
   );
 };
+
+// TODO add prop types!
 
 export default BudgetCard;

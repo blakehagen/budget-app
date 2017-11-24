@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import DashboardHeader from './DashboadHeader';
+import ActionHeader from '../ActionHeader';
 import BudgetSummary from './BudgetSummary';
 import autoBind from 'react-autobind';
 import styles from './dashboard.scss';
@@ -16,13 +16,13 @@ export default class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    this.dataStore.showBackArrow = false;
+    this.dataStore.setNavArrow(false);
   }
 
   render() {
     return (
       <div>
-        <DashboardHeader />
+        <ActionHeader />
         <BudgetSummary />
       </div>
     );

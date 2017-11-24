@@ -27,9 +27,13 @@ module.exports = (sequelize, DataTypes) => {
         models = _models;
         Transaction.belongsTo(models.Category);
       },
-      getTransactions(budgetId) {
-        const sql = `SELECT t.id, t.vendor, t.amount, t.description, t."postedDateHumanized" from transactions t WHERE t."BudgetId" = ${budgetId} ORDER BY -t.id`;
-
+      getTransactions(categoryId) {
+        const sql = `
+          SELECT t.id, t.vendor, t.amount, t.description, t."postedDate", t."CategoryId"
+          FROM transactions t
+          WHERE t."CategoryId" = ${categoryId}
+          Order By -t.id
+        `;
         return sequelize.query(sql, {
           raw: true,
           type: models.Sequelize.QueryTypes.SELECT,

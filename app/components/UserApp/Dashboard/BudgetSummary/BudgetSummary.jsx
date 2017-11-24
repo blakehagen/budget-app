@@ -1,11 +1,8 @@
 import _ from 'lodash';
-// import numeral from 'numeral';
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
-// import Spinner from 'components/Common/Spinner';
 import BudgetCard from './BudgetCard';
-// import { ProgressBar } from 'react-bootstrap';
 import styles from './budgetSummary.scss';
 
 @inject('dataStore', 'navigator')
@@ -18,14 +15,14 @@ export default class BudgetSummary extends React.Component {
     this.navigator = this.props.navigator;
   }
 
-  componentDidMount() {
-    this.dataStore.selectedBudget = null;
+  componentWillMount() {
+    this.dataStore.clearSelectedBudget();
   }
 
-  // goToBudgetDetails(selectedBudget) {
-  //   this.dataStore.selectedBudget = selectedBudget;
-  //   this.navigator.changeRoute(`/user/${this.dataStore.userId}/budget/${selectedBudget.id}`, 'push');
-  // }
+  goToBudgetCategoryView(selectedBudgetId) {
+    this.dataStore.setSelectedBudget(selectedBudgetId);
+    this.navigator.changeRoute(`/${this.dataStore.userId}/budget/${selectedBudgetId}`, 'push');
+  }
 
   render() {
     const budgets = _.map(this.dataStore.budgetSummaries, ({
@@ -43,28 +40,9 @@ export default class BudgetSummary extends React.Component {
           limit={budgetLimit}
           spent={budgetSpent}
           remaining={difference}
+          details={this.goToBudgetCategoryView}
         />
       );
-
-      // return (
-      //   <div className={styles.budgetContainer} key={budget.id} onClick={() => this.goToBudgetDetails(budget)}>
-      //     <div className={styles.budgetHeader}>
-      //       <span className={styles.headerName}>{budget.name}</span>
-      //       <span className={styles.total}>{numeral(totalBudgetAmount).format('$ 0,0[.]00')}</span>
-      //
-      //     </div>
-      //     <div className={styles.budgetMain}>
-      //       <ProgressBar
-      //         min={0}
-      //         now={percentageUsed > 100 ? totalBudgetAmount : currentTotal}
-      //         max={totalBudgetAmount}
-      //         label={percentageUsed > 18 ? numeral(currentTotal).format('$0,0.00') : ''}
-      //         className={styles.progressBar}
-      //         bsStyle={percentageUsed > 85 ? 'danger' : 'success'}
-      //       />
-      //     </div>
-      //   </div>
-      // );
     });
 
     return (

@@ -1,0 +1,49 @@
+.wrapper {
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 100;
+  margin-top: 14px;
+  margin-bottom: 8px;
+  padding: 0 0 4px 0;
+  color: #455A64;
+  cursor: default;
+  width: 290px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.summary {
+  font-size: 13px;
+  font-weight: 100;
+  padding: 5px 0;
+  color: #455A64;
+  cursor: default;
+}
+
+.summaryNumber {
+  font-weight: 400;
+  font-size: 16px;
+  color: #455A64;
+  cursor: default;
+}
+
+.underBudget {
+  @extend .summaryNumber;
+  color: #45AB7F;
+}
+
+.overBudgetWarn {
+  @extend .summaryNumber;
+  color: #ED6464;
+}
+
+@media screen and (max-width: 400px) {
+  .wrapper {
+    padding-left: 14px;
+  }
+}

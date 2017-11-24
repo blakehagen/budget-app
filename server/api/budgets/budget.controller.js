@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const BPromise = require('bluebird');
 const models = require('../../models/index');
+const budgetUtils = require('../../utils/budgetUtils');
 
 module.exports = {
   /* ****************************************************************************
@@ -40,6 +41,18 @@ module.exports = {
 
             return res.status(200).json({ success: true, budget: budgetCreatedSummary });
           });
+      })
+      .catch(err => next(err));
+  },
+
+  /* ****************************************************************************
+  GET BUDGET CATEGORY DETAILS
+  **************************************************************************** */
+  getBudgetCategories(req, res, next) {
+    models.Category.getCategoryDetails(req.params.budgetId)
+      .then((response) => {
+        const categories = budgetUtils.numberifyData(response);
+        return res.status(200).json({ success: true, categories });
       })
       .catch(err => next(err));
   },
