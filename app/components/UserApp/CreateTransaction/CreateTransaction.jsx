@@ -37,7 +37,7 @@ export default class CreateTransaction extends React.Component {
   }
 
   setSelectedField(selection) {
-    // this.dataStore.setCreateNewBudgetError(false);
+    this.dataStore.setCreateNewTransactionError(false);
     if (selection.key === 'Budget') {
       this.buildCategoryOptions(selection.id);
     }
@@ -56,7 +56,7 @@ export default class CreateTransaction extends React.Component {
   }
 
   handleInput(e, id) {
-    // this.dataStore.setCreateNewBudgetError(false);
+    this.dataStore.setCreateNewTransactionError(false);
     this.setState({
       [id]: e.target.value,
       [`${id}Error`]: false,
@@ -125,10 +125,8 @@ export default class CreateTransaction extends React.Component {
   saveTransaction(e) {
     if (!this.validateInputs()) {
       e.preventDefault();
-      console.log('INVALID FORM');
       return false;
     }
-    console.log('VALID FORM');
 
     const transactionInfo = {
       CategoryId: this.state.selectedCategory,
@@ -138,11 +136,7 @@ export default class CreateTransaction extends React.Component {
       postedDate: moment().format('l h:mma'),
     };
 
-    console.log('transactionInfo -->', transactionInfo);
-
-    // this.dataStore.updatingTransactions = true;
-    this.dataStore.saveTransaction(transactionInfo);
-    // this.navigator.changeRoute(`/user/${this.dataStore.userId}/budget/${this.state.selectedBudget.id}`, 'push');
+    this.dataStore.saveTransaction(transactionInfo, this.state.selectedBudget);
   }
 
   render() {
@@ -218,13 +212,19 @@ export default class CreateTransaction extends React.Component {
         >Save Transaction
         </button>
 
+        {this.dataStore.creatingNewTransactionError && (
+          <div className={styles.errorContainer}>
+            Error
+          </div>
+        )}
+
       </div>
     );
 
     return (
       <div className={styles.formContainer}>
         <span className={styles.title}>New Transaction</span>
-        {this.dataStore.creatingNewBudget ? <Spinner /> : form}
+        {this.dataStore.creatingNewTransaction ? <Spinner /> : form}
       </div>
     );
   }

@@ -12,21 +12,18 @@ export default class DataStore {
 
     this.authLoading = false;
     this.budgetSummaries = [];
-    // this.loadingUser = false;
     this.categoryList = null;
     this.creatingNewBudget = false;
     this.creatingNewBudgetError = false;
-    // this.loadingBudgets = false;
-    // this.loadingNewBudget = false;
-    // this.updatingTransactions = false;
-    this.user = null;
-    // this.userBudgets = null;
-    this.userId = localStorage.getItem('userId');
+    this.creatingNewTransaction = false;
+    this.creatingNewTransactionError = false;
     this.selectedBudget = null;
     this.selectedBudgetCategoriesLoaded = false;
     this.selectedCategory = null;
     this.selectedCategoryTransactionsLoaded = false;
     this.showBackArrow = false;
+    this.user = null;
+    this.userId = localStorage.getItem('userId');
   }
 
   @observable authLoading;
@@ -34,17 +31,15 @@ export default class DataStore {
   @observable categoryList;
   @observable creatingNewBudget;
   @observable creatingNewBudgetError;
-  @observable user;
-  @observable userId;
-  // @observable loadingUser;
-  // @observable userBudgets;
-  // @observable loadingBudgets;
+  @observable creatingNewTransaction;
+  @observable creatingNewTransactionError;
   @observable selectedBudget;
   @observable selectedBudgetCategoriesLoaded;
   @observable selectedCategory;
   @observable selectedCategoryTransactionsLoaded;
-  // @observable updatingTransactions;
   @observable showBackArrow;
+  @observable user;
+  @observable userId;
 
   /* ****************************************************************************
     Check User Session
@@ -62,7 +57,6 @@ export default class DataStore {
         }
       })
       .catch((err) => {
-        console.log('Error in checkIfStoredSession');
         console.error(err);
         this.authLoading = false;
       });
@@ -153,7 +147,7 @@ export default class DataStore {
     localStorage.clear();
     this.user = null;
     this.userId = null;
-    this.userBudgets = null;
+    this.budgetSummaries = null;
     return userService.logout()
       .then(() => {
         this.navigator.changeRoute('/login', 'replace');
@@ -179,9 +173,9 @@ export default class DataStore {
         }
       })
       .catch((err) => {
-        console.error(err);
         this.creatingNewBudget = false;
         this.creatingNewBudgetError = true;
+        console.error(err);
       });
   }
 
@@ -243,7 +237,6 @@ export default class DataStore {
   getCategoryTransactions(categoryId) {
     budgetService.getCategoryTransactions(categoryId)
       .then((response) => {
-        console.log('transaction response -->', response.data);
         if (response.data.success) {
           const transactions = response.data.transactions;
           if (this.selectedCategory) {
@@ -263,7 +256,22 @@ export default class DataStore {
   @action
   setSelectedBudget(selectedBudgetId) {
     this.selectedBudget = _.find(this.budgetSummaries, { id: selectedBudgetId });
-    console.log('selectedBudgetSet');
+    console.log('selectedBudget Set');
+  }
+
+  /* ****************************************************************************
+  Update Selected Budget
+  **************************************************************************** */
+  @action
+  updateSelectedBudget(data) {
+    const newBudgetSpent = this.selectedBudget.budgetSpent + data.amount;
+    const newDifference = this.selectedBudget.budgetLimit - newBudgetSpent;
+    const categoryToUpdate = _.find(this.selectedBudget.categories, { id: data.CategoryId });
+
+    _.set(this.selectedBudget, 'budgetSpent', newBudgetSpent);
+    _.set(this.selectedBudget, 'difference', newDifference);
+    _.set(categoryToUpdate, 'spent', categoryToUpdate.spent + data.amount);
+    console.log('selectedBudget UPDATED!');
   }
 
   /* ****************************************************************************
@@ -300,17 +308,33 @@ export default class DataStore {
   Save New Transaction
   **************************************************************************** */
   @action
-  saveTransaction(transaction) {
+  saveTransaction(transaction, budgetId) {
+    this.creatingNewTransaction = true;
     budgetService.saveTransaction(transaction)
       .then((response) => {
         if (response.data.success) {
-          console.log('transaction response -->', response.data);
-          // this.getUserBudgets(this.userId);
+          const newTransaction = response.data.transaction;
+          newTransaction.amount = _.toNumber(newTransaction.amount);
+          this.setSelectedBudget(budgetId);
+          this.updateSelectedBudget(newTransaction);
+
+          this.navigator.changeRoute(`/${this.user.id}/budget/${budgetId}`, 'replace');
+          this.creatingNewTransaction = false;
         }
       })
       .catch((err) => {
+        this.creatingNewTransaction = false;
+        this.creatingNewTransactionError = true;
         console.error(err);
       });
+  }
+
+  /* ****************************************************************************
+  Set Create New Transaction ERROR
+  **************************************************************************** */
+  @action
+  setCreateNewTransactionError(isError) {
+    this.creatingNewTransactionError = isError;
   }
 
   /* ****************************************************************************
@@ -321,64 +345,7 @@ export default class DataStore {
     this.showBackArrow = showArrow;
   }
 
-
-  // @action
-  // getUser(userId) {
-  //   if (!userId) {
-  //     this.navigator.changeRoute('/login', 'replace');
-  //     return false;
-  //   }
-  //
-  //   this.loadingUser = true;
-  //
-  //   userService.getUser(userId)
-  //     .then((response) => {
-  //       this.loadingUser = false;
-  //       if (_.isError(response) || response.status !== 200) {
-  //         this.navigator.changeRoute('/login', 'replace');
-  //       } else {
-  //         this.user = response.data;
-  //         this.userId = response.data.id;
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       this.loadingUser = false;
-  //       console.error(err);
-  //       this.navigator.changeRoute('/login', 'replace');
-  //     });
-  // }
-
-  // @action
-  // getUserBudgets(userId) {
-  //   console.log('hi');
-  //   if (!userId) {
-  //     this.navigator.changeRoute('/login', 'replace');
-  //     return false;
-  //   }
-  //   this.loadingBudgets = true;
-  //
-  //   budgetService.getBudgets(userId)
-  //     .then((response) => {
-  //       this.loadingBudgets = false;
-  //       this.loadingNewBudget = false;
-  //       if (_.isError(response) || response.status !== 200) {
-  //         this.navigator.changeRoute('/login', 'replace');
-  //       } else {
-  //         this.userBudgets = response.data;
-  //         if (this.selectedBudget) {
-  //           this.selectedBudget = _.find(this.userBudgets, { id: this.selectedBudget.id });
-  //           this.updatingTransactions = false;
-  //         }
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       this.loadingBudgets = false;
-  //       console.error(err);
-  //       this.navigator.changeRoute('/login', 'replace');
-  //     });
-  // }
-
-
+  // // STILL NEED TO UPDATE BELOW THIS LINE // //
   @action
   deleteTransaction(transactionId) {
     budgetService.deleteTransaction(transactionId)

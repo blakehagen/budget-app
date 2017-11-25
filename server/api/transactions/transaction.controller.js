@@ -30,10 +30,7 @@ module.exports = {
     };
 
     models.Transaction.create(transactionToCreate)
-      .then((transaction) => {
-        // console.log('transaction -->', transaction);
-        return res.status(200).json({ transaction, success: true });
-      })
+      .then(transaction => res.status(200).json({ transaction, success: true }))
       .catch(err => next(err));
   },
 
