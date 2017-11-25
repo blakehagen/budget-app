@@ -37,6 +37,15 @@ export default {
     });
   },
 
+  saveTransaction(transaction) {
+    console.log('transaction -->', transaction);
+    return axios.post(`${BASE_URL}transactions/create`, transaction, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+  },
+
   // getBudgets(userId) {
   //   return axios.get(`${BASE_URL}budgets/${userId}`, {
   //     headers: {
@@ -47,20 +56,7 @@ export default {
 
 
 
-  saveTransaction(transactionInfo) {
-    return axios.post(`${BASE_URL}transactions/create`, {
-      PostedByUserId: transactionInfo.PostedByUserId,
-      BudgetId: transactionInfo.BudgetId,
-      vendor: transactionInfo.vendor,
-      amount: transactionInfo.amount,
-      description: transactionInfo.description,
-      postedDateHumanized: transactionInfo.postedDateHumanized,
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-  },
+
 
   deleteTransaction(transactionId) {
     return axios.delete(`${BASE_URL}transactions/delete/${transactionId}`, {

@@ -131,7 +131,6 @@ export default class CreateTransaction extends React.Component {
     console.log('VALID FORM');
 
     const transactionInfo = {
-      PostedByUserId: _.get(this.dataStore, 'user.id'),
       CategoryId: this.state.selectedCategory,
       vendor: _.trim(this.state.vendor),
       amount: _.toNumber(this.state.amount),
@@ -142,7 +141,7 @@ export default class CreateTransaction extends React.Component {
     console.log('transactionInfo -->', transactionInfo);
 
     // this.dataStore.updatingTransactions = true;
-    // this.dataStore.saveTransaction(transactionInfo);
+    this.dataStore.saveTransaction(transactionInfo);
     // this.navigator.changeRoute(`/user/${this.dataStore.userId}/budget/${this.state.selectedBudget.id}`, 'push');
   }
 

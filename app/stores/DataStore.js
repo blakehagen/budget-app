@@ -297,6 +297,23 @@ export default class DataStore {
   }
 
   /* ****************************************************************************
+  Save New Transaction
+  **************************************************************************** */
+  @action
+  saveTransaction(transaction) {
+    budgetService.saveTransaction(transaction)
+      .then((response) => {
+        if (response.data.success) {
+          console.log('transaction response -->', response.data);
+          // this.getUserBudgets(this.userId);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  /* ****************************************************************************
   Set Nav (Back) Arrow
   **************************************************************************** */
   @action
@@ -361,19 +378,6 @@ export default class DataStore {
   //     });
   // }
 
-
-  @action
-  saveTransaction(transactionInfo) {
-    budgetService.saveTransaction(transactionInfo)
-      .then((response) => {
-        if (response.data.success) {
-          this.getUserBudgets(this.userId);
-        }
-      })
-      .catch((err) => {
-        console.log('err --> ', err.data.error);
-      });
-  }
 
   @action
   deleteTransaction(transactionId) {
