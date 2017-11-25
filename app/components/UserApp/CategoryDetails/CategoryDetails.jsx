@@ -51,13 +51,15 @@ export default class CategoryDetails extends React.Component {
         <div className={styles.mainWrapper}>
           <div className={styles.detailsWrapper}>
 
-            <Summary
-              type="category"
-              name={_.get(this.dataStore, 'selectedCategory.name')}
-              limit={_.get(this.dataStore, 'selectedCategory.limit')}
-              spent={_.get(this.dataStore, 'selectedCategory.spent')}
-              remaining={_.get(this.dataStore, 'selectedCategory.difference')}
-            />
+            <div className={styles.summarySpacing}>
+              <Summary
+                type="category"
+                name={_.get(this.dataStore, 'selectedCategory.name')}
+                limit={_.get(this.dataStore, 'selectedCategory.limit')}
+                spent={_.get(this.dataStore, 'selectedCategory.spent')}
+                remaining={_.get(this.dataStore, 'selectedCategory.difference')}
+              />
+            </div>
 
             <Transactions
               transactions={_.get(this.dataStore, 'selectedCategory.transactions')}
