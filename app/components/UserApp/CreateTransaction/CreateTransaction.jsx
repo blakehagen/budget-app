@@ -26,6 +26,7 @@ export default class CreateTransaction extends React.Component {
       vendor: '',
       description: '',
       amountError: false,
+      amountErrorMessage: '',
       vendorError: false,
       descriptionError: false,
     };
@@ -40,7 +41,10 @@ export default class CreateTransaction extends React.Component {
     if (selection.key === 'Budget') {
       this.buildCategoryOptions(selection.id);
     }
-    this.setState({ [`selected${selection.key}`]: selection.value, [`selected${selection.key}Error`]: false });
+    this.setState({
+      [`selected${selection.key}`]: selection.value,
+      [`selected${selection.key}Error`]: false,
+    });
   }
 
   buildCategoryOptions(budgetId) {
@@ -59,8 +63,90 @@ export default class CreateTransaction extends React.Component {
     });
   }
 
+  validateInputs() {
+    const newState = {};
+    if (_.isNull(this.state.selectedBudget)) {
+      newState.selectedBudgetError = true;
+    }
+
+    if (_.isNull(this.state.selectedCategory)) {
+      newState.selectedCategoryError = true;
+    }
+
+    if (_.trim(this.state.amount).length < 1) {
+      newState.amountError = true;
+      newState.amountErrorMessage = 'Required';
+    }
+
+    if (!newState.amountError) {
+      const amountRegex = /^\d*\.?\d*$/;
+      if (!amountRegex.test(this.state.amount)) {
+        newState.amountError = true;
+        newState.amountErrorMessage = 'Must be a number';
+      }
+    }
+
+    if (!newState.amountError) {
+      if (_.toNumber(this.state.amount) <= 0) {
+        newState.amountError = true;
+        newState.amountErrorMessage = 'Must be greater than 0';
+      }
+    }
+
+    if (_.trim(this.state.vendor).length < 1) {
+      newState.vendorError = true;
+    }
+
+    if (_.trim(this.state.description).length < 1) {
+      newState.descriptionError = true;
+    }
+
+    this.setState({
+      selectedBudgetError: newState.selectedBudgetError || false,
+      selectedCategoryError: newState.selectedCategoryError || false,
+      amountError: newState.amountError || false,
+      amountErrorMessage: newState.amountErrorMessage || '',
+      vendorError: newState.vendorError || false,
+      descriptionError: newState.descriptionError || false,
+    });
+
+    if (newState.selectedBudgetError
+      || newState.selectedCategoryError
+      || newState.amountError
+      || newState.descriptionError
+      || newState.vendorError
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  saveTransaction(e) {
+    if (!this.validateInputs()) {
+      e.preventDefault();
+      console.log('INVALID FORM');
+      return false;
+    }
+    console.log('VALID FORM');
+
+    const transactionInfo = {
+      PostedByUserId: _.get(this.dataStore, 'user.id'),
+      CategoryId: this.state.selectedCategory,
+      vendor: _.trim(this.state.vendor),
+      amount: _.toNumber(this.state.amount),
+      description: _.trim(this.state.description),
+      postedDate: moment().format('l h:mma'),
+    };
+
+    console.log('transactionInfo -->', transactionInfo);
+
+    // this.dataStore.updatingTransactions = true;
+    // this.dataStore.saveTransaction(transactionInfo);
+    // this.navigator.changeRoute(`/user/${this.dataStore.userId}/budget/${this.state.selectedBudget.id}`, 'push');
+  }
+
   render() {
-    console.log('this.state -->', this.state);
     const budgetOptions = _.map(this.dataStore.budgetSummaries, budget => ({
       value: budget.id,
       label: budget.name,
@@ -97,10 +183,10 @@ export default class CreateTransaction extends React.Component {
 
         <TextField
           type="text"
-          placeholder="Amount"
+          placeholder="Amount ($)"
           id="amount"
           error={this.state.amountError}
-          errorText="Required"
+          errorText={this.state.amountErrorMessage}
           handleInput={this.handleInput}
           value={this.state.name}
         />
@@ -142,141 +228,5 @@ export default class CreateTransaction extends React.Component {
         {this.dataStore.creatingNewBudget ? <Spinner /> : form}
       </div>
     );
-        {/*<div className={styles.newTransactionForm}>*/}
-
-          {/*<Select*/}
-            {/*placeholder="Select Budget"*/}
-            {/*className={styles.selectDropdown}*/}
-            {/*name="Select Budget"*/}
-            {/*value={this.state.selectedBudget}*/}
-            {/*clearable={false}*/}
-            {/*searchable={false}*/}
-            {/*options={budgetMenuItems}*/}
-            {/*onChange={this.setBudget}*/}
-          {/*/>*/}
-          {/*<div className={styles.errorContainer}>*/}
-            {/*{this.state.errorBudget ? this.state.errorBudget : ''}*/}
-          {/*</div>*/}
-
-          {/*<input*/}
-            {/*className={styles.transactionInput}*/}
-            {/*onChange={this.setAmount}*/}
-            {/*type="text"*/}
-            {/*placeholder="Amount Spent"*/}
-          {/*/>*/}
-          {/*<div className={styles.errorContainer}>*/}
-            {/*{this.state.errorAmount ? this.state.errorAmount : ''}*/}
-          {/*</div>*/}
-
-          {/*<input*/}
-            {/*className={styles.transactionInput}*/}
-            {/*onChange={this.setVendor}*/}
-            {/*type="text"*/}
-            {/*placeholder="Vendor Name"*/}
-          {/*/>*/}
-          {/*<div className={styles.errorContainer}>*/}
-            {/*{this.state.errorVendor ? this.state.errorVendor : ''}*/}
-          {/*</div>*/}
-
-          {/*<input*/}
-            {/*className={styles.transactionInput}*/}
-            {/*onChange={this.setDescription}*/}
-            {/*type="text"*/}
-            {/*placeholder="Description"*/}
-          {/*/>*/}
-          {/*<div className={styles.errorContainer}>*/}
-            {/*{this.state.errorDescription ? this.state.errorDescription : ''}*/}
-          {/*</div>*/}
-
-          {/*<input*/}
-            {/*className={styles.saveButton}*/}
-            {/*onClick={this.saveTransaction}*/}
-            {/*type="submit"*/}
-            {/*name="submit"*/}
-            {/*value="Save Transaction"*/}
-          {/*/>*/}
-        {/*</div>*/}
-    // );
-  }
-
-  validateInputs() {
-    const newState = {};
-    if (_.isNull(this.state.selectedBudget)) {
-      newState.selectedBudgetError = true;
-    }
-
-    if (_.isNull(this.state.selectedCategory)) {
-      newState.selectedCategoryError = true;
-    }
-
-    this.setState({
-      selectedBudgetError: newState.selectedBudgetError || false,
-      selectedCategoryError: newState.selectedCategoryError || false,
-    });
-
-    if (newState.budgetNameError || newState.recurringError) {
-      return false;
-    }
-
-    return true;
-
-    // if (!this.state.selectedBudget || this.state.amount.length < 1 || this.state.vendor.length < 1 || this.state.description.length < 1) {
-    //   if (!this.state.selectedBudget) {
-    //     this.setState({ errorBudget: 'Select a Budget' });
-    //   }
-    //
-    //   if (this.state.amount.length < 1) {
-    //     this.setState({ errorAmount: 'Required' });
-    //   }
-    //
-    //   if (this.state.vendor.length < 1) {
-    //     this.setState({ errorVendor: 'Required' });
-    //   }
-    //
-    //   if (this.state.description.length < 1) {
-    //     this.setState({ errorDescription: 'Required' });
-    //   }
-    //   return false;
-    // }
-    //
-    // const spent = Number(this.state.amount);
-    //
-    // if (_.isNaN(spent)) {
-    //   this.setState({ errorAmount: 'Enter a number' });
-    //   return false;
-    // }
-    //
-    // if (spent < 0) {
-    //   this.setState({ errorAmount: 'Cannot be less than 0' });
-    //   return false;
-    // }
-    //
-    // return true;
-  }
-
-  saveTransaction(e) {
-    console.log('saveTransaction!!');
-
-    if (!this.validateInputs()) {
-      e.preventDefault();
-      console.log('INVALID FORM');
-      return false;
-    }
-    console.log('VALID FORM');
-
-    // const transactionInfo = {
-    //   PostedByUserId: this.dataStore.user.id,
-    //   BudgetId: this.state.selectedBudget.id,
-    //   vendor: this.state.vendor,
-    //   amount: Number(this.state.amount),
-    //   description: this.state.description,
-    //   postedDateHumanized: moment().format('l h:mma'),
-    // };
-    //
-    // this.dataStore.selectedBudget = _.find(this.dataStore.userBudgets, { id: this.state.selectedBudget.id });
-    //
-    // this.dataStore.updatingTransactions = true;
-    // this.dataStore.saveTransaction(transactionInfo);
-    // this.navigator.changeRoute(`/user/${this.dataStore.userId}/budget/${this.state.selectedBudget.id}`, 'push');
   }
 }
