@@ -14,19 +14,11 @@ export default {
   },
 
   register(registerInfo) {
-    return axios.post(`${BASE_URL}signup`, {
-      firstName: registerInfo.firstName,
-      lastName: registerInfo.lastName,
-      email: registerInfo.email,
-      password: registerInfo.password,
-    });
+    return axios.post(`${BASE_URL}signup`, registerInfo);
   },
 
   login(loginInfo) {
-    return axios.post(`${BASE_URL}login`, {
-      email: loginInfo.email,
-      password: loginInfo.password,
-    });
+    return axios.post(`${BASE_URL}login`, loginInfo);
   },
 
   logout() {

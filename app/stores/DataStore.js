@@ -147,7 +147,7 @@ export default class DataStore {
     localStorage.clear();
     this.user = null;
     this.userId = null;
-    this.budgetSummaries = null;
+    this.budgetSummaries = [];
     return userService.logout()
       .then(() => {
         this.navigator.changeRoute('/login', 'replace');
