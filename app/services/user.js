@@ -13,13 +13,13 @@ export default {
     });
   },
 
-  getUser(userId) {
-    return axios.get(`${BASE_URL}user/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-  },
+  // getUser(userId) {
+  //   return axios.get(`${BASE_URL}user/${userId}`, {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //     },
+  //   });
+  // },
 
   register(registerInfo) {
     return axios.post(`${BASE_URL}signup`, {

@@ -38,7 +38,6 @@ export default {
   },
 
   saveTransaction(transaction) {
-    console.log('transaction -->', transaction);
     return axios.post(`${BASE_URL}transactions/create`, transaction, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -46,18 +45,7 @@ export default {
     });
   },
 
-  // getBudgets(userId) {
-  //   return axios.get(`${BASE_URL}budgets/${userId}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //     },
-  //   });
-  // },
-
-
-
-
-
+  // NOT USED YET //
   deleteTransaction(transactionId) {
     return axios.delete(`${BASE_URL}transactions/delete/${transactionId}`, {
       headers: {
