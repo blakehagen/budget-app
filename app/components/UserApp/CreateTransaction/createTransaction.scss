@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .title {
@@ -13,45 +13,24 @@
   color: #455A64;
 }
 
-.newTransactionForm {
+.createTransactionForm {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-}
-
-.transactionInput {
-  border: 1px solid #FFFFFF;
-  border-radius: 0;
-  border-bottom: 1px solid #CCCCCC;
-  width: 290px;
-  margin-bottom: 0;
-  &:focus {
-    border-bottom: 1px solid #45AB7F;
-  }
-}
-
-.errorContainer {
-  width: 290px;
-  height: 18px;
-  color: #ED6464;
-  font-weight: 100;
-  font-size: 13px;
-  margin: 6px 0 0;
-  padding-left: 8px;
+  margin-top: 12px;
 }
 
 .saveButton {
-  width: 290px;
   height: 38px;
-  border-radius: 4px;
   background: rgba(69, 171, 127, 1);
   color: #FFFFFF;
+  width: 250px;
   font-weight: 100;
   font-size: 15px;
-  margin-top: 14px;
+  margin: 24px 0 0 0;
   cursor: pointer;
+  border: none;
   &:hover {
     background: #4AB888;
   }
@@ -60,8 +39,16 @@
   }
 }
 
-.selectDropdown {
-  width: 290px !important;
-  height: 38px !important;
-  border: none !important;
+.errorContainer {
+  height: 38px;
+  width: 250px;
+  margin-top: 12px;
+  font-weight: 100;
+  font-size: 15px;
+  background: #ED6464;
+  color: #FFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
 }

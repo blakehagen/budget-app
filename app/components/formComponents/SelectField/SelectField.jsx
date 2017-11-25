@@ -46,7 +46,7 @@ SelectField.propTypes = {
   error: PropTypes.bool.isRequired,
   errorText: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
-  value: PropTypes.bool,
+  value: PropTypes.any,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   clearable: PropTypes.bool.isRequired,
   searchable: PropTypes.bool.isRequired,

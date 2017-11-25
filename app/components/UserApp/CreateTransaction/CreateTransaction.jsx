@@ -2,8 +2,10 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import Select from 'react-select';
 import autoBind from 'react-autobind';
+import Spinner from 'components/Common/Spinner';
+import TextField from 'components/formComponents/TextField';
+import SelectField from 'components/formComponents/SelectField';
 import styles from './createTransaction.scss';
 
 @inject('dataStore', 'navigator')
@@ -15,14 +17,18 @@ export default class CreateTransaction extends React.Component {
     this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
     this.state = {
+      categoryOptions: [],
       selectedBudget: null,
+      selectedBudgetError: false,
+      selectedCategory: null,
+      selectedCategoryError: false,
       amount: '',
       vendor: '',
       description: '',
-      errorBudget: '',
-      errorAmount: '',
-      errorVendor: '',
-      errorDescription: '',
+      amountError: false,
+      amountErrorMessage: '',
+      vendorError: false,
+      descriptionError: false,
     };
   }
 
@@ -30,120 +36,86 @@ export default class CreateTransaction extends React.Component {
     this.dataStore.showBackArrow = true;
   }
 
-  render() {
-    const budgetMenuItems = _.map(this.dataStore.userBudgets, budget => ({
-      value: budget.name,
-      label: budget.name,
-      id: budget.id,
-      clearableValue: false,
-    }));
-
-    return (
-      <div className={styles.formContainer}>
-        <span className={styles.title}>New Transaction</span>
-        <div className={styles.newTransactionForm}>
-
-          <Select
-            placeholder="Select Budget"
-            className={styles.selectDropdown}
-            name="Select Budget"
-            value={this.state.selectedBudget}
-            clearable={false}
-            searchable={false}
-            options={budgetMenuItems}
-            onChange={this.setBudget}
-          />
-          <div className={styles.errorContainer}>
-            {this.state.errorBudget ? this.state.errorBudget : ''}
-          </div>
-
-          <input
-            className={styles.transactionInput}
-            onChange={this.setAmount}
-            type="text"
-            placeholder="Amount Spent"
-          />
-          <div className={styles.errorContainer}>
-            {this.state.errorAmount ? this.state.errorAmount : ''}
-          </div>
-
-          <input
-            className={styles.transactionInput}
-            onChange={this.setVendor}
-            type="text"
-            placeholder="Vendor Name"
-          />
-          <div className={styles.errorContainer}>
-            {this.state.errorVendor ? this.state.errorVendor : ''}
-          </div>
-
-          <input
-            className={styles.transactionInput}
-            onChange={this.setDescription}
-            type="text"
-            placeholder="Description"
-          />
-          <div className={styles.errorContainer}>
-            {this.state.errorDescription ? this.state.errorDescription : ''}
-          </div>
-
-          <input
-            className={styles.saveButton}
-            onClick={this.saveTransaction}
-            type="submit"
-            name="submit"
-            value="Save Transaction"
-          />
-        </div>
-      </div>
-    );
+  setSelectedField(selection) {
+    this.dataStore.setCreateNewTransactionError(false);
+    if (selection.key === 'Budget') {
+      this.buildCategoryOptions(selection.id);
+    }
+    this.setState({
+      [`selected${selection.key}`]: selection.value,
+      [`selected${selection.key}Error`]: false,
+    });
   }
 
-  setBudget(selectedBudget) {
-    this.setState({ selectedBudget, errorBudget: '' });
+  buildCategoryOptions(budgetId) {
+    this.setState({ selectedCategory: null });
+    return this.dataStore.getCategoryList(budgetId)
+      .then((categories) => {
+        this.setState({ categoryOptions: categories });
+      });
   }
 
-  setAmount(e) {
-    this.setState({ amount: e.target.value, errorAmount: '' });
-  }
-
-  setVendor(e) {
-    this.setState({ vendor: e.target.value, errorVendor: '' });
-  }
-
-  setDescription(e) {
-    this.setState({ description: e.target.value, errorDescription: '' });
+  handleInput(e, id) {
+    this.dataStore.setCreateNewTransactionError(false);
+    this.setState({
+      [id]: e.target.value,
+      [`${id}Error`]: false,
+    });
   }
 
   validateInputs() {
-    if (!this.state.selectedBudget || this.state.amount.length < 1 || this.state.vendor.length < 1 || this.state.description.length < 1) {
-      if (!this.state.selectedBudget) {
-        this.setState({ errorBudget: 'Select a Budget' });
-      }
-
-      if (this.state.amount.length < 1) {
-        this.setState({ errorAmount: 'Required' });
-      }
-
-      if (this.state.vendor.length < 1) {
-        this.setState({ errorVendor: 'Required' });
-      }
-
-      if (this.state.description.length < 1) {
-        this.setState({ errorDescription: 'Required' });
-      }
-      return false;
+    const newState = {};
+    if (_.isNull(this.state.selectedBudget)) {
+      newState.selectedBudgetError = true;
     }
 
-    const spent = Number(this.state.amount);
-
-    if (_.isNaN(spent)) {
-      this.setState({ errorAmount: 'Enter a number' });
-      return false;
+    if (_.isNull(this.state.selectedCategory)) {
+      newState.selectedCategoryError = true;
     }
 
-    if (spent < 0) {
-      this.setState({ errorAmount: 'Cannot be less than 0' });
+    if (_.trim(this.state.amount).length < 1) {
+      newState.amountError = true;
+      newState.amountErrorMessage = 'Required';
+    }
+
+    if (!newState.amountError) {
+      const amountRegex = /^\d*\.?\d*$/;
+      if (!amountRegex.test(this.state.amount)) {
+        newState.amountError = true;
+        newState.amountErrorMessage = 'Must be a number';
+      }
+    }
+
+    if (!newState.amountError) {
+      if (_.toNumber(this.state.amount) <= 0) {
+        newState.amountError = true;
+        newState.amountErrorMessage = 'Must be greater than 0';
+      }
+    }
+
+    if (_.trim(this.state.vendor).length < 1) {
+      newState.vendorError = true;
+    }
+
+    if (_.trim(this.state.description).length < 1) {
+      newState.descriptionError = true;
+    }
+
+    this.setState({
+      selectedBudgetError: newState.selectedBudgetError || false,
+      selectedCategoryError: newState.selectedCategoryError || false,
+      amountError: newState.amountError || false,
+      amountErrorMessage: newState.amountErrorMessage || '',
+      vendorError: newState.vendorError || false,
+      descriptionError: newState.descriptionError || false,
+    });
+
+    if (newState.selectedBudgetError
+      || newState.selectedCategoryError
+      || newState.amountError
+      || newState.descriptionError
+      || newState.vendorError
+    ) {
       return false;
     }
 
@@ -157,18 +129,103 @@ export default class CreateTransaction extends React.Component {
     }
 
     const transactionInfo = {
-      PostedByUserId: this.dataStore.user.id,
-      BudgetId: this.state.selectedBudget.id,
-      vendor: this.state.vendor,
-      amount: Number(this.state.amount),
-      description: this.state.description,
-      postedDateHumanized: moment().format('l h:mma'),
+      CategoryId: this.state.selectedCategory,
+      vendor: _.trim(this.state.vendor),
+      amount: _.toNumber(this.state.amount),
+      description: _.trim(this.state.description),
+      postedDate: moment().format('l h:mma'),
     };
 
-    this.dataStore.selectedBudget = _.find(this.dataStore.userBudgets, { id: this.state.selectedBudget.id });
+    this.dataStore.saveTransaction(transactionInfo, this.state.selectedBudget);
+  }
 
-    this.dataStore.updatingTransactions = true;
-    this.dataStore.saveTransaction(transactionInfo);
-    this.navigator.changeRoute(`/user/${this.dataStore.userId}/budget/${this.state.selectedBudget.id}`, 'push');
+  render() {
+    const budgetOptions = _.map(this.dataStore.budgetSummaries, budget => ({
+      value: budget.id,
+      label: budget.name,
+      id: budget.id,
+      key: 'Budget',
+      clearableValue: false,
+    }));
+
+    const form = (
+      <div className={styles.createTransactionForm}>
+        <SelectField
+          label="Select Budget"
+          name="Select Budget"
+          options={budgetOptions}
+          value={this.state.selectedBudget}
+          clearable={false}
+          searchable={false}
+          handleChange={this.setSelectedField}
+          error={this.state.selectedBudgetError}
+          errorText="Required"
+        />
+
+        <SelectField
+          label="Select Category"
+          name="Select Category"
+          options={this.state.categoryOptions}
+          value={this.state.selectedCategory}
+          clearable={false}
+          searchable={false}
+          handleChange={this.setSelectedField}
+          error={this.state.selectedCategoryError}
+          errorText="Required"
+        />
+
+        <TextField
+          type="text"
+          placeholder="Amount ($)"
+          id="amount"
+          error={this.state.amountError}
+          errorText={this.state.amountErrorMessage}
+          handleInput={this.handleInput}
+          value={this.state.name}
+        />
+
+        <TextField
+          type="text"
+          placeholder="Vendor"
+          id="vendor"
+          error={this.state.vendorError}
+          errorText="Required"
+          handleInput={this.handleInput}
+          value={this.state.name}
+        />
+
+        <TextField
+          type="text"
+          placeholder="Description"
+          id="description"
+          error={this.state.descriptionError}
+          errorText="Required"
+          handleInput={this.handleInput}
+          value={this.state.name}
+        />
+
+        <button
+          className={styles.saveButton}
+          onClick={this.saveTransaction}
+          type="submit"
+          name="submit"
+        >Save Transaction
+        </button>
+
+        {this.dataStore.creatingNewTransactionError && (
+          <div className={styles.errorContainer}>
+            Error
+          </div>
+        )}
+
+      </div>
+    );
+
+    return (
+      <div className={styles.formContainer}>
+        <span className={styles.title}>New Transaction</span>
+        {this.dataStore.creatingNewTransaction ? <Spinner /> : form}
+      </div>
+    );
   }
 }

@@ -46,6 +46,15 @@ module.exports = {
   },
 
   /* ****************************************************************************
+  GET BUDGET CATEGORY LIST
+  **************************************************************************** */
+  getCategoryList(req, res, next) {
+    models.Category.getCategoryList(req.params.budgetId)
+      .then(categories => res.status(200).json({ success: true, categories }))
+      .catch(err => next(err));
+  },
+
+  /* ****************************************************************************
   GET BUDGET CATEGORY DETAILS
   **************************************************************************** */
   getBudgetCategories(req, res, next) {

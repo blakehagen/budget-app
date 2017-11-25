@@ -1,9 +1,10 @@
+const _ = require('lodash');
 const models = require('../../models/index');
 const budgetUtils = require('../../utils/budgetUtils');
 
 module.exports = {
   /* ****************************************************************************
-  GET TRANSACTIONS BY CATEGORY ID
+  GET TRANSACTION DETAILS BY CATEGORY ID
   **************************************************************************** */
   getTransactions(req, res, next) {
     models.Transaction.getTransactions(req.params.categoryId)
@@ -14,13 +15,23 @@ module.exports = {
       .catch(err => next(err));
   },
 
-  createTransaction(req, res) {
-    models.Transaction.create(req.body)
+  /* ****************************************************************************
+  POST NEW TRANSACTION
+  **************************************************************************** */
+  createTransaction(req, res, next) {
+    const { CategoryId, amount, vendor, description, postedDate } = req.body;
+    const transactionToCreate = {
+      CategoryId,
+      amount,
+      vendor,
+      description,
+      postedDate,
+      PostedByUserId: _.get(req.session, 'user.id'),
+    };
+
+    models.Transaction.create(transactionToCreate)
       .then(transaction => res.status(200).json({ transaction, success: true }))
-      .catch((err) => {
-        console.log('err', err);
-        return res.status(400).json({ error: err });
-      });
+      .catch(err => next(err));
   },
 
   deleteTransaction(req, res) {
