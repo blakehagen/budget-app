@@ -287,7 +287,9 @@ export default class DataStore {
   @action
   setSelectedCategory(categoryId) {
     this.selectedCategory = _.find(_.get(this.selectedBudget, 'categories'), { id: categoryId });
-    this.selectedCategory.difference = this.selectedCategory.limit - this.selectedCategory.spent;
+    if (this.selectedCategory) {
+      this.selectedCategory.difference = this.selectedCategory.limit - this.selectedCategory.spent;
+    }
   }
 
   /* ****************************************************************************

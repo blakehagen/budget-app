@@ -37,6 +37,10 @@ export default class CategoryDetails extends React.Component {
   }
 
   render() {
+    if (!_.get(this.dataStore, 'selectedCategory', null) && !_.get(this.dataStore, 'selectedBudget', null)) {
+      return false;
+    }
+
     if (!_.get(this.dataStore, 'selectedCategoryTransactionsLoaded', null)) {
       return (
         <div className={styles.loadingContainer}>
