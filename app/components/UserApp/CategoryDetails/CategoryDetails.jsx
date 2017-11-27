@@ -5,7 +5,7 @@ import { observer, inject } from 'mobx-react';
 import { reaction } from 'mobx';
 import autoBind from 'react-autobind';
 import Spinner from 'components/Common/Spinner';
-// import ActionHeader from '../ActionHeader';
+import ActionHeader from '../ActionHeader';
 import Summary from '../Summary';
 import Transactions from './Transactions';
 import styles from './categoryDetails.scss';
@@ -47,7 +47,7 @@ export default class CategoryDetails extends React.Component {
 
     return (
       <div>
-        {/*<ActionHeader /> TODO -> Need / want this? */}
+        <ActionHeader />
         <div className={styles.mainWrapper}>
           <div className={styles.detailsWrapper}>
 
