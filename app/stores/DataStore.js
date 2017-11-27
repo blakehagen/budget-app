@@ -256,7 +256,6 @@ export default class DataStore {
   @action
   setSelectedBudget(selectedBudgetId) {
     this.selectedBudget = _.find(this.budgetSummaries, { id: selectedBudgetId });
-    console.log('selectedBudget Set');
   }
 
   /* ****************************************************************************
@@ -271,7 +270,6 @@ export default class DataStore {
     _.set(this.selectedBudget, 'budgetSpent', newBudgetSpent);
     _.set(this.selectedBudget, 'difference', newDifference);
     _.set(categoryToUpdate, 'spent', categoryToUpdate.spent + data.amount);
-    console.log('selectedBudget UPDATED!');
   }
 
   /* ****************************************************************************
@@ -281,7 +279,6 @@ export default class DataStore {
   clearSelectedBudget() {
     this.selectedBudget = null;
     this.selectedBudgetCategoriesLoaded = false;
-    console.log('SELECTED BUDGET CLEARED');
   }
 
   /* ****************************************************************************
@@ -290,8 +287,9 @@ export default class DataStore {
   @action
   setSelectedCategory(categoryId) {
     this.selectedCategory = _.find(_.get(this.selectedBudget, 'categories'), { id: categoryId });
-    this.selectedCategory.difference = this.selectedCategory.limit - this.selectedCategory.spent;
-    console.log('selectedCategory set');
+    if (this.selectedCategory) {
+      this.selectedCategory.difference = this.selectedCategory.limit - this.selectedCategory.spent;
+    }
   }
 
   /* ****************************************************************************
@@ -301,7 +299,6 @@ export default class DataStore {
   clearSelectedCategory() {
     this.selectedCategory = null;
     this.selectedCategoryTransactionsLoaded = false;
-    console.log('SELECTED CATEGORY CLEARED');
   }
 
   /* ****************************************************************************

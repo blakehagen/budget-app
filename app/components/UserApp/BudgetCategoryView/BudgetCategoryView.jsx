@@ -28,6 +28,9 @@ export default class BudgetCategoryView extends React.Component {
   componentDidMount() {
     const location = browserHistory.getCurrentLocation();
     const budgetId = _.last(_.split(location.pathname, '/'));
+    if (!_.get(this.dataStore, 'selectedBudget')) {
+      this.dataStore.setSelectedBudget(_.toNumber(budgetId));
+    }
     this.dataStore.getBudgetCategories(budgetId);
 
     this.reaction = reaction(() => _.get(this.dataStore, 'selectedBudgetCategoriesLoaded'), categoriesLoaded => categoriesLoaded, true);
@@ -59,14 +62,14 @@ export default class BudgetCategoryView extends React.Component {
 
             <Summary
               type="budget"
-              name={this.dataStore.selectedBudget.name}
-              limit={this.dataStore.selectedBudget.budgetLimit}
-              spent={this.dataStore.selectedBudget.budgetSpent}
-              remaining={this.dataStore.selectedBudget.difference}
+              name={_.get(this.dataStore, 'selectedBudget.name')}
+              limit={_.get(this.dataStore, 'selectedBudget.budgetLimit')}
+              spent={_.get(this.dataStore, 'selectedBudget.budgetSpent')}
+              remaining={_.get(this.dataStore, 'selectedBudget.difference')}
             />
 
             <Categories
-              categories={this.dataStore.selectedBudget.categories}
+              categories={_.get(this.dataStore, 'selectedBudget.categories')}
               handleClick={this.viewDetails}
             />
 
