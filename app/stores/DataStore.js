@@ -49,7 +49,6 @@ export default class DataStore {
     this.authLoading = true;
     return userService.checkIfStoredSession()
       .then((response) => {
-        console.log('response.data -->', response.data);
         if (response.data.success) {
           this.handleAuthSuccess(localStorage.getItem('token'), response.data.user);
         } else {
