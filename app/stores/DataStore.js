@@ -219,7 +219,6 @@ export default class DataStore {
       .then((response) => {
         if (response.data.success) {
           const categories = response.data.categories;
-          console.log('categories response -->', categories);
           if (this.selectedBudget) {
             this.selectedBudget.categories = categories;
           }
