@@ -31,7 +31,10 @@ export default class BudgetCategoryView extends React.Component {
     if (!_.get(this.dataStore, 'selectedBudget')) {
       this.dataStore.setSelectedBudget(_.toNumber(budgetId));
     }
-    this.dataStore.getBudgetCategories(budgetId);
+
+    if (!this.dataStore.loadingCategories) {
+      this.dataStore.getBudgetCategories(budgetId);
+    }
 
     this.reaction = reaction(() => _.get(this.dataStore, 'selectedBudgetCategoriesLoaded'), categoriesLoaded => categoriesLoaded, true);
   }

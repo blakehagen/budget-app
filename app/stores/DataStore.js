@@ -17,6 +17,7 @@ export default class DataStore {
     this.creatingNewBudgetError = false;
     this.creatingNewTransaction = false;
     this.creatingNewTransactionError = false;
+    this.loadingCategories = false;
     this.selectedBudget = null;
     this.selectedBudgetCategoriesLoaded = false;
     this.selectedCategory = null;
@@ -264,11 +265,27 @@ export default class DataStore {
   updateSelectedBudget(data) {
     const newBudgetSpent = this.selectedBudget.budgetSpent + data.amount;
     const newDifference = this.selectedBudget.budgetLimit - newBudgetSpent;
-    const categoryToUpdate = _.find(this.selectedBudget.categories, { id: data.CategoryId });
+    let categoryToUpdate = _.find(this.selectedBudget.categories, { id: data.CategoryId });
 
-    _.set(this.selectedBudget, 'budgetSpent', newBudgetSpent);
-    _.set(this.selectedBudget, 'difference', newDifference);
-    _.set(categoryToUpdate, 'spent', categoryToUpdate.spent + data.amount);
+    if (!categoryToUpdate) {
+      this.loadingCategories = true;
+      budgetService.getBudgetCategories(this.selectedBudget.id)
+        .then((response) => {
+          const categories = response.data.categories;
+          _.set(this.selectedBudget, 'categories', categories);
+          categoryToUpdate = _.find(this.selectedBudget.categories, { id: data.CategoryId });
+
+          _.set(this.selectedBudget, 'budgetSpent', newBudgetSpent);
+          _.set(this.selectedBudget, 'difference', newDifference);
+          _.set(categoryToUpdate, 'spent', categoryToUpdate.spent + data.amount);
+          this.loadingCategories = false;
+          this.selectedBudgetCategoriesLoaded = true;
+        });
+    } else {
+      _.set(this.selectedBudget, 'budgetSpent', newBudgetSpent);
+      _.set(this.selectedBudget, 'difference', newDifference);
+      _.set(categoryToUpdate, 'spent', categoryToUpdate.spent + data.amount);
+    }
   }
 
   /* ****************************************************************************
