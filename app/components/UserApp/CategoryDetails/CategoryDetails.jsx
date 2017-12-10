@@ -36,6 +36,16 @@ export default class CategoryDetails extends React.Component {
     this.reaction();
   }
 
+  deleteTransaction(transactionId, transactionAmount) {
+    const selectedCategoryId = _.get(this.dataStore, 'selectedCategory.id');
+    const transactionToDelete = {
+      id: transactionId,
+      amount: -Math.abs(transactionAmount), // change to negative for updating purposes
+      CategoryId: selectedCategoryId,
+    };
+    this.dataStore.deleteTransaction(transactionToDelete);
+  }
+
   render() {
     if (!_.get(this.dataStore, 'selectedCategory', null) && !_.get(this.dataStore, 'selectedBudget', null)) {
       return false;
@@ -67,6 +77,7 @@ export default class CategoryDetails extends React.Component {
 
             <Transactions
               transactions={_.get(this.dataStore, 'selectedCategory.transactions')}
+              deleteTransaction={this.deleteTransaction}
             />
 
           </div>

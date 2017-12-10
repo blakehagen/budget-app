@@ -34,7 +34,7 @@ module.exports = {
       .catch(err => next(err));
   },
 
-  deleteTransaction(req, res) {
+  deleteTransaction(req, res, next) {
     models.Transaction.destroy({
       where: {
         id: req.params.transactionId,
@@ -44,12 +44,8 @@ module.exports = {
         if (rowDeleted === 1) {
           return res.status(200).json({ success: true });
         }
-        throw new Error('Error deleting transaction');
       })
-      .catch((err) => {
-        console.log('err', err);
-        return res.status(400).json({ error: err });
-      });
+      .catch(err => next(err));
   },
 
 };

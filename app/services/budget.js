@@ -45,7 +45,6 @@ export default {
     });
   },
 
-  // NOT USED YET //
   deleteTransaction(transactionId) {
     return axios.delete(`${BASE_URL}transactions/delete/${transactionId}`, {
       headers: {
