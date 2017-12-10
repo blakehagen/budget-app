@@ -286,6 +286,12 @@ export default class DataStore {
       _.set(this.selectedBudget, 'difference', newDifference);
       _.set(categoryToUpdate, 'spent', categoryToUpdate.spent + data.amount);
     }
+    if (data.amount < 0) { // Update selectedCategory
+      const newCategorySpent = this.selectedCategory.spent + data.amount;
+      const newCategoryDifference = this.selectedCategory.limit - newCategorySpent;
+      _.set(this.selectedCategory, 'spent', newCategorySpent);
+      _.set(this.selectedCategory, 'difference', newCategoryDifference);
+    }
   }
 
   /* ****************************************************************************
@@ -358,17 +364,21 @@ export default class DataStore {
     this.showBackArrow = showArrow;
   }
 
-  // // STILL NEED TO UPDATE BELOW THIS LINE // //
+  /* ****************************************************************************
+  Delete Transaction
+  **************************************************************************** */
   @action
-  deleteTransaction(transactionId) {
-    budgetService.deleteTransaction(transactionId)
+  deleteTransaction(transaction) {
+    this.selectedCategoryTransactionsLoaded = false;
+    budgetService.deleteTransaction(transaction.id)
       .then((response) => {
         if (response.data.success) {
-          this.getUserBudgets(this.userId);
+          this.updateSelectedBudget(transaction);
+          this.getCategoryTransactions(transaction.CategoryId);
         }
       })
       .catch((err) => {
-        console.log('err --> ', err);
+        console.error(err);
       });
   }
 }

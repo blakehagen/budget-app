@@ -34,21 +34,37 @@
 
 .actionContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-end;
   justify-content: center;
-  margin-top: 9px;
+  margin-top: 8px;
+}
+
+.singleAction {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:first-child {
+    margin-bottom: 10px;
+  }
+}
+
+.actionText {
+  font-size: 12px;
+  color: #CCC;
+  font-weight: 100;
+  padding-right: 6px;
 }
 
 .icon {
-  cursor: pointer;
   width: 15px;
   height: 15px;
   background-size: cover;
 }
 
 .deleteTransactionIcon {
-  //margin-right: 13px;
   @extend .icon;
   background: url('../images/delete-icon-gray.svg') no-repeat center;
 }
