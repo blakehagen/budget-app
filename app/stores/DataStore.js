@@ -7,6 +7,7 @@ import budgetService from 'services/budget';
 
 export default class DataStore {
   constructor(navigator) {
+    console.log('hello world');
     autoBind(this);
     this.navigator = navigator;
 
