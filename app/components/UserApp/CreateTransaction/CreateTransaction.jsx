@@ -17,8 +17,9 @@ export default class CreateTransaction extends React.Component {
     this.dataStore = this.props.dataStore;
     this.navigator = this.props.navigator;
     this.state = {
+      preloadCategory: true,
       categoryOptions: [],
-      selectedBudget: null,
+      selectedBudget: _.get(this.dataStore, 'selectedBudget.id') || null,
       selectedBudgetError: false,
       selectedCategory: null,
       selectedCategoryError: false,
@@ -34,6 +35,9 @@ export default class CreateTransaction extends React.Component {
 
   componentWillMount() {
     this.dataStore.showBackArrow = true;
+    if (_.get(this.dataStore, 'selectedBudget.id')) {
+      this.buildCategoryOptions(this.dataStore.selectedBudget.id);
+    }
   }
 
   setSelectedField(selection) {
@@ -47,11 +51,21 @@ export default class CreateTransaction extends React.Component {
     });
   }
 
+  setInitialCategory(selectedCategoryId) {
+    this.setState({
+      selectedCategory: selectedCategoryId,
+      preloadCategory: false,
+    });
+  }
+
   buildCategoryOptions(budgetId) {
     this.setState({ selectedCategory: null });
     return this.dataStore.getCategoryList(budgetId)
       .then((categories) => {
         this.setState({ categoryOptions: categories });
+        if (_.get(this.dataStore, 'selectedCategory.id') && this.state.preloadCategory) {
+          this.setInitialCategory(this.dataStore.selectedCategory.id);
+        }
       });
   }
 
