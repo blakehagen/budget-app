@@ -104,8 +104,8 @@ export default class Register extends React.Component {
   }
 
   registerGo(e) {
+    e.preventDefault();
     if (!this.validateRegister()) {
-      e.preventDefault();
       return false;
     }
 
@@ -131,7 +131,7 @@ export default class Register extends React.Component {
 
   render() {
     const form = (
-      <div>
+      <form onSubmit={this.registerGo}>
         <TextField
           type="text"
           placeholder="First Name"
@@ -182,15 +182,13 @@ export default class Register extends React.Component {
           value={this.state.confirmPassword}
         />
 
-        <button
+        <input
           className={styles.loginButton}
-          onClick={this.registerGo}
           type="submit"
-          name="submit"
-        >Register
-        </button>
+          value="Register"
+        />
 
-        <div className={styles.switchForm} >
+        <div className={styles.switchForm}>
           <span onClick={this.goToLogin} role="link">Login</span>
         </div>
 
@@ -200,7 +198,7 @@ export default class Register extends React.Component {
           </div>
         )}
 
-      </div>
+      </form>
     );
 
     return (
