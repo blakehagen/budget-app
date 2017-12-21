@@ -13,6 +13,16 @@ const Categories = (props) => {
     spent,
   }) => {
     const percentageUsed = (spent / limit) * 100;
+
+    let progressBarClass;
+    if (percentageUsed < 85) {
+      progressBarClass = 'success';
+    } else if (percentageUsed >= 85 && percentageUsed < 100) {
+      progressBarClass = 'warning';
+    } else if (percentageUsed >= 100) {
+      progressBarClass = 'danger';
+    }
+
     return (
       <div
         key={id}
@@ -32,7 +42,7 @@ const Categories = (props) => {
             max={limit}
             label={percentageUsed > 18 ? numeral(spent).format('$0,0.00') : ''}
             className={styles.progressBar}
-            bsStyle={percentageUsed > 85 ? 'danger' : 'success'}
+            bsStyle={progressBarClass}
           />
         </div>
       </div>

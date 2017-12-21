@@ -53,6 +53,15 @@
   font-size: 13px;
 }
 
+:global(.progress-bar-warning) {
+  background: #EFAC56;
+  line-height: 28px;
+  box-shadow: none;
+  letter-spacing: 0.5px;
+  font-weight: 300;
+  font-size: 13px;
+}
+
 :global(.progress-bar-danger) {
   background: #ED6464;
   line-height: 28px;
@@ -74,6 +83,10 @@
   }
 
   :global(.progress-bar-success) {
+    font-size: 12px;
+  }
+
+  :global(.progress-bar-warning) {
     font-size: 12px;
   }
 
