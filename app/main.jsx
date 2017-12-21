@@ -12,7 +12,6 @@ import UserApp from 'components/UserApp';
 import Dashboard from 'components/UserApp/Dashboard';
 import BudgetCategoryView from 'components/UserApp/BudgetCategoryView';
 import CategoryDetails from 'components/UserApp/CategoryDetails';
-// import BudgetDetails from 'components/UserApp/Dashboard/BudgetDetails';
 import CreateBudget from 'components/UserApp/CreateBudget';
 import CreateTransaction from 'components/UserApp/CreateTransaction';
 import styles from './main.scss';

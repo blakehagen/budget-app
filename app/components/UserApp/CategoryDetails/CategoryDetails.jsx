@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router';
 import { observer, inject } from 'mobx-react';
 import { reaction } from 'mobx';
 import autoBind from 'react-autobind';
+import swal from 'sweetalert';
 import Spinner from 'components/Common/Spinner';
 import ActionHeader from '../ActionHeader';
 import Summary from '../Summary';
@@ -36,6 +37,21 @@ export default class CategoryDetails extends React.Component {
     this.reaction();
   }
 
+  openDeleteModal(transactionId, transactionAmount) {
+    swal({
+      title: 'Delete Transaction',
+      text: 'Are you sure you want to delete this transaction?',
+      icon: 'warning',
+      buttons: ['Cancel', 'Delete Transaction'],
+    })
+      .then((value) => {
+        if (value) {
+          return this.deleteTransaction(transactionId, transactionAmount);
+        }
+        return false;
+      });
+  }
+
   deleteTransaction(transactionId, transactionAmount) {
     const selectedCategoryId = _.get(this.dataStore, 'selectedCategory.id');
     const transactionToDelete = {
@@ -45,6 +61,10 @@ export default class CategoryDetails extends React.Component {
     };
     this.dataStore.deleteTransaction(transactionToDelete);
   }
+
+  // editTransaction() {
+  //   console.log('test editTransaction');
+  // }
 
   render() {
     if (!_.get(this.dataStore, 'selectedCategory', null) && !_.get(this.dataStore, 'selectedBudget', null)) {
@@ -77,7 +97,7 @@ export default class CategoryDetails extends React.Component {
 
             <Transactions
               transactions={_.get(this.dataStore, 'selectedCategory.transactions')}
-              deleteTransaction={this.deleteTransaction}
+              openDeleteModal={this.openDeleteModal}
             />
 
           </div>

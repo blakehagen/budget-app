@@ -25,6 +25,11 @@ export default class TopBar extends React.Component {
     this.navigator.changeRoute(newRoute, 'push');
   }
 
+  goHome() {
+    const home = `/${this.dataStore.userId}/dashboard`;
+    this.navigator.changeRoute(home, 'push');
+  }
+
   logout() {
     this.dataStore.logout();
   }
@@ -43,7 +48,10 @@ export default class TopBar extends React.Component {
             </div>
           </div> : null}
 
-        <div className={styles.piggybankIcon} />
+        <div
+          className={styles.piggybankIcon}
+          onClick={this.goHome}
+        />
         <div className={styles.welcome}>
           {this.dataStore.user.firstName} {this.dataStore.user.lastName} &nbsp;|&nbsp;&nbsp;
         </div>

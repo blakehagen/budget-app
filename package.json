@@ -73,6 +73,7 @@
     "sequelize": "~3.30.2",
     "sequelize-cli": "~2.5.1",
     "style-loader": "~0.13.1",
+    "sweetalert": "^2.1.0",
     "webpack": "~1.14.0",
     "webpack-dev-middleware": "~1.10.0",
     "webpack-hot-middleware": "~2.16.1"

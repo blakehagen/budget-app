@@ -31,7 +31,7 @@ export default class UserApp extends React.Component {
     }
 
     return (
-      <div>
+      <div className={styles.userAppContainer}>
         <TopBar />
         <div className={styles.viewContainer}>
           {this.props.children}
