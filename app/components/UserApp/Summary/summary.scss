@@ -36,7 +36,12 @@
   color: #45AB7F;
 }
 
-.overBudgetWarn {
+.warnBudget {
+  @extend .summaryNumber;
+  color: #F5974F;
+}
+
+.overBudget {
   @extend .summaryNumber;
   color: #ED6464;
 }
