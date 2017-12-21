@@ -68,8 +68,8 @@ export default class Login extends React.Component {
   }
 
   loginGo(e) {
+    e.preventDefault();
     if (!this.validateLogin()) {
-      e.preventDefault();
       return false;
     }
 
@@ -92,7 +92,7 @@ export default class Login extends React.Component {
 
   render() {
     const form = (
-      <div>
+      <form onSubmit={this.loginGo}>
         <TextField
           type="text"
           placeholder="Email"
@@ -113,13 +113,11 @@ export default class Login extends React.Component {
           value={this.state.password}
         />
 
-        <button
+        <input
           className={styles.loginButton}
-          onClick={this.loginGo}
           type="submit"
-          name="submit"
-        >Login
-        </button>
+          value="Login"
+        />
 
         <div className={styles.switchForm}>
           <span onClick={this.goToRegister} role="link">Sign Up</span>
@@ -131,7 +129,7 @@ export default class Login extends React.Component {
           </div>
         )}
 
-      </div>
+      </form>
     );
 
     return (

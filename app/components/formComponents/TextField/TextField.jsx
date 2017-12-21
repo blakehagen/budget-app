@@ -11,6 +11,7 @@ const TextInput = (props) => {
       </div>
 
       <input
+        autoComplete="off"
         className={styles.textField}
         type={type}
         placeholder={placeholder}
