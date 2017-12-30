@@ -28,22 +28,24 @@ export default class BudgetSummary extends React.Component {
     const budgets = _.map(this.dataStore.budgetSummaries, ({
       id,
       name,
+      recurring,
+      monthYear,
       budgetLimit,
       budgetSpent,
       difference,
-    }) => {
-      return (
-        <BudgetCard
-          key={id}
-          id={id}
-          name={name}
-          limit={budgetLimit}
-          spent={budgetSpent}
-          remaining={difference}
-          details={this.goToBudgetCategoryView}
-        />
-      );
-    });
+    }) => (
+      <BudgetCard
+        key={id}
+        id={id}
+        name={name}
+        recurring={recurring}
+        dateInfo={recurring ? monthYear : null}
+        limit={budgetLimit}
+        spent={budgetSpent}
+        remaining={difference}
+        details={this.goToBudgetCategoryView}
+      />
+    ));
 
     return (
       <div className={styles.budgetSummaryMain}>

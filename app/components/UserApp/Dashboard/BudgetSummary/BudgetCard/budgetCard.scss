@@ -1,24 +1,36 @@
 .card {
-  width: 270px;
+  width: 300px;
   margin: 20px;
   padding: 20px;
-  border:1px solid #DDDDDD;
+  border: 1px solid #DDDDDD;
   .header {
     height: 40px;
     width: 100%;
-    margin-bottom: 20px;
-    font-size: 22px;
+    margin-bottom: 12px;
     font-weight: 100;
     color: #555555;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: default;
+    .name {
+      font-size: 22px;
+    }
+    .dateInfo {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #CCC;
+    }
   }
 }
 
+.progressWrapper {
+  padding: 10px;
+}
+
 .summaryContentWrapper {
-  margin-top: 20px;
+  margin-top: 14px;
 }
 
 .summaryContent {
@@ -32,6 +44,21 @@
 .amount {
   font-size: 20px;
   color: #555555;
+}
+
+.underBudget {
+  @extend .amount;
+  color: #45AB7F;
+}
+
+.warnBudget {
+  @extend .amount;
+  color: #F5974F;
+}
+
+.overBudget {
+  @extend .amount;
+  color: #ED6464;
 }
 
 .label {
@@ -63,5 +90,11 @@
       background: #368DC0;
       color: #FFF;
     }
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .card {
+    width: 95%;
   }
 }

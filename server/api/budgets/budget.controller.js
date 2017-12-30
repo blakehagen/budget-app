@@ -8,10 +8,11 @@ module.exports = {
   CREATE NEW BUDGET
   **************************************************************************** */
   createBudget(req, res, next) {
-    const { name, recurring, status, createdDateHumanized, categories } = req.body;
+    const { name, recurring, monthYear, status, createdDateHumanized, categories } = req.body;
     const budgetToCreate = {
       name,
       recurring,
+      monthYear,
       status,
       createdDateHumanized,
       CreatedByUserId: _.get(req.session, 'user.id'),
@@ -35,6 +36,8 @@ module.exports = {
               id: budget.id,
               name: budget.name,
               status: budget.status,
+              recurring: budget.recurring,
+              monthYear: budget.monthYear,
               createdDateHumanized: budget.createdDateHumanized,
               budgetSpent: 0,
             };
