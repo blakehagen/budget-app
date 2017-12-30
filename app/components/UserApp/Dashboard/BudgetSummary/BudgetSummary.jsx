@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
+import swal from 'sweetalert';
 import BudgetCard from './BudgetCard';
 import styles from './budgetSummary.scss';
 
@@ -24,6 +25,45 @@ export default class BudgetSummary extends React.Component {
     this.navigator.changeRoute(`/${this.dataStore.userId}/budget/${selectedBudgetId}`, 'push');
   }
 
+  openBudgetCloseModal(selectedBudgetId, selectedBudgetName, dateInfo) {
+    let modalContent;
+    if (dateInfo) {
+      modalContent =
+        `<div class="modalContentWrapper swal-text">
+          <p>You are closing out &nbsp;<span class="highlight">${selectedBudgetName}</span>&nbsp; for ${dateInfo}.</p>
+           <br>
+          <p>Only close this budget when you have entered in all transactions for this month.</p>
+          <br>
+          <p>Your transaction data for this budget will be saved and a new budget with current categories and limits will be created.</p>
+        </div>`;
+    } else {
+      modalContent =
+        `<div class="modalContentWrapper swal-text">
+             <p>You are closing out &nbsp;<span class="highlight">${selectedBudgetName}</span>&nbsp;</p>
+            <br>
+            <p>Only close this budget when you have entered in all transactions.</p>
+            <br>
+            <p>Your transaction data for this budget will be saved.</p>
+        </div>`;
+    }
+
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = modalContent;
+
+    swal({
+      title: 'Close Budget',
+      content: wrapper,
+      icon: 'info',
+      buttons: ['Cancel', 'Close Budget'],
+    })
+      .then((value) => {
+        if (value) {
+          // reset budget here... send to dataStore to get it done...
+        }
+        return false;
+      });
+  }
+
   render() {
     const budgets = _.map(this.dataStore.budgetSummaries, ({
       id,
@@ -44,6 +84,7 @@ export default class BudgetSummary extends React.Component {
         spent={budgetSpent}
         remaining={difference}
         details={this.goToBudgetCategoryView}
+        close={this.openBudgetCloseModal}
       />
     ));
 

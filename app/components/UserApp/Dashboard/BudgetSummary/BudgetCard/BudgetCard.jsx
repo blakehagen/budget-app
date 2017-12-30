@@ -1,9 +1,7 @@
 import numeral from 'numeral';
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import CircularProgressbar from 'react-circular-progressbar';
-
 import styles from './budgetCard.scss';
 
 const BudgetCard = (props) => {
@@ -59,6 +57,13 @@ const BudgetCard = (props) => {
             >
               Details
             </button>
+
+            <button
+              className={styles.cardButton}
+              onClick={() => props.close(props.id, props.name, props.dateInfo)}
+            >
+              Close Budget
+            </button>
           </div>
 
         </div>
@@ -75,6 +80,7 @@ BudgetCard.propTypes = {
   spent: PropTypes.number.isRequired,
   details: PropTypes.func.isRequired,
   recurring: PropTypes.bool.isRequired,
+  close: PropTypes.func.isRequired,
   dateInfo: PropTypes.string,
 };
 

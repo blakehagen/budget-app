@@ -13,6 +13,21 @@
   justify-content: center;
 }
 
+:global(.modalContentWrapper) {
+  padding: 0 10px;
+  text-align: left;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+:global(.highlight) {
+  font-weight: 100;
+  letter-spacing: 1px;
+  color: white;
+  background: #45AB7F;
+  padding: 4px 8px;
+}
+
 @media screen and (max-width: 400px) {
   .budgetSummaryMain {
     padding: 10px 14px 14px 14px;
