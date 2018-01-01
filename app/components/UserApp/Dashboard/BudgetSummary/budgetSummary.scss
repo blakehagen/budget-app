@@ -1,3 +1,12 @@
+.loadingContainer {
+  height: calc(100vh - 100px);
+  min-height: 410px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .budgetSummaryMain {
   padding: 10px 30px 30px 30px;
   display: flex;

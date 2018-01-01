@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
+import moment from 'moment';
 import { observer, inject } from 'mobx-react';
 import autoBind from 'react-autobind';
 import swal from 'sweetalert';
+import Spinner from 'components/Common/Spinner';
 import BudgetCard from './BudgetCard';
 import styles from './budgetSummary.scss';
 
@@ -58,13 +60,87 @@ export default class BudgetSummary extends React.Component {
     })
       .then((value) => {
         if (value) {
-          // reset budget here... send to dataStore to get it done...
+          const budgetTemplate = _.find(_.get(this.dataStore, 'budgetSummaries'), { id: selectedBudgetId });
+          const oldBudgetData = {
+            status: 'closed',
+            recurring: budgetTemplate.recurring,
+          };
+
+          const newBudgetData = {
+            name: budgetTemplate.name,
+            status: 'active',
+            recurring: budgetTemplate.recurring,
+            monthYear: budgetTemplate.recurring ? this.setMonthYear(budgetTemplate.monthYear) : null,
+            createdDateHumanized: moment().format('L'),
+          };
+
+          return this.dataStore.closeBudget(selectedBudgetId, oldBudgetData, newBudgetData);
         }
         return false;
       });
   }
 
+  setMonthYear(monthYear) {
+    const month = _.head(_.split(monthYear, ' '));
+    const year = _.last(_.split(monthYear, ' '));
+
+    let newMonth;
+    let newYear = year;
+
+    switch (month) {
+      case 'January':
+        newMonth = 'February';
+        break;
+      case 'February':
+        newMonth = 'March';
+        break;
+      case 'March':
+        newMonth = 'April';
+        break;
+      case 'April':
+        newMonth = 'May';
+        break;
+      case 'May':
+        newMonth = 'June';
+        break;
+      case 'June':
+        newMonth = 'July';
+        break;
+      case 'July':
+        newMonth = 'August';
+        break;
+      case 'August':
+        newMonth = 'September';
+        break;
+      case 'September':
+        newMonth = 'October';
+        break;
+      case 'October':
+        newMonth = 'November';
+        break;
+      case 'November':
+        newMonth = 'December';
+        break;
+      case 'December':
+        newMonth = 'January';
+        newYear = _.toNumber(year) + 1;
+        break;
+      default:
+        break;
+    }
+
+    return `${newMonth} ${newYear}`;
+  }
+
   render() {
+    if (this.dataStore.budgetSummaryUpdating) {
+      return (
+        <div className={styles.loadingContainer}>
+          <Spinner />
+        </div>
+      );
+    }
+
     const budgets = _.map(this.dataStore.budgetSummaries, ({
       id,
       name,

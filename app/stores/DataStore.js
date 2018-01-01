@@ -12,6 +12,7 @@ export default class DataStore {
 
     this.authLoading = false;
     this.budgetSummaries = [];
+    this.budgetSummaryUpdating = false;
     this.categoryList = null;
     this.creatingNewBudget = false;
     this.creatingNewBudgetError = false;
@@ -29,6 +30,7 @@ export default class DataStore {
 
   @observable authLoading;
   @observable budgetSummaries;
+  @observable budgetSummaryUpdating;
   @observable categoryList;
   @observable creatingNewBudget;
   @observable creatingNewBudgetError;
@@ -301,6 +303,35 @@ export default class DataStore {
   clearSelectedBudget() {
     this.selectedBudget = null;
     this.selectedBudgetCategoriesLoaded = false;
+  }
+
+  /* ****************************************************************************
+  Close Budget
+  **************************************************************************** */
+  @action
+  closeBudget(budgetId, oldBudgetData, newBudgetData) {
+    this.budgetSummaryUpdating = true;
+    const data = {
+      oldBudgetData,
+      newBudgetData,
+    };
+
+    budgetService.closeBudget(budgetId, data)
+      .then((response) => {
+        if (response.data.success) {
+          const budgetToRemoveIdx = _.findIndex(this.budgetSummaries, { id: budgetId });
+          _.pullAt(this.budgetSummaries, [budgetToRemoveIdx]);
+
+          if (response.data.budget) {
+            this.budgetSummaries.unshift(response.data.budget);
+          }
+        }
+        this.budgetSummaryUpdating = false;
+      })
+      .catch((err) => {
+        this.budgetSummaryUpdating = false;
+        console.error(err);
+      });
   }
 
   /* ****************************************************************************

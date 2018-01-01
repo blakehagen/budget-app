@@ -49,6 +49,65 @@ module.exports = {
   },
 
   /* ****************************************************************************
+  CLOSE BUDGET (AND RESET IF RECURRING)
+  **************************************************************************** */
+  closeBudget(req, res, next) {
+    const { budgetId } = req.params;
+    const { oldBudgetData, newBudgetData } = req.body;
+    newBudgetData.CreatedByUserId = _.get(req.session, 'user.id');
+
+    models.Budget.upsert({
+      id: budgetId,
+      status: oldBudgetData.status,
+      CreatedByUserId: _.get(req.session, 'user.id'),
+    })
+      .then(() => {
+        if (!_.get(oldBudgetData, 'recurring', false)) {
+          return res.status(200).json({ success: true, recurring: false });
+        }
+        return models.Budget.create(newBudgetData)
+          .then((budget) => {
+            models.Budget_User.create({
+              UserId: newBudgetData.CreatedByUserId,
+              BudgetId: budget.id,
+            });
+            return models.Category.findAll({
+              where: { BudgetId: budgetId },
+              attributes: ['name', 'limit'],
+            })
+              .then((categories) => {
+                BPromise.each(categories, category => models.Category.create({
+                  name: category.name,
+                  limit: category.limit,
+                  BudgetId: budget.id,
+                }))
+                  .then(() => {
+                    const categoryLimitTotal = _.reduce(_.map(categories, 'limit'), (sum, limit) => sum + _.toNumber(limit), 0);
+                    const newBudget = {
+                      id: budget.id,
+                      name: budget.name,
+                      status: budget.status,
+                      recurring: budget.recurring,
+                      monthYear: budget.monthYear,
+                      createdDateHumanized: budget.createdDateHumanized,
+                      budgetSpent: 0,
+                      budgetLimit: categoryLimitTotal,
+                      difference: categoryLimitTotal,
+                    };
+
+                    return res.status(200).json({
+                      success: true,
+                      recurring: true,
+                      budget: newBudget,
+                    });
+                  });
+              });
+          });
+      })
+      .catch(err => next(err));
+  },
+
+  /* ****************************************************************************
   GET BUDGET CATEGORY LIST
   **************************************************************************** */
   getCategoryList(req, res, next) {
