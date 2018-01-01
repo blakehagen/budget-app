@@ -36,7 +36,7 @@ export default class BudgetSummary extends React.Component {
            <br>
           <p>Only close this budget when you have entered in all transactions for this month.</p>
           <br>
-          <p>Your transaction data for this budget will be saved and a new budget with current categories and limits will be created.</p>
+          <p>Your transaction data for this budget will be saved and a new budget for the next month (with current categories and limits) will be created.</p>
         </div>`;
     } else {
       modalContent =
