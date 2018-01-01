@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     status: DataTypes.STRING,
     recurring: DataTypes.BOOLEAN,
+    monthYear: DataTypes.STRING,
     createdDateHumanized: DataTypes.STRING,
     CreatedByUserId: {
       type: DataTypes.INTEGER,
@@ -34,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
 
       getBudgetSnapshots(userId) {
         const sql = `
-          SELECT b.id, b.name, b.status, b."createdDateHumanized",
+          SELECT b.id, b.name, b.status, b."createdDateHumanized", b.recurring, b."monthYear",
             (SELECT SUM(c.limit)
               FROM categories c
               WHERE b.id = c."BudgetId"
@@ -57,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       },
 
       getUserBudgets(userId) {
-        const sql = `SELECT b.id, b.name, b."createdDateHumanized" FROM budgets b
+        const sql = `SELECT b.id, b.name, b."createdDateHumanized", b.recurring, b."monthYear" FROM budgets b
         INNER JOIN "budgets_users" bu ON bu."BudgetId" = b.id
         WHERE bu."UserId" = ${userId}
         ORDER BY -b.id`;

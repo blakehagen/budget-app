@@ -1,9 +1,8 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
+import autoBind from 'react-autobind';
 import ActionHeader from '../ActionHeader';
 import BudgetSummary from './BudgetSummary';
-import autoBind from 'react-autobind';
-import styles from './dashboard.scss';
 
 @inject('dataStore', 'navigator')
 @observer

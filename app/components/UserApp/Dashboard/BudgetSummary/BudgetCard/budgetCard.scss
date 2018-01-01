@@ -1,24 +1,37 @@
 .card {
-  width: 270px;
+  width: 300px;
   margin: 20px;
-  padding: 20px;
-  border:1px solid #DDDDDD;
+  padding: 20px 20px 14px;
+  border: 1px solid #DDDDDD;
   .header {
     height: 40px;
     width: 100%;
-    margin-bottom: 20px;
-    font-size: 22px;
+    margin-bottom: 12px;
     font-weight: 100;
     color: #555555;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: default;
+    .name {
+      font-size: 22px;
+      text-align: center;
+    }
+    .dateInfo {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #CCC;
+    }
   }
 }
 
+.progressWrapper {
+  padding: 10px;
+}
+
 .summaryContentWrapper {
-  margin-top: 20px;
+  margin-top: 14px;
 }
 
 .summaryContent {
@@ -34,6 +47,21 @@
   color: #555555;
 }
 
+.underBudget {
+  @extend .amount;
+  color: #45AB7F;
+}
+
+.warnBudget {
+  @extend .amount;
+  color: #F5974F;
+}
+
+.overBudget {
+  @extend .amount;
+  color: #ED6464;
+}
+
 .label {
   width: 82px;
   font-size: 14px;
@@ -46,13 +74,14 @@
 .buttonWrapper {
   display: flex;
   flex-direction: column;
+  margin-top: 14px;
   .cardButton {
     height: 38px;
+    margin: 6px 0;
     color: #455A64;
     width: 100%;
     font-weight: 100;
     font-size: 15px;
-    margin-top: 20px;
     cursor: pointer;
     border:1px solid #DDDDDD;
     &:hover {
@@ -63,5 +92,11 @@
       background: #368DC0;
       color: #FFF;
     }
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .card {
+    width: 95%;
   }
 }

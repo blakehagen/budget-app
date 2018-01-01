@@ -182,9 +182,14 @@ export default class CreateBudget extends React.Component {
       name: this.state.budgetName,
       status: 'active',
       recurring: this.state.recurring,
+      monthYear: null,
       createdDateHumanized: moment().format('L'),
       categories,
     };
+
+    if (newBudgetData.recurring) {
+      newBudgetData.monthYear = moment().format('MMMM YYYY');
+    }
 
     this.setState({
       budgetCategories: [],

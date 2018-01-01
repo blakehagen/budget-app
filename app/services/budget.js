@@ -13,6 +13,14 @@ export default {
     });
   },
 
+  closeBudget(budgetId, budgetData) {
+    return axios.put(`${BASE_URL}budgets/close/${budgetId}`, budgetData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+  },
+
   getCategoryList(budgetId) {
     return axios.get(`${BASE_URL}budgets/categories/list/${budgetId}`, {
       headers: {
